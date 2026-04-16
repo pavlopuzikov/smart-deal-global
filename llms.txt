@@ -21,10 +21,10 @@ Smart Deals Global operates as a cross-border property discovery desk, not a lis
 
 ## Key pages
 
-- [Home](https://smartdealsglobal.com/): market map and smart-deal collection
-- [Arabic](https://smartdealsglobal.com/ar/)
-- [French](https://smartdealsglobal.com/fr/)
-- [Russian](https://smartdealsglobal.com/ru/)
+- [Home](https://smartdeals.global/): market map and smart-deal collection
+- [Arabic](https://smartdeals.global/ar/)
+- [French](https://smartdeals.global/fr/)
+- [Russian](https://smartdeals.global/ru/)
 
 ## FAQ (matches FAQPage schema on the site)
 
@@ -38,4 +38,4 @@ Smart Deals Global operates as a cross-border property discovery desk, not a lis
 
 - WhatsApp: +971 55 957 9113
 - Languages: English, Arabic, French, Russian
-- Site: https://smartdealsglobal.com/
+- Site: https://smartdeals.global/

@@ -42,12 +42,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="canonical" href="https://smartdealsglobal.com/ar/">
-    <link rel="alternate" hreflang="en" href="https://smartdealsglobal.com/">
-    <link rel="alternate" hreflang="ar" href="https://smartdealsglobal.com/ar/">
-    <link rel="alternate" hreflang="fr" href="https://smartdealsglobal.com/fr/">
-    <link rel="alternate" hreflang="ru" href="https://smartdealsglobal.com/ru/">
-    <link rel="alternate" hreflang="x-default" href="https://smartdealsglobal.com/">
+    <link rel="canonical" href="https://smartdeals.global/ar/">
+    <link rel="alternate" hreflang="en" href="https://smartdeals.global/">
+    <link rel="alternate" hreflang="ar" href="https://smartdeals.global/ar/">
+    <link rel="alternate" hreflang="fr" href="https://smartdeals.global/fr/">
+    <link rel="alternate" hreflang="ru" href="https://smartdeals.global/ru/">
+    <link rel="alternate" hreflang="x-default" href="https://smartdeals.global/">
     <meta property="og:locale" content="ar_AE">
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
@@ -68,6 +68,18 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- PostHog Analytics -->
+    <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_AE4VjSAXksSQ2eyywkyBi446LeKsAEowi5aaUpgqf26p', {
+        api_host: 'https://us.i.posthog.com',
+        person_profiles: 'identified_only',
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: true
+    });
+    </script>
 </head>
 <body>
 
@@ -231,11 +243,11 @@
         <div class="container">
             <div class="properties__header">
                 <span class="section-label" data-i18n="offplan.label">مشاريع جديدة</span>
-                <h2 class="section-title" data-i18n="offplan.title">فرص خارج الخطة</h2>
+                <h2 class="section-title" data-i18n="offplan.title">فرص على الخارطة</h2>
                 <p class="section-subtitle" data-i18n="offplan.subtitle">التسعير في المرحلة المبكرة مع خطط دفع مرنة وإمكانات ارتفاع رأس المال.</p>
             </div>
             <div class="properties__highlight">
-                <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-percent"></i> <span data-i18n="offplan.chip1">خصم 2-10٪ قابل للتفاوض</span></span>
+                <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-percent"></i> <span data-i18n="offplan.chip1">خصم 2-10% قابل للتفاوض</span></span>
                 <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="offplan.chip2">خطط دفع مرنة</span></span>
                 <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-chart-line"></i> <span data-i18n="offplan.chip3">إمكانية النمو</span></span>
             </div>
@@ -268,7 +280,7 @@
         <div class="markets-v2__header-band">
             <div class="container markets-v2__header">
                 <span class="section-label markets-v2__label" data-i18n="markets.label">حضور عالمي</span>
-                <h2 class="markets-v2__title" data-i18n="markets.title">10 أسواق، مهمة واحدة.</h2>
+                <h2 class="markets-v2__title" data-i18n="markets.title">10 أسواق. مهمة واحدة.</h2>
                 <p class="markets-v2__subtitle" data-i18n="markets.subtitle">نحن نشتري صفقات ذكية عبر الوجهات العقارية الراسخة والناشئة في جميع أنحاء العالم.</p>
             </div>
         </div>
@@ -392,7 +404,7 @@
     <section id="why" class="why-smart">
         <div class="container">
             <span class="section-label" data-i18n="why.label">ما يميزنا</span>
-            <h2 class="section-title" data-i18n="why.title">لماذا هذه هي Smart Deals</h2>
+            <h2 class="section-title" data-i18n="why.title">لماذا هذه صفقات ذكية</h2>
             <p class="section-subtitle" data-i18n="why.subtitle">تم تقييم كل عقار في هذه المجموعة من أجل القيمة الحقيقية وقيمة الاستثمار.</p>
             <div class="why-smart__grid">
                 <div class="benefit-card">
@@ -560,7 +572,7 @@
             <div class="final-cta__overlay"></div>
         </div>
         <div class="container final-cta__inner">
-            <h2 class="final-cta__title" data-i18n="finalcta.title">هل أنت مستعد للقيام بخطوة ذكية؟</h2>
+            <h2 class="final-cta__title" data-i18n="finalcta.title">جاهز للقيام بخطوة ذكية؟</h2>
             <p class="final-cta__subtitle" data-i18n="finalcta.subtitle">اختر كيف ترغب في التواصل مع فريقنا.</p>
             <div class="contact-options">
                 <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer" class="contact-option contact-option--whatsapp">
@@ -674,6 +686,8 @@
 
     <!-- Custom JS -->
     <script src="../js/main.js"></script>
+    <!-- PostHog Custom Event Tracking -->
+    <script src="../js/posthog-tracking.js"></script>
 
     <!-- Structured Data: Organization -->
     
@@ -684,7 +698,7 @@
         "@type": "RealEstateAgent",
         "name": "Smart Deals Global",
         "description": "صفقات عقارية ذكية مختارة في 10 أسواق عالمية بما في ذلك دبي وموناكو وفرنسا وسويسرا وتايلاند.",
-        "url": "https://smartdealsglobal.com",
+        "url": "https://smartdeals.global",
         "areaServed": [
             {"@type": "City", "name": "Dubai", "containedInPlace": {"@type": "Country", "name": "UAE"}},
             {"@type": "City", "name": "Abu Dhabi", "containedInPlace": {"@type": "Country", "name": "UAE"}},
@@ -713,13 +727,13 @@
         "description": "أكثر من 50 صفقة عقارية مختارة في 10 أسواق عالمية",
         "numberOfItems": 50,
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Dubai Secondary Market Properties", "url": "https://smartdealsglobal.com/#ready"},
-            {"@type": "ListItem", "position": 2, "name": "Dubai Off-Plan Opportunities", "url": "https://smartdealsglobal.com/#offplan"},
-            {"@type": "ListItem", "position": 3, "name": "Monaco Exclusive Collection", "url": "https://smartdealsglobal.com/#monaco"},
-            {"@type": "ListItem", "position": 4, "name": "Paris Property Collection", "url": "https://smartdealsglobal.com/#france"},
-            {"@type": "ListItem", "position": 5, "name": "Switzerland Swiss Riviera", "url": "https://smartdealsglobal.com/#switzerland"},
-            {"@type": "ListItem", "position": 6, "name": "Azerbaijan Caspian Coast", "url": "https://smartdealsglobal.com/#azerbaijan"},
-            {"@type": "ListItem", "position": 7, "name": "Thailand Phuket Properties", "url": "https://smartdealsglobal.com/#thailand"}
+            {"@type": "ListItem", "position": 1, "name": "Dubai Secondary Market Properties", "url": "https://smartdeals.global/#ready"},
+            {"@type": "ListItem", "position": 2, "name": "Dubai Off-Plan Opportunities", "url": "https://smartdeals.global/#offplan"},
+            {"@type": "ListItem", "position": 3, "name": "Monaco Exclusive Collection", "url": "https://smartdeals.global/#monaco"},
+            {"@type": "ListItem", "position": 4, "name": "Paris Property Collection", "url": "https://smartdeals.global/#france"},
+            {"@type": "ListItem", "position": 5, "name": "Switzerland Swiss Riviera", "url": "https://smartdeals.global/#switzerland"},
+            {"@type": "ListItem", "position": 6, "name": "Azerbaijan Caspian Coast", "url": "https://smartdeals.global/#azerbaijan"},
+            {"@type": "ListItem", "position": 7, "name": "Thailand Phuket Properties", "url": "https://smartdeals.global/#thailand"}
         ]
     }
     </script>
@@ -745,8 +759,8 @@
         "@type": "Organization",
         "name": "Smart Deals Global",
         "alternateName": "SDG",
-        "url": "https://smartdealsglobal.com/",
-        "logo": "https://smartdealsglobal.com/images/hero-bg.jpg",
+        "url": "https://smartdeals.global/",
+        "logo": "https://smartdeals.global/images/hero-bg.jpg",
         "description": "استشارات عقارية مختارة تقدم أكثر من 50 صفقة ذكية في دبي وموناكو وباريس وسويسرا وتايلاند وأذربيجان.",
         "foundingDate": "2024",
         "areaServed": ["AE", "MC", "FR", "CH", "TH", "AZ"],
@@ -768,18 +782,21 @@
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://smartdealsglobal.com/"},
-            {"@type": "ListItem", "position": 2, "name": "Dubai", "item": "https://smartdealsglobal.com/#dubai"},
-            {"@type": "ListItem", "position": 3, "name": "Monaco", "item": "https://smartdealsglobal.com/#monaco"},
-            {"@type": "ListItem", "position": 4, "name": "France", "item": "https://smartdealsglobal.com/#france"},
-            {"@type": "ListItem", "position": 5, "name": "Switzerland", "item": "https://smartdealsglobal.com/#switzerland"},
-            {"@type": "ListItem", "position": 6, "name": "Thailand", "item": "https://smartdealsglobal.com/#thailand"},
-            {"@type": "ListItem", "position": 7, "name": "Azerbaijan", "item": "https://smartdealsglobal.com/#azerbaijan"}
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://smartdeals.global/"},
+            {"@type": "ListItem", "position": 2, "name": "Dubai", "item": "https://smartdeals.global/#dubai"},
+            {"@type": "ListItem", "position": 3, "name": "Monaco", "item": "https://smartdeals.global/#monaco"},
+            {"@type": "ListItem", "position": 4, "name": "France", "item": "https://smartdeals.global/#france"},
+            {"@type": "ListItem", "position": 5, "name": "Switzerland", "item": "https://smartdeals.global/#switzerland"},
+            {"@type": "ListItem", "position": 6, "name": "Thailand", "item": "https://smartdeals.global/#thailand"},
+            {"@type": "ListItem", "position": 7, "name": "Azerbaijan", "item": "https://smartdeals.global/#azerbaijan"}
         ]
     }
     </script>
 
 
+    
+    
+    
     
     
     

@@ -1,0 +1,237 @@
+/* ============================================
+   POSTHOG ANALYTICS — Smart Deals Global
+   Custom event tracking, scroll depth, A/B test
+   ============================================ */
+
+(function () {
+    'use strict';
+
+    // ── Configuration ─────────────────────────────────────────────
+    // Replace with your real PostHog project API key before deploying.
+    var POSTHOG_API_KEY = 'phc_AE4VjSAXksSQ2eyywkyBi446LeKsAEowi5aaUpgqf26p';
+    var POSTHOG_HOST = 'https://us.i.posthog.com';
+
+    // Bail out if PostHog failed to load or key is placeholder
+    function ph() { return window.posthog; }
+    function ready() { return ph() && POSTHOG_API_KEY.indexOf('YOUR_PROJECT') === -1; }
+
+    // ── 1. BUTTON CLICK TRACKING ──────────────────────────────────
+    // Captures all <button> and <a class="btn"> clicks with descriptive names.
+    function initButtonTracking() {
+        document.addEventListener('click', function (e) {
+            if (!ready()) return;
+            var el = e.target.closest('button, a.btn, a.btn--primary, a.btn--card, .contact-option, .whatsapp-float, .navbar__cta-link');
+            if (!el) return;
+
+            var text = (el.textContent || '').replace(/\s+/g, ' ').trim().substring(0, 80);
+            var href = el.getAttribute('href') || '';
+            var section = closestSection(el);
+
+            ph().capture('button_clicked', {
+                button_text: text,
+                button_href: href,
+                button_classes: el.className,
+                page_section: section,
+                page_language: document.documentElement.lang || 'en'
+            });
+        }, true);
+    }
+
+    // ── 2. SCROLL DEPTH TRACKING ──────────────────────────────────
+    // Fires once per threshold per page load: 25%, 50%, 75%, 100%.
+    function initScrollDepthTracking() {
+        var thresholds = [25, 50, 75, 100];
+        var fired = {};
+
+        function getScrollPercent() {
+            var docHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight
+            );
+            var winHeight = window.innerHeight;
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (docHeight <= winHeight) return 100;
+            return Math.round((scrollTop / (docHeight - winHeight)) * 100);
+        }
+
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+            if (!ready() || ticking) return;
+            ticking = true;
+            requestAnimationFrame(function () {
+                var pct = getScrollPercent();
+                for (var i = 0; i < thresholds.length; i++) {
+                    var t = thresholds[i];
+                    if (pct >= t && !fired[t]) {
+                        fired[t] = true;
+                        ph().capture('scroll_depth_reached', {
+                            depth_percent: t,
+                            page_language: document.documentElement.lang || 'en'
+                        });
+                    }
+                }
+                ticking = false;
+            });
+        }, { passive: true });
+    }
+
+    // ── 3. OUTBOUND LINK TRACKING ─────────────────────────────────
+    // Tracks clicks on links that leave the site (WhatsApp, phone, email, external).
+    function initOutboundLinkTracking() {
+        document.addEventListener('click', function (e) {
+            if (!ready()) return;
+            var link = e.target.closest('a[href]');
+            if (!link) return;
+
+            var href = link.getAttribute('href') || '';
+            var type = null;
+
+            if (href.indexOf('wa.me') !== -1 || href.indexOf('whatsapp') !== -1) {
+                type = 'whatsapp';
+            } else if (href.indexOf('tel:') === 0) {
+                type = 'phone_call';
+            } else if (href.indexOf('mailto:') === 0) {
+                type = 'email';
+            } else if (href.indexOf('http') === 0 && href.indexOf(window.location.hostname) === -1) {
+                type = 'external';
+            }
+
+            if (!type) return;
+
+            var section = closestSection(link);
+            ph().capture('outbound_link_clicked', {
+                link_type: type,
+                link_url: href,
+                link_text: (link.textContent || '').replace(/\s+/g, ' ').trim().substring(0, 80),
+                page_section: section,
+                page_language: document.documentElement.lang || 'en'
+            });
+        }, true);
+    }
+
+    // ── 4. FORM SUBMISSION TRACKING ───────────────────────────────
+    // Tracks the qualify form submission with field summary.
+    function initFormTracking() {
+        var form = document.getElementById('qualify-form');
+        if (!form) return;
+
+        form.addEventListener('submit', function () {
+            if (!ready()) return;
+            var data = new FormData(form);
+            ph().capture('form_submitted', {
+                form_id: 'qualify-form',
+                form_market: data.get('city') || '',
+                form_property_type: data.get('property_type') || '',
+                form_budget: data.get('budget') || '',
+                form_goal: data.get('goal') || '',
+                page_language: document.documentElement.lang || 'en'
+            });
+        });
+    }
+
+    // ── 5. PROPERTY ENQUIRY TRACKING ──────────────────────────────
+    // Tracks property card "Enquire" button clicks.
+    function initEnquiryTracking() {
+        document.addEventListener('click', function (e) {
+            if (!ready()) return;
+            var btn = e.target.closest('.btn--card[data-property]');
+            if (!btn) return;
+
+            ph().capture('property_enquiry_clicked', {
+                property_name: btn.dataset.property || '',
+                property_location: btn.dataset.location || '',
+                property_section: btn.dataset.section || '',
+                page_language: document.documentElement.lang || 'en'
+            });
+        }, true);
+    }
+
+    // ── 6. HERO CTA A/B TEST ──────────────────────────────────────
+    // Uses PostHog feature flags to split-test hero headline + CTA copy.
+    //
+    // Feature flag: "hero-headline-test"
+    //   - Control (false / "control"): current copy
+    //   - Variant ("variant-b"):       alternate headline + CTA
+    //
+    // Setup in PostHog dashboard:
+    //   1. Create feature flag "hero-headline-test"
+    //   2. Add variant "variant-b" (50% rollout)
+    //   3. Keep "control" as default (50%)
+    //
+    // Conversion goal: "hero_cta_clicked" event
+    function initHeroABTest() {
+        if (!ready()) return;
+
+        // Track hero CTA clicks as conversion goal regardless of variant
+        var heroCta = document.querySelector('.hero__cta');
+        if (heroCta) {
+            heroCta.addEventListener('click', function () {
+                var variant = ph().getFeatureFlag('hero-headline-test') || 'control';
+                ph().capture('hero_cta_clicked', {
+                    variant: variant,
+                    button_text: (heroCta.textContent || '').replace(/\s+/g, ' ').trim(),
+                    page_language: document.documentElement.lang || 'en'
+                });
+            });
+        }
+
+        // Wait for feature flags to load, then apply variant copy
+        ph().onFeatureFlags(function () {
+            var flag = ph().getFeatureFlag('hero-headline-test');
+            if (flag !== 'variant-b') return; // control = keep current copy
+
+            // Variant B copy — change headline + CTA only, everything else identical
+            var title = document.querySelector('.hero__title');
+            var ctaSpan = document.querySelector('.hero__cta span[data-i18n="hero.cta"]');
+            var eyebrow = document.querySelector('.hero__eyebrow');
+
+            if (title) {
+                title.innerHTML = 'Your Next Investment,<br><em>Curated Worldwide</em>';
+            }
+            if (ctaSpan) {
+                ctaSpan.textContent = 'View Top Deals';
+            }
+            if (eyebrow) {
+                eyebrow.textContent = '10 Markets. 50+ Selected Opportunities.';
+            }
+
+            // Track which variant was shown
+            ph().capture('ab_test_variant_shown', {
+                test_name: 'hero-headline-test',
+                variant: 'variant-b',
+                page_language: document.documentElement.lang || 'en'
+            });
+        });
+    }
+
+    // ── UTILITIES ─────────────────────────────────────────────────
+    function closestSection(el) {
+        var section = el.closest('section[id], .hero, .final-cta, .mid-cta, footer');
+        if (!section) return 'unknown';
+        return section.id || section.className.split(' ')[0] || 'unknown';
+    }
+
+    // ── INIT ──────────────────────────────────────────────────────
+    function initAllTracking() {
+        if (!ready()) {
+            // PostHog not loaded or placeholder key — skip silently
+            return;
+        }
+        initButtonTracking();
+        initScrollDepthTracking();
+        initOutboundLinkTracking();
+        initFormTracking();
+        initEnquiryTracking();
+        initHeroABTest();
+    }
+
+    // PostHog loads async — wait for it, but don't block the page
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Give PostHog snippet ~200ms to initialize
+            setTimeout(initAllTracking, 300);
+        });
+    } else {
+        setTimeout(initAllTracking, 300);
+    }
+})();

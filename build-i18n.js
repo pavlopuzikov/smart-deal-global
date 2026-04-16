@@ -73,7 +73,7 @@ const SEO_META = {
     }
 };
 
-const SITE = 'https://smartdealsglobal.com';
+const SITE = 'https://smartdeals.global';
 const LANGS = ['en', 'ar', 'fr', 'ru'];
 const URL_FOR = { en: `${SITE}/`, ar: `${SITE}/ar/`, fr: `${SITE}/fr/`, ru: `${SITE}/ru/` };
 

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /properties/README.md
 
-Sitemap: https://smartdealsglobal.com/sitemap.xml
+Sitemap: https://smartdeals.global/sitemap.xml
