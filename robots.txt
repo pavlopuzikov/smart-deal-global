@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /properties/README.md
+
+Sitemap: https://smartdealsglobal.com/sitemap.xml

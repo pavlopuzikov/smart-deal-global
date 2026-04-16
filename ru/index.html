@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Более 50 кураторских сделок на 10 мировых рынках · Дубай, Монако, Париж и далее. Скидки до 23%, гибкие планы, экспертные консультации.">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    <meta name="author" content="Smart Deals Global">
+    <meta name="publisher" content="Smart Deals Global">
+    <meta property="article:modified_time" content="2026-04-15T16:00:00Z">
+    <title>Smart Deals Global · Кураторская недвижимость в Дубае, Монако и Париже</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Smart Deals Global · Кураторская недвижимость по всему миру">
+    <meta property="og:description" content="Более 50 кураторских сделок на 10 мировых рынках. Скидки до 23%, гибкие планы, экспертные консультации.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/hero-bg.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Smart Deals Global · Кураторская недвижимость по всему миру">
+    <meta name="twitter:description" content="Более 50 кураторских сделок на 10 мировых рынках. Скидки до 23%, гибкие планы, экспертные консультации.">
+    <meta name="twitter:image" content="images/hero-bg.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23c8956c%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27><path d=%27M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z%27/><polyline points=%279 22 9 12 15 12 15 22%27/></svg>">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="../images/hero-bg.jpg" as="image">
+    <link rel="preload" href="../css/styles.css" as="style">
+    <link rel="preload" href="../js/main.js" as="script">
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://smartdealsglobal.com/ru/">
+    <link rel="alternate" hreflang="en" href="https://smartdealsglobal.com/">
+    <link rel="alternate" hreflang="ar" href="https://smartdealsglobal.com/ar/">
+    <link rel="alternate" hreflang="fr" href="https://smartdealsglobal.com/fr/">
+    <link rel="alternate" hreflang="ru" href="https://smartdealsglobal.com/ru/">
+    <link rel="alternate" hreflang="x-default" href="https://smartdealsglobal.com/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ar_AE">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta http-equiv="Content-Language" content="ru">
+
+    <!-- GEO Tags -->
+    <meta name="geo.region" content="AE-DU">
+    <meta name="geo.placename" content="Dubai">
+    <meta name="geo.position" content="25.2048;55.2708">
+    <meta name="ICBM" content="25.2048, 55.2708">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" style="position:fixed;inset:0;z-index:99999;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s cubic-bezier(0.23,1,0.32,1),visibility 0.6s">
+        <div style="text-align:center;margin-bottom:2rem">
+            <span style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;color:#fff;letter-spacing:0.02em;display:block">Smart Deals<span style="color:#c8956c">Global</span></span>
+            <span style="font-family:'Inter',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.4);letter-spacing:0.2em;text-transform:uppercase;margin-top:0.5rem;display:block">Curated Real Estate, Worldwide</span>
+        </div>
+        <div style="width:200px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;position:relative">
+            <div id="loading-bar" style="width:0%;height:100%;background:linear-gradient(90deg,#c8956c,#dbb08e);border-radius:2px;transition:width 0.4s cubic-bezier(0.23,1,0.32,1)"></div>
+        </div>
+        <span id="loading-pct" style="font-family:'Inter',sans-serif;font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.75rem;letter-spacing:0.1em">0%</span>
+    </div>
+    <script>
+    (function(){
+        var bar=document.getElementById('loading-bar');
+        var pctEl=document.getElementById('loading-pct');
+        var pct=0;
+        var iv=setInterval(function(){
+            pct=Math.min(pct+Math.random()*12+3,92);
+            bar.style.width=pct+'%';
+            pctEl.textContent=Math.round(pct)+'%';
+        },150);
+        window.addEventListener('load',function(){
+            clearInterval(iv);
+            pct=100;bar.style.width='100%';pctEl.textContent='100%';
+            setTimeout(function(){
+                var s=document.getElementById('loading-screen');
+                s.style.opacity='0';s.style.visibility='hidden';
+                setTimeout(function(){s.remove()},600);
+            },400);
+        });
+        setTimeout(function(){
+            clearInterval(iv);
+            var s=document.getElementById('loading-screen');
+            if(s){s.style.opacity='0';s.style.visibility='hidden';setTimeout(function(){s.remove()},600)}
+        },5000);
+    })();
+    </script>
+
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Skip to content (accessibility) -->
+    <a href="#hero" class="skip-link">Skip to content</a>
+
+    <!-- ====== NAVBAR ====== -->
+    <nav id="navbar" class="navbar">
+        <div class="container navbar__inner">
+            <a href="#" class="navbar__logo">
+                <span class="logo-text">Smart Deals<span class="logo-accent">Global</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="#ready" data-i18n="nav.properties">Объекты</a></li>
+                <li><a href="#markets-v2" data-i18n="nav.markets">Рынки</a></li>
+                <li><a href="#why" data-i18n="nav.why">Почему мы</a></li>
+                <li><a href="#how" data-i18n="nav.process">Процесс</a></li>
+                <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+                <li><a href="#contact" class="navbar__cta-link" data-i18n="nav.contact">Связаться</a></li>
+                <li class="lang-switcher">
+                    <button class="lang-switcher__btn" aria-label="Change language" aria-haspopup="listbox" aria-expanded="false">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-switcher__current">RU</span>
+                        <i class="fa-solid fa-chevron-down lang-switcher__caret"></i>
+                    </button>
+                    <ul class="lang-switcher__menu" role="listbox">
+                        <li><button role="option" data-lang="en">English</button></li>
+                        <li><button role="option" data-lang="ar">العربية</button></li>
+                        <li><button role="option" data-lang="fr">Français</button></li>
+                        <li><button role="option" data-lang="ru" class="is-active">Русский</button></li>
+                    </ul>
+                </li>
+            </ul>
+            <button class="navbar__hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+    <!-- ====== SECTION 1: HERO (simplified) ====== -->
+    <section id="hero" class="hero">
+        <div class="hero__bg">
+            <img src="../images/hero-bg.jpg" alt="Dubai skyline" class="hero__bg-img">
+            <div class="hero__overlay"></div>
+        </div>
+        <div class="container hero__content">
+            <div class="hero__text">
+                <p class="hero__eyebrow" data-i18n="hero.eyebrow">Курируемая недвижимость, во всем мире</p>
+                <h1 class="hero__title" data-i18n-html="hero.title">Откройте для себя коллекцию<br><em>Smart Deals</em> Collection</h1>
+                <p class="hero__subtitle" data-i18n="hero.subtitle">Курируемая коллекция готовых и внеплановых возможностей на 10 глобальных рынках - отобранных за высокую стоимость, гибкие условия и привлекательные точки входа.</p>
+                <div class="hero__actions">
+                    <a href="#ready" class="btn btn--primary hero__cta">
+                        <span data-i18n="hero.cta">Смотреть коллекцию</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero__stats-row">
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-count="10">10</span>
+                    <span class="hero__stat-label" data-i18n="hero.stat.markets">Мировых рынков</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-count="50">50</span>
+                    <span class="hero__stat-label" data-i18n="hero.stat.deals">Избранных объектов</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-count="10">10</span>
+                    <span class="hero__stat-label" data-i18n="hero.stat.discount">Средняя скидка %</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator"><i class="fa-solid fa-chevron-down"></i></div>
+    </section>
+
+    <!-- ====== FEATURED DEAL ====== -->
+    <section class="featured-deal">
+        <div class="container">
+            <span class="section-label" data-i18n="featured.label">Сделка коллекции</span>
+            <div class="featured-deal__card" id="featured-deal-card">
+                <!-- JS renders the best-discount property here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== READY PROPERTIES ====== -->
+    <section id="ready" class="properties properties--ready">
+        <div class="container">
+            <div class="properties__header">
+                <span class="section-label" data-i18n="ready.label">Вторичный рынок</span>
+                <h2 class="section-title" data-i18n="ready.title">Вторичные объекты</h2>
+                <p class="section-subtitle" data-i18n="ready.subtitle">Готовые к переезду возможности с видимым преимуществом стоимости и немедленным входом.</p>
+            </div>
+            <div class="properties__highlight">
+                <span class="highlight-chip"><i class="fa-solid fa-circle-check"></i> <span data-i18n="ready.chip1">Готовы к заселению</span></span>
+                <span class="highlight-chip"><i class="fa-solid fa-tag"></i> <span data-i18n="ready.chip2">Чёткое ценовое преимущество</span></span>
+                <span class="highlight-chip"><i class="fa-solid fa-key"></i> <span data-i18n="ready.chip3">Немедленный вход</span></span>
+            </div>
+            <div class="properties__sort-indicator">
+                <i class="fa-solid fa-arrow-down-wide-short"></i> <span data-i18n="ready.sort">По лучшей скидке</span>
+            </div>
+            <div class="swiper ready-swiper">
+                <div class="swiper-wrapper" id="ready-cards">
+                    <!-- JS injects property cards here -->
+                </div>
+            </div>
+            <div class="swiper-controls">
+                <button class="swiper-btn ready-prev" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="swiper-pagination ready-pagination"></div>
+                <button class="swiper-btn ready-next" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== OFF-PLAN PROPERTIES ====== -->
+    <section id="offplan" class="properties properties--offplan">
+        <div class="container">
+            <div class="properties__header">
+                <span class="section-label" data-i18n="offplan.label">Новостройки</span>
+                <h2 class="section-title" data-i18n="offplan.title">Возможности вне плана</h2>
+                <p class="section-subtitle" data-i18n="offplan.subtitle">Ценообразование на ранней стадии с гибкими планами платежей и потенциалом для роста капитала.</p>
+            </div>
+            <div class="properties__highlight">
+                <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-percent"></i> <span data-i18n="offplan.chip1">Скидка 2-10% обсуждается</span></span>
+                <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="offplan.chip2">Гибкая рассрочка</span></span>
+                <span class="highlight-chip highlight-chip--accent"><i class="fa-solid fa-chart-line"></i> <span data-i18n="offplan.chip3">Потенциал роста</span></span>
+            </div>
+            <div class="swiper offplan-swiper">
+                <div class="swiper-wrapper" id="offplan-cards">
+                    <!-- JS injects property cards here -->
+                </div>
+            </div>
+            <div class="swiper-controls">
+                <button class="swiper-btn offplan-prev" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="swiper-pagination offplan-pagination"></div>
+                <button class="swiper-btn offplan-next" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== MID-PAGE CTA ====== -->
+    <section class="mid-cta">
+        <div class="container mid-cta__inner">
+            <h2 class="mid-cta__title" data-i18n="midcta.title">Интересуетесь какой-нибудь из этих возможностей?</h2>
+            <p class="mid-cta__subtitle" data-i18n="midcta.subtitle">Наша команда может предоставить подробные брошюры, цены и организовать частные просмотры.</p>
+            <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer" class="btn btn--primary mid-cta__btn">
+                <span data-i18n="midcta.btn">Связаться</span> <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ====== INTERACTIVE MARKETS ====== -->
+    <section id="markets-v2" class="markets-v2">
+        <div class="markets-v2__header-band">
+            <div class="container markets-v2__header">
+                <span class="section-label markets-v2__label" data-i18n="markets.label">Глобальное присутствие</span>
+                <h2 class="markets-v2__title" data-i18n="markets.title">10 рынков, одна миссия.</h2>
+                <p class="markets-v2__subtitle" data-i18n="markets.subtitle">Мы предоставляем умные предложения по всем установленным и развивающимся направлениям недвижимости по всему миру.</p>
+            </div>
+        </div>
+        <div class="container markets-v2__grid-container">
+            <div class="markets-v2__grid" id="markets-grid-v2">
+                <!-- JS renders interactive market cards here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== MONACO COLLECTION ====== -->
+    <section id="monaco" class="properties country-section country-section--monaco">
+        <div class="country-hero">
+            <div class="country-hero__bg">
+                <img src="../images/monaco-hero.jpg" alt="Monaco harbor aerial view" class="country-hero__img" loading="lazy">
+                <div class="country-hero__overlay"></div>
+            </div>
+            <div class="container country-hero__content">
+                <span class="country-hero__label" data-i18n="monaco.label">Эксклюзивная коллекция</span>
+                <h2 class="country-hero__title" data-i18n="monaco.title">Монако</h2>
+                <div class="country-hero__divider"></div>
+                <p class="country-hero__tagline" data-i18n="monaco.tagline">От Carré d'Or до La Rousse - тщательно отобранные резиденции, сочетающие в себе престиж, арендный потенциал и долгосрочное повышение стоимости.</p>
+                <span class="country-hero__count" data-i18n="monaco.count">7 свойств онлайн</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="swiper monaco-swiper">
+                <div class="swiper-wrapper" id="monaco-cards">
+                    <!-- JS injects Monaco property cards here -->
+                </div>
+            </div>
+            <div class="swiper-controls">
+                <button class="swiper-btn monaco-prev" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="swiper-pagination monaco-pagination"></div>
+                <button class="swiper-btn monaco-next" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FRANCE COLLECTION ====== -->
+    <section id="france" class="properties country-section country-section--france">
+        <div class="country-hero">
+            <div class="country-hero__bg">
+                <img src="../images/paris-hero.jpg" alt="Paris cityscape with Eiffel Tower" class="country-hero__img" loading="lazy">
+                <div class="country-hero__overlay"></div>
+            </div>
+            <div class="container country-hero__content">
+                <span class="country-hero__label" data-i18n="france.label">Парижская коллекция</span>
+                <h2 class="country-hero__title" data-i18n="france.title">Франция</h2>
+                <div class="country-hero__divider"></div>
+                <p class="country-hero__tagline" data-i18n="france.tagline">Апартаменты, отремонтированные архитектором в самых востребованных 16th arrondissement Парижа - Passy, Muette и Trocadéro.</p>
+                <span class="country-hero__count" data-i18n="france.count">2 свойства онлайн 2 properties online</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="country-grid" id="paris-cards"></div>
+        </div>
+    </section>
+
+    <!-- ====== SWITZERLAND COLLECTION ====== -->
+    <section id="switzerland" class="properties country-section country-section--switzerland">
+        <div class="country-hero">
+            <div class="country-hero__bg">
+                <img src="../images/switzerland-hero.jpg" alt="Lake Geneva and Swiss Alps" class="country-hero__img" loading="lazy">
+                <div class="country-hero__overlay"></div>
+            </div>
+            <div class="container country-hero__content">
+                <span class="country-hero__label" data-i18n="switzerland.label">Швейцарская Ривьера</span>
+                <h2 class="country-hero__title" data-i18n="switzerland.title">Швейцария</h2>
+                <div class="country-hero__divider"></div>
+                <p class="country-hero__tagline" data-i18n="switzerland.tagline">Эксклюзивные пентхаусы с панорамным видом на Lake Geneva и Альпы - открыты для международных покупателей.</p>
+                <span class="country-hero__count" data-i18n="switzerland.count">3 свойства онлайн</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="country-grid" id="switzerland-cards"></div>
+        </div>
+    </section>
+
+    <!-- ====== AZERBAIJAN COLLECTION ====== -->
+    <section id="azerbaijan" class="properties country-section country-section--azerbaijan">
+        <div class="country-hero">
+            <div class="country-hero__bg">
+                <img src="../images/azerbaijan-hero.jpg" alt="Baku skyline" class="country-hero__img" loading="lazy">
+                <div class="country-hero__overlay"></div>
+            </div>
+            <div class="container country-hero__content">
+                <span class="country-hero__label" data-i18n="azerbaijan.label">Каспийское побережье</span>
+                <h2 class="country-hero__title" data-i18n="azerbaijan.title">Азербайджан</h2>
+                <div class="country-hero__divider"></div>
+                <p class="country-hero__tagline" data-i18n="azerbaijan.tagline">Брендовые апартаменты с обслуживанием на побережье Caspian Sea - гарантированная доходность до 15% в год.</p>
+                <span class="country-hero__count" data-i18n="azerbaijan.count">1 недвижимость онлайн</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="country-grid" id="azerbaijan-cards"></div>
+        </div>
+    </section>
+
+    <!-- ====== THAILAND COLLECTION ====== -->
+    <section id="thailand" class="properties country-section country-section--france">
+        <div class="country-hero">
+            <div class="country-hero__bg">
+                <img src="../images/thailand-hero.jpg" alt="Phuket coastline" class="country-hero__img" loading="lazy">
+                <div class="country-hero__overlay"></div>
+            </div>
+            <div class="container country-hero__content">
+                <span class="country-hero__label" data-i18n="thailand.label">Юго-Восточная Азия</span>
+                <h2 class="country-hero__title" data-i18n="thailand.title">Таиланд</h2>
+                <div class="country-hero__divider"></div>
+                <p class="country-hero__tagline" data-i18n="thailand.tagline">Жизнь в курортном стиле в Phuket - от готовых единиц с урожаем 8-12% до меблированных тропических резиденций.</p>
+                <span class="country-hero__count" data-i18n="thailand.count">2 свойства онлайн 2 properties online</span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="country-grid" id="thailand-cards"></div>
+        </div>
+    </section>
+
+    <!-- ====== WHY THESE ARE SMART DEALS ====== -->
+    <section id="why" class="why-smart">
+        <div class="container">
+            <span class="section-label" data-i18n="why.label">Наше преимущество</span>
+            <h2 class="section-title" data-i18n="why.title">Почему это Smart Deals?</h2>
+            <p class="section-subtitle" data-i18n="why.subtitle">Каждая недвижимость в этой коллекции была оценена на реальную стоимость и инвестиционную ценность.</p>
+            <div class="why-smart__grid">
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-tag"></i></div>
+                    <span class="benefit-card__metric">15%+</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.price.title">Лучшая цена</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.price.text">Ценовое преимущество относительно недавних сделок - одни из самых выгодно оценённых объектов в каждом сегменте, с понятным рычагом для торга.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <span class="benefit-card__metric" data-i18n="benefit.growth.metric">Рост</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.growth.title">Высокий рост капитала</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.growth.text">Проекты в областях с идентифицированными катализаторами роста, вступлением на ранней стадии ниже будущих цен и доказанным импульсом сделок.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <span class="benefit-card__metric">7%+</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.rental.title">Высокая арендная доходность</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.rental.text">Валовые доходы от аренды в зонах с высоким спросом с постоянной занятостью и проверенными показателями арендной платы.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-key"></i></div>
+                    <span class="benefit-card__metric" data-i18n="benefit.ready.metric">Готово</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.ready.title">Готовая к заселению ценность</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.ready.text">Завершенные дома без риска строительства, явный разрыв в стоимости по сравнению с аналогичными готовыми блоками, в устоявшихся районах с доказанным спросом.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-rocket"></i></div>
+                    <span class="benefit-card__metric" data-i18n="benefit.early.metric">Приоритет</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.early.title">Ранний доступ к запускам</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.early.text">Доступ к запасам до запуска по цене ниже общедоступной цены запуска - обеспечить предпочтительные единицы перед общим рынком.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon"><i class="fa-solid fa-gem"></i></div>
+                    <span class="benefit-card__metric" data-i18n="benefit.offmarket.metric">Закрыто</span>
+                    <h3 class="benefit-card__title" data-i18n="benefit.offmarket.title">Эксклюзивные off-market</h3>
+                    <p class="benefit-card__text" data-i18n="benefit.offmarket.text">Дискретные возможности, не публично зарегистрированные - доступ, основанный на отношениях, с ценообразованием или условиями, недоступными на открытом рынке.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== HOW WE HELP ====== -->
+    <section id="how" class="how-we-help">
+        <div class="container">
+            <div class="how-we-help__inner">
+                <div class="how-we-help__text">
+                    <span class="section-label" data-i18n="how.label">Наш процесс</span>
+                    <h2 class="section-title section-title--left" data-i18n="how.title">Как мы помогаем вам инвестировать</h2>
+                    <p class="how-we-help__intro" data-i18n="how.intro">Smart Deals Global - это полнофункциональное брокерское агентство по недвижимости, которое работает на нескольких глобальных рынках, помогая вам с уверенностью находить, вести переговоры и обеспечивать лучшие сделки с недвижимым имуществом.</p>
+                    <div class="how-we-help__steps">
+                        <div class="step">
+                            <span class="step__number">01</span>
+                            <div class="step__content">
+                                <h4 class="step__title" data-i18n="how.step1.title">Консультация</h4>
+                                <p class="step__text" data-i18n="how.step1.text">Мы понимаем ваш бюджет, цели и профиль риска.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step__number">02</span>
+                            <div class="step__content">
+                                <h4 class="step__title" data-i18n="how.step2.title">Кураторский шортлист</h4>
+                                <p class="step__text" data-i18n="how.step2.text">Получите 3-5 специально отобранных объектов, соответствующих вашим критериям.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step__number">03</span>
+                            <div class="step__content">
+                                <h4 class="step__title" data-i18n="how.step3.title">Безупречная покупка</h4>
+                                <p class="step__text" data-i18n="how.step3.text">Мы занимаемся переговорами, юридической координацией и установкой после покупки.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="how-we-help__visual">
+                    <img src="../images/how-we-help.jpg" alt="Burj Al Arab aerial view, Dubai" class="how-we-help__img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== TRUST SECTION ====== -->
+    <section class="trust-section">
+        <div class="container trust-section__inner">
+            <div class="trust-section__metrics">
+                <div class="trust-metric">
+                    <span class="trust-metric__number">500M+</span>
+                    <span class="trust-metric__label" data-i18n="trust.portfolio">Объём портфеля AED</span>
+                </div>
+                <div class="trust-metric">
+                    <span class="trust-metric__number">15+</span>
+                    <span class="trust-metric__label" data-i18n="trust.experience">Лет опыта</span>
+                </div>
+                <div class="trust-metric">
+                    <span class="trust-metric__number">10</span>
+                    <span class="trust-metric__label" data-i18n="trust.markets">Мировых рынков</span>
+                </div>
+                <div class="trust-metric">
+                    <span class="trust-metric__number">50+</span>
+                    <span class="trust-metric__label" data-i18n="trust.deals">Активных сделок</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FAQ ====== -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <span class="section-label" data-i18n="faq.label">Частые вопросы</span>
+            <h2 class="section-title" data-i18n="faq.title">Часто задаваемые вопросы</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span data-i18n="faq.q1.q">Что такое Smart Deal?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.q1.a">Smart Deal - это недвижимость, которая была оценена и отобрана за то, что предлагает подлинное преимущество стоимости - будь то ценообразование ниже рыночных сопоставимых, гибкие условия оплаты, высокий потенциал доходности от аренды или ранний доступ к запасам до запуска.Каждый список в нашей коллекции отвечает по крайней мере одному из наших шести критериев стоимости.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span data-i18n="faq.q2.q">Могут ли иностранцы покупать недвижимость в Дубае?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.q2.a">Да. Иностранные граждане могут приобретать недвижимость в свободном владении в обозначенных районах Дубая, Абу-Даби и других эмиратов. Нет никаких ограничений на гражданство, а право собственности предоставляет возобновляемую визу на жительство для недвижимого имущества свыше AED 750 000.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span data-i18n="faq.q3.q">Как работают планы оплаты для недвижимости вне плана?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.q3.a">Планы внеплановых платежей варьируются в зависимости от застройщика.Обычные структуры включают 70/30 (70% во время строительства, 30% при передаче), 60/40, и 20/50/30.Некоторые разработчики предлагают расширенные планы после передачи до 5 лет.Мы обсуждаем наилучшие доступные условия от вашего имени.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span data-i18n="faq.q4.q">Каких сборов я должен ожидать при покупке?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.q4.a">В Дубае основными расходами являются 4% регистрационные сборы DLD (Dubai Land Department).Дополнительные расходы включают примерно 2% комиссионных за агентство, AED 4,000-5,000 для администраторов/попечителей, а также регистрацию ипотеки, если это применимо.Общие расходы на транзакцию обычно составляют 6-7% от стоимости недвижимости.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span data-i18n="faq.q5.q">Вы взимаете какие-либо сборы за свои услуги?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.q5.a">Наш консультативный сервис для покупателей является бесплатным. Мы получаем компенсацию со стороны разработчика или продавца сделки. Это означает, что вы получаете профессиональное руководство, анализ рынка и поддержку в переговорах без дополнительных затрат.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FINAL CTA ====== -->
+    <section id="contact" class="final-cta">
+        <div class="final-cta__bg">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80" alt="Modern skyscraper exterior" class="final-cta__bg-img">
+            <div class="final-cta__overlay"></div>
+        </div>
+        <div class="container final-cta__inner">
+            <h2 class="final-cta__title" data-i18n="finalcta.title">Готовы сделать умный шаг?</h2>
+            <p class="final-cta__subtitle" data-i18n="finalcta.subtitle">Выберите, как вы хотите связаться с нашей командой.</p>
+            <div class="contact-options">
+                <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer" class="contact-option contact-option--whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span class="contact-option__label">WhatsApp</span>
+                    <span class="contact-option__detail" data-i18n="finalcta.whatsapp">Мгновенный ответ</span>
+                </a>
+                <a href="tel:+971559579113" class="contact-option contact-option--phone">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="contact-option__label" data-i18n="finalcta.call">Позвонить</span>
+                    <span class="contact-option__detail">+971 55 957 9113</span>
+                </a>
+                <a href="mailto:info@smartdealsglobal.com" class="contact-option contact-option--email">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="contact-option__label" data-i18n="finalcta.email">Почта</span>
+                    <span class="contact-option__detail">info@smartdealsglobal.com</span>
+                </a>
+            </div>
+            <p class="final-cta__note" data-i18n="finalcta.note">Обычно мы отвечаем в течение 2 часов в рабочее время (GST).</p>
+        </div>
+    </section>
+
+    <!-- Property Detail Modal -->
+    <div id="property-modal" class="property-modal" aria-hidden="true">
+        <div class="property-modal__backdrop"></div>
+        <div class="property-modal__content">
+            <button class="property-modal__close" aria-label="Close">&times;</button>
+            <div class="property-modal__inner" id="property-modal-inner">
+                <!-- JS populates this -->
+            </div>
+        </div>
+    </div>
+
+    </main>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container footer__grid">
+            <div class="footer__brand">
+                <span class="footer__logo">Smart Deals<span class="logo-accent">Global</span></span>
+                <p class="footer__tagline" data-i18n="footer.tagline">Выбранные возможности недвижимости на 10 глобальных рынках.</p>
+                <!-- Footer social links removed until real URLs are wired.
+                     Empty href=# links are broken UX and a negative signal. -->
+
+            </div>
+            <div class="footer__nav">
+                <h4 class="footer__nav-title" data-i18n="footer.quickLinks">Быстрые ссылки</h4>
+                <ul>
+                    <li><a href="#ready" data-i18n="footer.link.secondary">Вторичный рынок</a></li>
+                    <li><a href="#offplan" data-i18n="footer.link.offplan">Off-Plan</a></li>
+                    <li><a href="#monaco" data-i18n="footer.link.monaco">Монако</a></li>
+                    <li><a href="#france" data-i18n="footer.link.france">Франция</a></li>
+                    <li><a href="#how" data-i18n="footer.link.how">Наша помощь</a></li>
+                </ul>
+            </div>
+            <div class="footer__nav">
+                <h4 class="footer__nav-title" data-i18n="footer.markets">Рынки</h4>
+                <ul>
+                    <li><a href="#markets-v2" data-i18n="footer.link.uae">ОАЭ</a></li>
+                    <li><a href="#monaco" data-i18n="footer.link.monaco2">Монако</a></li>
+                    <li><a href="#france" data-i18n="footer.link.france2">Франция</a></li>
+                    <li><a href="#switzerland" data-i18n="footer.link.switzerland">Швейцария</a></li>
+                    <li><a href="#thailand" data-i18n="footer.link.thailand">Таиланд</a></li>
+                </ul>
+            </div>
+            <div class="footer__nav">
+                <h4 class="footer__nav-title" data-i18n="footer.contact">Контакты</h4>
+                <ul>
+                    <li><a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="footer.link.whatsapp">WhatsApp</span></a></li>
+                    <li><a href="tel:+971559579113"><i class="fa-solid fa-phone"></i> +971 55 957 9113</a></li>
+                    <li><a href="mailto:info@smartdealsglobal.com"><i class="fa-solid fa-envelope"></i> <span data-i18n="footer.link.emailus">Написать</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer__bottom">
+                <p class="footer__copy" data-i18n="footer.copy">© 2026 Smart Deals Global. Все права защищены.</p>
+                <p class="footer__signature" data-i18n="footer.signature">Кураторская недвижимость по всему миру.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== BACK TO MARKETS (mis-click safety for country sections) ====== -->
+    <button id="back-to-markets" class="back-to-markets" aria-hidden="true">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span data-i18n="backToMarkets">К списку рынков</span>
+    </button>
+
+    <!-- ====== FLOATING WHATSAPP BUTTON ====== -->
+    <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"
+       class="whatsapp-float" id="whatsapp-float" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.js"></script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+
+    <!-- Structured Data: Organization -->
+    
+    
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Smart Deals Global",
+        "description": "Кураторские умные сделки с недвижимостью на 10 мировых рынках, включая Дубай, Монако, Францию, Швейцарию и Таиланд.",
+        "url": "https://smartdealsglobal.com",
+        "areaServed": [
+            {"@type": "City", "name": "Dubai", "containedInPlace": {"@type": "Country", "name": "UAE"}},
+            {"@type": "City", "name": "Abu Dhabi", "containedInPlace": {"@type": "Country", "name": "UAE"}},
+            {"@type": "City", "name": "Monte Carlo", "containedInPlace": {"@type": "Country", "name": "Monaco"}},
+            {"@type": "City", "name": "Paris", "containedInPlace": {"@type": "Country", "name": "France"}},
+            {"@type": "City", "name": "Montreux", "containedInPlace": {"@type": "Country", "name": "Switzerland"}},
+            {"@type": "City", "name": "Phuket", "containedInPlace": {"@type": "Country", "name": "Thailand"}},
+            {"@type": "City", "name": "Baku", "containedInPlace": {"@type": "Country", "name": "Azerbaijan"}}
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": "+971559579113",
+            "availableLanguage": ["English", "Arabic", "French", "Russian"]
+        },
+        "knowsAbout": ["Real Estate Investment", "Off-Plan Properties", "Secondary Market Properties", "Luxury Real Estate"],
+        "numberOfEmployees": {"@type": "QuantitativeValue", "minValue": 5}
+    }
+    </script>
+
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Smart Deals Property Collection",
+        "description": "Более 50 кураторских сделок с недвижимостью на 10 мировых рынках",
+        "numberOfItems": 50,
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Dubai Secondary Market Properties", "url": "https://smartdealsglobal.com/#ready"},
+            {"@type": "ListItem", "position": 2, "name": "Dubai Off-Plan Opportunities", "url": "https://smartdealsglobal.com/#offplan"},
+            {"@type": "ListItem", "position": 3, "name": "Monaco Exclusive Collection", "url": "https://smartdealsglobal.com/#monaco"},
+            {"@type": "ListItem", "position": 4, "name": "Paris Property Collection", "url": "https://smartdealsglobal.com/#france"},
+            {"@type": "ListItem", "position": 5, "name": "Switzerland Swiss Riviera", "url": "https://smartdealsglobal.com/#switzerland"},
+            {"@type": "ListItem", "position": 6, "name": "Azerbaijan Caspian Coast", "url": "https://smartdealsglobal.com/#azerbaijan"},
+            {"@type": "ListItem", "position": 7, "name": "Thailand Phuket Properties", "url": "https://smartdealsglobal.com/#thailand"}
+        ]
+    }
+    </script>
+
+        <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Что такое Smart Deal?", "acceptedAnswer": {"@type": "Answer", "text": "A Smart Deal is a property evaluated and selected for offering genuine value advantage through pricing, payment terms, rental yields, or early access."}},
+            {"@type": "Question", "name": "Могут ли иностранцы покупать недвижимость в Дубае?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Foreign nationals can purchase freehold property in designated areas across Dubai with no restrictions on nationality."}},
+            {"@type": "Question", "name": "Как работают планы оплаты для недвижимости вне плана?", "acceptedAnswer": {"@type": "Answer", "text": "Payment plans vary by developer. Common structures include 70/30, 60/40, and 20/50/30 with some offering post-handover plans up to 5 years."}},
+            {"@type": "Question", "name": "Каких сборов я должен ожидать при покупке?", "acceptedAnswer": {"@type": "Answer", "text": "In Dubai, expect 4% DLD registration, ~2% agency commission, and AED 4-5K admin fees. Total typically 6-7% of property value."}},
+            {"@type": "Question", "name": "Вы взимаете какие-либо сборы за свои услуги?", "acceptedAnswer": {"@type": "Answer", "text": "Our advisory service for buyers is complimentary. We are compensated by the developer or seller side."}}
+        ]
+    }
+    </script>
+
+    <!-- Organization (parallel to RealEstateAgent so @type=Organization resolves in LLM-aware indexers) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Smart Deals Global",
+        "alternateName": "SDG",
+        "url": "https://smartdealsglobal.com/",
+        "logo": "https://smartdealsglobal.com/images/hero-bg.jpg",
+        "description": "Кураторский консалтинг по недвижимости, предлагающий более 50 умных сделок в Дубае, Монако, Париже, Швейцарии, Таиланде и Азербайджане.",
+        "foundingDate": "2024",
+        "areaServed": ["AE", "MC", "FR", "CH", "TH", "AZ"],
+        "knowsLanguage": ["en", "ar", "fr", "ru"],
+        "contactPoint": [{
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": "+971559579113",
+            "availableLanguage": ["English", "Arabic", "French", "Russian"],
+            "areaServed": "Worldwide"
+        }],
+        "sameAs": []
+    }
+    </script>
+
+    <!-- BreadcrumbList — helps LLMs understand site hierarchy for "which company offers X" answers -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://smartdealsglobal.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Dubai", "item": "https://smartdealsglobal.com/#dubai"},
+            {"@type": "ListItem", "position": 3, "name": "Monaco", "item": "https://smartdealsglobal.com/#monaco"},
+            {"@type": "ListItem", "position": 4, "name": "France", "item": "https://smartdealsglobal.com/#france"},
+            {"@type": "ListItem", "position": 5, "name": "Switzerland", "item": "https://smartdealsglobal.com/#switzerland"},
+            {"@type": "ListItem", "position": 6, "name": "Thailand", "item": "https://smartdealsglobal.com/#thailand"},
+            {"@type": "ListItem", "position": 7, "name": "Azerbaijan", "item": "https://smartdealsglobal.com/#azerbaijan"}
+        ]
+    }
+    </script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Smart Deals Global · Operating Markets",
+  "itemListElement": [
+    {
+      "@type": "Place",
+      "position": 1,
+      "name": "Dubai, UAE",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.2048,
+        "longitude": 55.2708
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "UAE"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 2,
+      "name": "Abu Dhabi, UAE",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 24.4539,
+        "longitude": 54.3773
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "UAE"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 3,
+      "name": "Monte Carlo, Monaco",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.7384,
+        "longitude": 7.4246
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Monaco"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 4,
+      "name": "Paris, France",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 48.8566,
+        "longitude": 2.3522
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "France"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 5,
+      "name": "Montreux, Switzerland",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 46.4312,
+        "longitude": 6.9107
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Switzerland"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 6,
+      "name": "Phuket, Thailand",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 7.8804,
+        "longitude": 98.3923
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Thailand"
+      }
+    },
+    {
+      "@type": "Place",
+      "position": 7,
+      "name": "Baku, Azerbaijan",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.4093,
+        "longitude": 49.8671
+      },
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Azerbaijan"
+      }
+    }
+  ]
+}
+    </script>
+</body>
+</html>
