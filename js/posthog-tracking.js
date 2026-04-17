@@ -211,12 +211,67 @@
         return section.id || section.className.split(' ')[0] || 'unknown';
     }
 
+    // ── 7. UTM / AD CAMPAIGN TRACKING ─────────────────────────────
+    // Captures UTM parameters and ad platform click IDs from the URL
+    // so every subsequent event carries the campaign attribution.
+    function initCampaignTracking() {
+        if (!ready()) return;
+
+        var params = new URLSearchParams(window.location.search);
+        var utm = {};
+        var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+        var adClickKeys = ['gclid', 'fbclid', 'msclkid', 'ttclid', 'li_fat_id'];
+
+        for (var i = 0; i < utmKeys.length; i++) {
+            var val = params.get(utmKeys[i]);
+            if (val) utm[utmKeys[i]] = val;
+        }
+
+        // Detect ad platform click IDs
+        var adPlatform = null;
+        for (var j = 0; j < adClickKeys.length; j++) {
+            var clickId = params.get(adClickKeys[j]);
+            if (clickId) {
+                utm['ad_click_id'] = adClickKeys[j];
+                utm['ad_click_value'] = clickId;
+                if (adClickKeys[j] === 'gclid') adPlatform = 'google_ads';
+                else if (adClickKeys[j] === 'fbclid') adPlatform = 'facebook_ads';
+                else if (adClickKeys[j] === 'msclkid') adPlatform = 'microsoft_ads';
+                else if (adClickKeys[j] === 'ttclid') adPlatform = 'tiktok_ads';
+                else if (adClickKeys[j] === 'li_fat_id') adPlatform = 'linkedin_ads';
+            }
+        }
+        if (adPlatform) utm['ad_platform'] = adPlatform;
+
+        // Detect referrer-based attribution
+        var ref = document.referrer;
+        if (ref && !utm['utm_source']) {
+            if (ref.indexOf('google.') !== -1) utm['referrer_source'] = 'google_organic';
+            else if (ref.indexOf('facebook.com') !== -1 || ref.indexOf('fb.com') !== -1) utm['referrer_source'] = 'facebook';
+            else if (ref.indexOf('instagram.com') !== -1) utm['referrer_source'] = 'instagram';
+            else if (ref.indexOf('linkedin.com') !== -1) utm['referrer_source'] = 'linkedin';
+            else if (ref.indexOf('twitter.com') !== -1 || ref.indexOf('x.com') !== -1) utm['referrer_source'] = 'twitter';
+            else if (ref.indexOf('youtube.com') !== -1) utm['referrer_source'] = 'youtube';
+            else if (ref.indexOf('tiktok.com') !== -1) utm['referrer_source'] = 'tiktok';
+            else utm['referrer_source'] = new URL(ref).hostname;
+        }
+
+        if (Object.keys(utm).length > 0) {
+            // Register as super properties — attached to ALL future events this session
+            ph().register_for_session(utm);
+
+            // Fire a dedicated campaign attribution event
+            ph().capture('campaign_attribution', utm);
+        }
+    }
+
     // ── INIT ──────────────────────────────────────────────────────
     function initAllTracking() {
         if (!ready()) {
             // PostHog not loaded or placeholder key — skip silently
             return;
         }
+        initCampaignTracking();
         initButtonTracking();
         initScrollDepthTracking();
         initOutboundLinkTracking();
