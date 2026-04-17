@@ -176,26 +176,37 @@
     }
 
     // ── 6. HERO CTA A/B TEST ──────────────────────────────────────
-    // Uses PostHog feature flags to split-test hero headline + CTA copy.
+    // Client-side 50/50 split test — no PostHog feature flags needed.
+    // Variant assignment persists in localStorage so each user sees
+    // the same variant across sessions. Results tracked via PostHog events.
     //
-    // Feature flag: "hero-headline-test"
-    //   - Control (false / "control"): current copy
-    //   - Variant ("variant-b"):       alternate headline + CTA
-    //
-    // Setup in PostHog dashboard:
-    //   1. Create feature flag "hero-headline-test"
-    //   2. Add variant "variant-b" (50% rollout)
-    //   3. Keep "control" as default (50%)
+    // Variants:
+    //   - "control":   current copy (Discover the Smart Deals Collection)
+    //   - "variant-b": alternate copy (Your Next Investment, Curated Worldwide)
     //
     // Conversion goal: "hero_cta_clicked" event
+    // Analysis: filter PostHog events by $set.ab_hero_variant property
     function initHeroABTest() {
         if (!ready()) return;
 
-        // Track hero CTA clicks as conversion goal regardless of variant
+        // Assign variant (50/50 split, persisted in localStorage)
+        var storageKey = 'sdg_ab_hero';
+        var variant = localStorage.getItem(storageKey);
+        if (!variant) {
+            variant = Math.random() < 0.5 ? 'control' : 'variant-b';
+            localStorage.setItem(storageKey, variant);
+        }
+
+        // Register variant as a super property on ALL events
+        ph().register({ ab_hero_variant: variant });
+
+        // Also set as a person property for cohort analysis
+        ph().setPersonProperties({ ab_hero_variant: variant });
+
+        // Track hero CTA clicks as conversion goal
         var heroCta = document.querySelector('.hero__cta');
         if (heroCta) {
             heroCta.addEventListener('click', function () {
-                var variant = ph().getFeatureFlag('hero-headline-test') || 'control';
                 ph().capture('hero_cta_clicked', {
                     variant: variant,
                     button_text: (heroCta.textContent || '').replace(/\s+/g, ' ').trim(),
@@ -204,12 +215,8 @@
             });
         }
 
-        // Wait for feature flags to load, then apply variant copy
-        ph().onFeatureFlags(function () {
-            var flag = ph().getFeatureFlag('hero-headline-test');
-            if (flag !== 'variant-b') return; // control = keep current copy
-
-            // Variant B copy — change headline + CTA only, everything else identical
+        // Apply variant-b DOM changes
+        if (variant === 'variant-b') {
             var title = document.querySelector('.hero__title');
             var ctaSpan = document.querySelector('.hero__cta span[data-i18n="hero.cta"]');
             var eyebrow = document.querySelector('.hero__eyebrow');
@@ -223,13 +230,13 @@
             if (eyebrow) {
                 eyebrow.textContent = '10 Markets. 50+ Selected Opportunities.';
             }
+        }
 
-            // Track which variant was shown
-            ph().capture('ab_test_variant_shown', {
-                test_name: 'hero-headline-test',
-                variant: 'variant-b',
-                page_language: document.documentElement.lang || 'en'
-            });
+        // Track which variant was shown (fires once per page load)
+        ph().capture('ab_test_variant_shown', {
+            test_name: 'hero-headline-test',
+            variant: variant,
+            page_language: document.documentElement.lang || 'en'
         });
     }
 
