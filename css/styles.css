@@ -2381,7 +2381,7 @@ h1, h2, h3, h4 {
    ============================================ */
 .trust-section {
     background: var(--color-primary);
-    padding: var(--section-pad) 0;
+    padding: 2.5rem 0;
     color: var(--color-white);
 }
 
@@ -2389,7 +2389,7 @@ h1, h2, h3, h4 {
     display: flex;
     justify-content: center;
     gap: 4rem;
-    margin-bottom: 3rem;
+    margin-bottom: 0;
 }
 
 .trust-metric {
