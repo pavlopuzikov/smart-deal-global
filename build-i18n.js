@@ -159,43 +159,43 @@ function buildPropertyJsonLd() {
 const SEO_META = {
     en: {
         title: 'Smart Deals Global · Curated Real Estate in Dubai, Monaco & Paris',
-        description: '50+ curated property deals across 10 global markets · Dubai, Monaco, Paris & more. Discounts up to 23%, flexible payment plans, expert advisory.',
+        description: '50+ curated property deals & distress deals across 10 global markets · Dubai, Monaco, Paris & more. Discounts up to 23%, flexible payment plans, expert advisory.',
         ogLocale: 'en_US',
         ogTitle: 'Smart Deals Global · Curated Real Estate, Worldwide',
-        ogDescription: '50+ curated property deals in 10 global markets. Discounts up to 23%, flexible plans, expert advisory.',
-        jsonldDescription: 'Curated smart real estate deals across 10 global markets including Dubai, Monaco, France, Switzerland, and Thailand.',
-        itemListDescription: '50+ curated real estate deals across 10 global markets',
-        orgDescription: 'Curated real-estate advisory surfacing 50+ smart property deals across Dubai, Monaco, Paris, Switzerland, Thailand and Azerbaijan.'
+        ogDescription: '50+ curated property & distress deals in 10 global markets. Discounts up to 23%, flexible plans, expert advisory.',
+        jsonldDescription: 'Curated smart real estate deals and distress deals across 10 global markets including Dubai, Monaco, France, Switzerland, and Thailand.',
+        itemListDescription: '50+ curated real estate and distress deals across 10 global markets',
+        orgDescription: 'Curated real-estate advisory surfacing 50+ smart property deals and distress deals across Dubai, Monaco, Paris, Switzerland, Thailand and Azerbaijan.'
     },
     ar: {
-        title: 'سمارت ديلز جلوبال · عقارات مختارة في دبي، موناكو وباريس',
-        description: 'أكثر من 50 صفقة عقارية مختارة في 10 أسواق · دبي، موناكو، باريس والمزيد. خصومات حتى 23٪، خطط دفع مرنة، استشارات خبراء.',
+        title: 'سمارت ديلز جلوبال · عقارات مختارة وصفقات عاجلة في دبي، موناكو وباريس',
+        description: 'أكثر من 50 صفقة عقارية مختارة وصفقات عاجلة في 10 أسواق · دبي، موناكو، باريس والمزيد. خصومات حتى 23٪، خطط دفع مرنة، استشارات خبراء.',
         ogLocale: 'ar_AE',
-        ogTitle: 'سمارت ديلز جلوبال · عقارات مختارة حول العالم',
-        ogDescription: 'أكثر من 50 صفقة عقارية مختارة في 10 أسواق عالمية. خصومات حتى 23٪، خطط مرنة، استشارات خبراء.',
-        jsonldDescription: 'صفقات عقارية ذكية مختارة في 10 أسواق عالمية بما في ذلك دبي وموناكو وفرنسا وسويسرا وتايلاند.',
-        itemListDescription: 'أكثر من 50 صفقة عقارية مختارة في 10 أسواق عالمية',
-        orgDescription: 'استشارات عقارية مختارة تقدم أكثر من 50 صفقة ذكية في دبي وموناكو وباريس وسويسرا وتايلاند وأذربيجان.'
+        ogTitle: 'سمارت ديلز جلوبال · عقارات مختارة وصفقات عاجلة حول العالم',
+        ogDescription: 'أكثر من 50 صفقة عقارية مختارة وصفقات عاجلة في 10 أسواق عالمية. خصومات حتى 23٪، خطط مرنة، استشارات خبراء.',
+        jsonldDescription: 'صفقات عقارية ذكية مختارة وصفقات عاجلة في 10 أسواق عالمية بما في ذلك دبي وموناكو وفرنسا وسويسرا وتايلاند.',
+        itemListDescription: 'أكثر من 50 صفقة عقارية مختارة وصفقات عاجلة في 10 أسواق عالمية',
+        orgDescription: 'استشارات عقارية مختارة تقدم أكثر من 50 صفقة ذكية وصفقات عاجلة في دبي وموناكو وباريس وسويسرا وتايلاند وأذربيجان.'
     },
     fr: {
-        title: 'Smart Deals Global · Biens sélectionnés à Dubaï, Monaco & Paris',
-        description: "50+ offres immobilières sélectionnées dans 10 marchés · Dubaï, Monaco, Paris & plus. Remises jusqu'à 23%, paiements flexibles, conseils d'experts.",
+        title: 'Smart Deals Global · Biens sélectionnés et ventes urgentes à Dubaï, Monaco & Paris',
+        description: "50+ offres immobilières sélectionnées et ventes urgentes dans 10 marchés · Dubaï, Monaco, Paris & plus. Remises jusqu'à 23%, paiements flexibles, conseils d'experts.",
         ogLocale: 'fr_FR',
-        ogTitle: 'Smart Deals Global · Immobilier sélectionné, dans le monde entier',
-        ogDescription: "50+ offres immobilières sélectionnées dans 10 marchés. Remises jusqu'à 23%, plans flexibles, conseils d'experts.",
-        jsonldDescription: 'Offres immobilières intelligentes sélectionnées dans 10 marchés mondiaux incluant Dubaï, Monaco, la France, la Suisse et la Thaïlande.',
-        itemListDescription: '50+ offres immobilières sélectionnées dans 10 marchés mondiaux',
-        orgDescription: 'Conseil immobilier sélectionné qui surface 50+ offres intelligentes à Dubaï, Monaco, Paris, Suisse, Thaïlande et Azerbaïdjan.'
+        ogTitle: 'Smart Deals Global · Immobilier sélectionné et ventes urgentes, dans le monde entier',
+        ogDescription: "50+ offres immobilières sélectionnées et ventes urgentes dans 10 marchés. Remises jusqu'à 23%, plans flexibles, conseils d'experts.",
+        jsonldDescription: 'Offres immobilières intelligentes sélectionnées et ventes urgentes dans 10 marchés mondiaux incluant Dubaï, Monaco, la France, la Suisse et la Thaïlande.',
+        itemListDescription: '50+ offres immobilières sélectionnées et ventes urgentes dans 10 marchés mondiaux',
+        orgDescription: 'Conseil immobilier sélectionné qui surface 50+ offres intelligentes et ventes urgentes à Dubaï, Monaco, Paris, Suisse, Thaïlande et Azerbaïdjan.'
     },
     ru: {
-        title: 'Smart Deals Global · Кураторская недвижимость в Дубае, Монако и Париже',
-        description: 'Более 50 кураторских сделок на 10 мировых рынках · Дубай, Монако, Париж и далее. Скидки до 23%, гибкие планы, экспертные консультации.',
+        title: 'Smart Deals Global · Кураторская недвижимость и срочные сделки в Дубае, Монако и Париже',
+        description: 'Более 50 кураторских и срочных сделок на 10 мировых рынках · Дубай, Монако, Париж и далее. Скидки до 23%, гибкие планы, экспертные консультации.',
         ogLocale: 'ru_RU',
-        ogTitle: 'Smart Deals Global · Кураторская недвижимость по всему миру',
-        ogDescription: 'Более 50 кураторских сделок на 10 мировых рынках. Скидки до 23%, гибкие планы, экспертные консультации.',
-        jsonldDescription: 'Кураторские умные сделки с недвижимостью на 10 мировых рынках, включая Дубай, Монако, Францию, Швейцарию и Таиланд.',
-        itemListDescription: 'Более 50 кураторских сделок с недвижимостью на 10 мировых рынках',
-        orgDescription: 'Кураторский консалтинг по недвижимости, предлагающий более 50 умных сделок в Дубае, Монако, Париже, Швейцарии, Таиланде и Азербайджане.'
+        ogTitle: 'Smart Deals Global · Кураторская недвижимость и срочные сделки по всему миру',
+        ogDescription: 'Более 50 кураторских и срочных сделок на 10 мировых рынках. Скидки до 23%, гибкие планы, экспертные консультации.',
+        jsonldDescription: 'Кураторские умные сделки и срочные сделки с недвижимостью на 10 мировых рынках, включая Дубай, Монако, Францию, Швейцарию и Таиланд.',
+        itemListDescription: 'Более 50 кураторских и срочных сделок с недвижимостью на 10 мировых рынках',
+        orgDescription: 'Кураторский консалтинг по недвижимости, предлагающий более 50 умных и срочных сделок в Дубае, Монако, Париже, Швейцарии, Таиланде и Азербайджане.'
     }
 };
 
