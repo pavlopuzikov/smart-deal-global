@@ -95,7 +95,8 @@ function buildSeoPropertiesHtml() {
     return [
         '<!-- SEO: Pre-rendered property data for search engine crawlers -->',
         '<div class="seo-properties" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">',
-        '  <h2>Properties Available</h2>',
+        '  <h2>Properties Available — Smart Deals &amp; Distress Deals</h2>',
+        '  <p>Curated property deals, distress deals, below-market opportunities, and motivated seller listings across Dubai, Abu Dhabi, Monaco, Paris, Switzerland, Thailand, and Azerbaijan. Off-plan payment plans, ready-to-move properties, high rental yield investments, and Golden Visa eligible real estate.</p>',
         '  <ul>',
         ...items,
         '  </ul>',

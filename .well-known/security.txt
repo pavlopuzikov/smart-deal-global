@@ -1,0 +1,4 @@
+Contact: https://wa.me/971559579113
+Expires: 2027-04-17T00:00:00.000Z
+Preferred-Languages: en, ar, fr, ru
+Canonical: https://smartdeals.global/.well-known/security.txt
