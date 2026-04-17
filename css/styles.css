@@ -2989,6 +2989,11 @@ h1, h2, h3, h4 {
 .faq-section {
     padding: var(--section-pad) 0;
     background: var(--color-bg);
+    text-align: center;
+}
+
+.faq-section .faq-list {
+    text-align: left;
 }
 
 .faq-list {
