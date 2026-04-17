@@ -2720,75 +2720,7 @@ h1, h2, h3, h4 {
     font-style: italic;
 }
 
-/* ============================================
-   FEATURED CARD (single-property sections)
-   ============================================ */
-.property-card--featured {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    max-width: 700px;
-    margin: 0 auto;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 1px solid var(--color-border-light);
-    background: var(--color-white);
-    box-shadow: var(--shadow-md);
-}
-
-.property-card--featured .property-card__image {
-    height: 100%;
-    min-height: 280px;
-    max-height: 350px;
-    border-radius: 0;
-}
-
-.property-card--featured .property-card__image img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.property-card--featured .property-card__body {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.property-card--featured .property-card__name {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.property-card--featured .property-card__location {
-    margin-bottom: 1rem;
-}
-
-.property-card--featured .property-card__details {
-    margin-bottom: 1rem;
-}
-
-.property-card--featured .property-card__smart-reason {
-    font-size: 0.85rem;
-    color: var(--color-text-light);
-    line-height: 1.65;
-    margin-bottom: 1rem;
-    font-style: italic;
-}
-
-.property-card--featured .btn--card {
-    max-width: 200px;
-}
-
-@media (max-width: 768px) {
-    .property-card--featured {
-        grid-template-columns: 1fr;
-    }
-    .property-card--featured .property-card__image {
-        min-height: 220px;
-    }
-}
+/* Featured card styles removed — all country cards now use property-card--country */
 
 /* ============================================
    SORT INDICATOR
@@ -2870,16 +2802,6 @@ h1, h2, h3, h4 {
 .property-card__pricing {
     margin-top: auto;
     margin-bottom: 0.75rem;
-}
-
-/* Featured deal card refinement */
-.property-card--featured .property-card__body {
-    padding: 1.75rem 2rem;
-}
-
-.property-card--featured .property-card__image {
-    min-height: 280px;
-    max-height: 380px;
 }
 
 /* ============================================
@@ -3556,22 +3478,14 @@ html[dir="rtl"] .back-to-markets i.fa-arrow-left { transform: scaleX(-1); }
 
 /* ============================================
    SPACING POLISH (post-audit)
-   - Widen featured property card so single-property countries
-     (Azerbaijan) don't look isolated in the container width.
+   - Center single-property country sections (e.g. Azerbaijan)
    - Move back-to-markets to top-right so it doesn't crowd
      the centered banner title.
    - Tighten whitespace below single-property country sections.
    ============================================ */
-.property-card--featured {
-    max-width: 900px;
-    grid-template-columns: 1.1fr 1.3fr;
-}
-.property-card--featured .property-card__image {
-    min-height: 300px;
-    max-height: 380px;
-}
-.property-card--featured .property-card__body {
-    padding: 2.25rem 2rem;
+.country-grid:has(> .property-card--country:only-child) {
+    grid-template-columns: minmax(320px, 420px);
+    justify-content: center;
 }
 
 .back-to-markets {
@@ -3603,7 +3517,7 @@ html[dir="rtl"] .back-to-markets {
     }
 }
 
-.country-section .country-grid:has(> .property-card--featured:only-child) {
+.country-section .country-grid:has(> .property-card--country:only-child) {
     padding-top: 1.5rem;
     padding-bottom: 2rem;
 }

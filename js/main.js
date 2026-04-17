@@ -670,44 +670,6 @@ function renderCountryCards(properties, containerId, sectionName) {
     const isSwiper = wrapper.classList.contains('swiper-wrapper');
     const sorted = properties.slice().sort((a, b) => a.price - b.price);
 
-    // Featured layout for single-property sections
-    if (!isSwiper && sorted.length === 1) {
-        const p = sorted[0];
-        wrapper.innerHTML = `
-            <div class="property-card property-card--featured">
-                <div class="property-card__image">
-                    ${p.image
-                        ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">`
-                        : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`
-                    }
-                </div>
-                <div class="property-card__body">
-                    ${renderWhySmartBadges(p.whySmart)}
-                    <h3 class="property-card__name">${p.name}</h3>
-                    <p class="property-card__location">
-                        <i class="fa-solid fa-location-dot"></i> ${p.location}
-                    </p>
-                    <div class="property-card__details">
-                        <span><i class="fa-solid fa-ruler-combined"></i> ${p.size}</span>
-                        ${p.bedrooms != null ? `<span><i class="fa-solid fa-bed"></i> ${p.bedrooms === 0 ? t('card.studio') : p.bedrooms + ' ' + t('card.bed')}</span>` : ''}
-                        ${p.bathrooms != null ? `<span><i class="fa-solid fa-bath"></i> ${p.bathrooms} ${t('card.bath')}</span>` : ''}
-                    </div>
-                    <div class="property-card__pricing">
-                        ${p.originalPrice ? `<span class="property-card__price-label">${t('card.originalPrice')}</span>
-                        <span class="property-card__original-price">${formatPrice(p.originalPrice, p.currency)}</span>` : ''}
-                        <span class="property-card__price-label property-card__price-label--smart">${p.originalPrice ? t('card.smartPrice') : t('card.price')}</span>
-                        <span class="property-card__smart-price">${formatPrice(p.price, p.currency)}</span>
-                    </div>
-                    <a href="${getWhatsAppLink(p.name, p.location)}"
-                       class="btn btn--card" target="_blank" rel="noopener noreferrer"
-                       data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="${sectionName}">
-                        ${t('card.enquire')} <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>`;
-        return;
-    }
-
     wrapper.innerHTML = sorted.map(p => `
         ${isSwiper ? '<div class="swiper-slide">' : ''}
             <div class="property-card property-card--country">
@@ -1595,7 +1557,7 @@ const I18N_DICT = {
         "nav.faq": "الأسئلة الشائعة",
         "nav.contact": "اتصل بنا",
         "hero.eyebrow": "تم تجميع العقارات، في جميع أنحاء العالم",
-        "hero.title": "اكتشف مجموعة <br><em>Smart Deals</em> Collection",
+        "hero.title": "اكتشف مجموعة<br><em>Smart Deals</em>",
         "hero.subtitle": "مجموعة مختارة من العقارات الجاهزة وقيد الإنشاء في 10 أسواق عالمية - اختيرت لقيمتها المتميزة، وشروطها المرنة، ونقاط الدخول الجذابة.",
         "hero.cta": "استكشف المجموعة",
         "hero.stat.markets": "أسواق عالمية",
@@ -1628,31 +1590,31 @@ const I18N_DICT = {
         "market.viewCollection": "عرض المجموعة",
         "monaco.label": "مجموعة حصرية",
         "monaco.title": "موناكو",
-        "monaco.tagline": "من Carré d'Or إلى La Rousse - مساكن مختارة بعناية تجمع بين المرموق ، وإمكانات الإيجار ، وتقدير القيمة على المدى الطويل.",
-        "monaco.count": "7 خصائص على الإنترنت 7 properties online",
+        "monaco.tagline": "من Carré d'Or إلى La Rousse - مساكن مختارة بعناية تجمع بين الهيبة، وإمكانات الإيجار، وارتفاع القيمة على المدى الطويل.",
+        "monaco.count": "7 عقارات متاحة",
         "france.label": "مجموعة باريسية",
         "france.title": "فرنسا",
         "france.tagline": "شقق تم تجديدها من قبل مهندس معماري في منطقة باريس الـ 16 الأكثر طلبًا - Passy و Muette و Trocadéro.",
-        "france.count": "2 properties online 2 خصائص على الإنترنت",
+        "france.count": "2 عقاران متاحان",
         "switzerland.label": "الريفييرا السويسرية",
         "switzerland.title": "سويسرا",
-        "switzerland.tagline": "شقق غرفية حصرية مع إطلالة بانورامية على Lake Geneva وجبال الألب - مفتوحة للمشترين الدوليين.",
-        "switzerland.count": "3 خصائص على الإنترنت 3 properties online",
+        "switzerland.tagline": "بنتهاوس حصرية مع إطلالة بانورامية على بحيرة جنيف وجبال الألب - مفتوحة للمشترين الدوليين.",
+        "switzerland.count": "3 عقارات متاحة",
         "azerbaijan.label": "ساحل بحر قزوين",
         "azerbaijan.title": "أذربيجان",
-        "azerbaijan.tagline": "شقق ذات خدمات ذات علامة تجارية على ساحل Caspian Sea - عوائد مضمونة تصل إلى 15٪ سنويًا.",
+        "azerbaijan.tagline": "شقق فندقية ذات علامة تجارية على ساحل بحر قزوين - عوائد مضمونة تصل إلى 15٪ سنويًا.",
         "azerbaijan.count": "1 عقار على الانترنت",
         "thailand.label": "جنوب شرق آسيا",
         "thailand.title": "تايلاند",
         "thailand.tagline": "المعيشة على طراز منتجع في Phuket - من الوحدات الجاهزة مع 8-12٪ من العائدات إلى المساكن الاستوائية المفروشة.",
-        "thailand.count": "2 properties online 2 خصائص على الإنترنت",
+        "thailand.count": "2 عقاران متاحان",
         "why.label": "ما يميزنا",
         "why.title": "لماذا هذه صفقات ذكية",
         "why.subtitle": "تم تقييم كل عقار في هذه المجموعة من أجل القيمة الحقيقية وقيمة الاستثمار.",
         "benefit.price.title": "أفضل سعر",
         "benefit.price.text": "ميزة التسعير مقابل المقارنات الأخيرة - من بين أفضل وحدات الأسعار في كل قطاع مع رافعة مالية واضحة للتفاوض.",
         "benefit.growth.metric": "نمو",
-        "benefit.growth.title": "ارتفاع رأس المال المرتفع",
+        "benefit.growth.title": "نمو رأس المال المرتفع",
         "benefit.growth.text": "المشاريع في المناطق التي تم تحديد محفزات النمو ، والدخول في مرحلة مبكرة أقل من الأسعار المستقبلية ، وزخم المعاملات المثبت.",
         "benefit.rental.title": "عوائد إيجارية عالية",
         "benefit.rental.text": "عائدات الإيجارات الإجمالية في المناطق ذات الطلب المرتفع مع إشغال ثابت وسجلات مسارية مؤكدة للإيجار.",
@@ -1669,7 +1631,7 @@ const I18N_DICT = {
         "how.title": "كيف نساعدك على الاستثمار",
         "how.intro": "إن Smart Deals Global هي شركة وساطة عقارية كاملة الخدمة تعمل عبر العديد من الأسواق العالمية ، مما يساعدك على العثور على أفضل الصفقات العقارية والتفاوض عليها وتأمينها بثقة.",
         "how.step1.title": "استشارة",
-        "how.step1.text": "قم بحجز مكالمة بلا التزامات.نحن نفهم ميزانيتك وأهدافك وملف خطرك.",
+        "how.step1.text": "قم بحجز مكالمة بلا التزامات. نحن نفهم ميزانيتك وأهدافك وملف المخاطر الخاص بك.",
         "how.step2.title": "قائمة مختارة",
         "how.step2.text": "تلقي 3-5 من العقارات التي تم اختيارها بعناية مطابقة لمعاييرك.",
         "how.step3.title": "اقتناء سلس",
@@ -1740,9 +1702,9 @@ const I18N_DICT = {
         "nav.process": "Processus",
         "nav.faq": "FAQ",
         "nav.contact": "Nous contacter",
-        "hero.eyebrow": "Curated Real Estate, dans le monde entier",
-        "hero.title": "Découvrez le<br><em>Smart Deals</em> Collection",
-        "hero.subtitle": "Une collection sélectionnée d'opportunités prêtes à l'emploi et hors plan sur 10 marchés mondiaux - choisies pour une forte valeur ajoutée, des conditions flexibles et des points d'entrée attrayants.",
+        "hero.eyebrow": "Immobilier sélectionné, partout dans le monde",
+        "hero.title": "Découvrez la<br>collection <em>Smart Deals</em>",
+        "hero.subtitle": "Une collection sélectionnée d'opportunités clés en main et sur plan sur 10 marchés mondiaux - choisies pour une forte valeur ajoutée, des conditions flexibles et des points d'entrée attrayants.",
         "hero.cta": "Explorer la collection",
         "hero.stat.markets": "Marchés mondiaux",
         "hero.stat.deals": "Offres sélectionnées",
@@ -1752,7 +1714,7 @@ const I18N_DICT = {
         "featured.viewDeal": "Voir cette offre",
         "ready.label": "Marché de la revente",
         "ready.title": "Propriétés Secondaires",
-        "ready.subtitle": "Des opportunités prêtes à l'emploi avec un avantage de valeur visible et une entrée immédiate.",
+        "ready.subtitle": "Des opportunités prêtes à habiter avec un avantage de valeur visible et une entrée immédiate.",
         "ready.chip1": "Prêt à emménager",
         "ready.chip2": "Avantage tarifaire clair",
         "ready.chip3": "Entrée immédiate",
@@ -1782,15 +1744,15 @@ const I18N_DICT = {
         "france.count": "2 propriétés en ligne",
         "switzerland.label": "Riviera Suisse",
         "switzerland.title": "Suisse",
-        "switzerland.tagline": "Penthouses exclusifs avec vue panoramique sur Lake Geneva et les Alpes - ouverts aux acheteurs internationaux.",
+        "switzerland.tagline": "Penthouses exclusifs avec vue panoramique sur le lac Léman et les Alpes - ouverts aux acheteurs internationaux.",
         "switzerland.count": "3 propriétés en ligne",
         "azerbaijan.label": "Côte Caspienne",
         "azerbaijan.title": "Azerbaïdjan",
-        "azerbaijan.tagline": "Appartements avec services de marque sur la côte Caspian Sea - rendements garantis jusqu'à 15% par an.",
+        "azerbaijan.tagline": "Appartements avec services de marque sur la côte de la mer Caspienne - rendements garantis jusqu'à 15% par an.",
         "azerbaijan.count": "1 propriété en ligne",
         "thailand.label": "Asie du Sud-Est",
         "thailand.title": "Thaïlande",
-        "thailand.tagline": "La vie de style resort à Phuket - des unités prêtes à l'emploi avec des rendements de 8 à 12% aux résidences tropicales meublées.",
+        "thailand.tagline": "La vie de style resort à Phuket - des unités prêtes à habiter avec des rendements de 8 à 12% aux résidences tropicales meublées.",
         "thailand.count": "2 propriétés en ligne",
         "why.label": "Notre Atout",
         "why.title": "Pourquoi ce sont des Smart Deals",
@@ -1801,7 +1763,7 @@ const I18N_DICT = {
         "benefit.growth.title": "Appréciation du Capital",
         "benefit.growth.text": "Projets dans des domaines avec des catalyseurs de croissance identifiés, une entrée en phase précoce en dessous des prix futurs et une dynamique de transaction éprouvée.",
         "benefit.rental.title": "Rendements Locatifs Élevés",
-        "benefit.rental.text": "Produits de location bruts dans les zones à forte demande avec une occupation constante et des antécédents de location éprouvés.",
+        "benefit.rental.text": "Rendements locatifs bruts dans les zones à forte demande avec une occupation constante et des antécédents de location éprouvés.",
         "benefit.ready.metric": "Prêt",
         "benefit.ready.title": "Valeur Clés en Main",
         "benefit.ready.text": "Maisons achevées sans risque de construction, écart de valeur clair par rapport à des unités prêtes similaires, dans des zones établies avec une demande avérée.",
@@ -1826,16 +1788,16 @@ const I18N_DICT = {
         "trust.deals": "Offres Actives",
         "faq.label": "Questions fréquentes",
         "faq.title": "Foire Aux Questions",
-        "faq.q1.q": "Qu'est-ce qui est un Smart Deal?",
+        "faq.q1.q": "Qu'est-ce qu'un Smart Deal ?",
         "faq.q1.a": "Une Smart Deal est une propriété qui a été évaluée et sélectionnée pour offrir un véritable avantage de valeur - que ce soit grâce à des prix inférieurs à ceux du marché, des conditions de paiement flexibles, un potentiel de rendement locatif élevé ou un accès précoce à l'inventaire avant le lancement.",
         "faq.q2.q": "Les étrangers peuvent-ils acheter une propriété à Dubaï?",
         "faq.q2.a": "Oui. Les ressortissants étrangers peuvent acheter une propriété en propriété libre dans des zones désignées à Dubaï, Abu Dhabi et dans d'autres émirats. Il n'y a pas de restrictions sur la nationalité et la propriété accorde un visa de résidence renouvelable pour les propriétés supérieures à 750 000 AED.",
         "faq.q3.q": "Comment fonctionnent les plans de paiement pour les propriétés hors plan?",
-        "faq.q3.a": "Les plans de paiement hors plan varient d'un développeur à l'autre.Les structures courantes comprennent 70/30 (70% pendant la construction, 30% lors de la remise), 60/40, et 20/50/30.Certains développeurs offrent des plans prolongés de remise postérieure pouvant aller jusqu'à 5 ans.Nous négocions les meilleures conditions disponibles en votre nom.",
+        "faq.q3.a": "Les plans de paiement hors plan varient d'un développeur à l'autre. Les structures courantes comprennent 70/30 (70% pendant la construction, 30% lors de la remise), 60/40, et 20/50/30. Certains développeurs offrent des plans prolongés de remise postérieure pouvant aller jusqu'à 5 ans. Nous négocions les meilleures conditions disponibles en votre nom.",
         "faq.q4.q": "À quels frais dois-je m'attendre lors de l'achat?",
-        "faq.q4.a": "À Dubaï, le coût principal est la taxe d'enregistrement de 4% du DLD (Dubai Land Department).Les coûts supplémentaires comprennent environ 2% pour la commission d'agence, 4 000 à 5 000 AED pour les frais d'administration/d'administrateur, et l'inscription hypothécaire le cas échéant.Les coûts totaux de transaction sont généralement de 6 à 7% de la valeur de la propriété.",
+        "faq.q4.a": "À Dubaï, le coût principal est la taxe d'enregistrement de 4% du DLD (Dubai Land Department). Les coûts supplémentaires comprennent environ 2% pour la commission d'agence, 4 000 à 5 000 AED pour les frais d'administration/d'administrateur, et l'inscription hypothécaire le cas échéant. Les coûts totaux de transaction sont généralement de 6 à 7% de la valeur de la propriété.",
         "faq.q5.q": "Faites-vous payer des frais pour vos services?",
-        "faq.q5.a": "Notre service de conseil pour les acheteurs est gratuit. nous sommes rémunérés par le développeur ou le vendeur de la transaction. cela signifie que vous recevez des conseils professionnels, des analyses de marché et un soutien de négociation sans frais supplémentaires.",
+        "faq.q5.a": "Notre service de conseil pour les acheteurs est gratuit. Nous sommes rémunérés par le développeur ou le vendeur de la transaction. Cela signifie que vous recevez des conseils professionnels, des analyses de marché et un soutien de négociation sans frais supplémentaires.",
         "finalcta.title": "Prêt à faire un Smart Move ?",
         "finalcta.subtitle": "Choisissez comment vous souhaitez vous connecter avec notre équipe.",
         "finalcta.whatsapp": "Réponse instantanée",
@@ -1859,7 +1821,7 @@ const I18N_DICT = {
         "footer.link.whatsapp": "WhatsApp",
         "footer.link.emailus": "Envoyez-nous un e-mail",
         "footer.copy": "© 2026 Smart Deals Global. Tous les droits sont réservés.",
-        "footer.signature": "Curated Real Estate, dans le monde entier.",
+        "footer.signature": "Immobilier sélectionné, à travers le monde.",
         "card.enquire": "Demander",
         "card.studio": "Studio",
         "card.bed": "ch.",
@@ -1887,7 +1849,7 @@ const I18N_DICT = {
         "nav.faq": "FAQ",
         "nav.contact": "Связаться",
         "hero.eyebrow": "Курируемая недвижимость, во всем мире",
-        "hero.title": "Откройте для себя коллекцию<br><em>Smart Deals</em> Collection",
+        "hero.title": "Откройте для себя коллекцию<br><em>Smart Deals</em>",
         "hero.subtitle": "Курируемая коллекция готовых и внеплановых возможностей на 10 глобальных рынках - отобранных за высокую стоимость, гибкие условия и привлекательные точки входа.",
         "hero.cta": "Смотреть коллекцию",
         "hero.stat.markets": "Мировых рынков",
@@ -1921,23 +1883,23 @@ const I18N_DICT = {
         "monaco.label": "Эксклюзивная коллекция",
         "monaco.title": "Монако",
         "monaco.tagline": "От Carré d'Or до La Rousse - тщательно отобранные резиденции, сочетающие в себе престиж, арендный потенциал и долгосрочное повышение стоимости.",
-        "monaco.count": "7 свойств онлайн",
+        "monaco.count": "7 объектов онлайн",
         "france.label": "Парижская коллекция",
         "france.title": "Франция",
-        "france.tagline": "Апартаменты, отремонтированные архитектором в самых востребованных 16th arrondissement Парижа - Passy, Muette и Trocadéro.",
-        "france.count": "2 свойства онлайн 2 properties online",
+        "france.tagline": "Апартаменты, отремонтированные архитектором в самом востребованном 16-м округе Парижа - Passy, Muette и Trocadéro.",
+        "france.count": "2 объекта онлайн",
         "switzerland.label": "Швейцарская Ривьера",
         "switzerland.title": "Швейцария",
-        "switzerland.tagline": "Эксклюзивные пентхаусы с панорамным видом на Lake Geneva и Альпы - открыты для международных покупателей.",
-        "switzerland.count": "3 свойства онлайн",
+        "switzerland.tagline": "Эксклюзивные пентхаусы с панорамным видом на Женевское озеро и Альпы - открыты для международных покупателей.",
+        "switzerland.count": "3 объекта онлайн",
         "azerbaijan.label": "Каспийское побережье",
         "azerbaijan.title": "Азербайджан",
-        "azerbaijan.tagline": "Брендовые апартаменты с обслуживанием на побережье Caspian Sea - гарантированная доходность до 15% в год.",
-        "azerbaijan.count": "1 недвижимость онлайн",
+        "azerbaijan.tagline": "Брендовые апартаменты с обслуживанием на побережье Каспийского моря - гарантированная доходность до 15% в год.",
+        "azerbaijan.count": "1 объект онлайн",
         "thailand.label": "Юго-Восточная Азия",
         "thailand.title": "Таиланд",
-        "thailand.tagline": "Жизнь в курортном стиле в Phuket - от готовых единиц с урожаем 8-12% до меблированных тропических резиденций.",
-        "thailand.count": "2 свойства онлайн 2 properties online",
+        "thailand.tagline": "Жизнь в курортном стиле в Phuket - от готовых объектов с доходностью 8-12% до меблированных тропических резиденций.",
+        "thailand.count": "2 объекта онлайн",
         "why.label": "Наше преимущество",
         "why.title": "Почему это Smart Deals",
         "why.subtitle": "Каждая недвижимость в этой коллекции была оценена на реальную стоимость и инвестиционную ценность.",
@@ -1956,12 +1918,12 @@ const I18N_DICT = {
         "benefit.early.text": "Доступ к запасам до запуска по цене ниже общедоступной цены запуска - обеспечить предпочтительные единицы перед общим рынком.",
         "benefit.offmarket.metric": "Закрыто",
         "benefit.offmarket.title": "Эксклюзивные off-market",
-        "benefit.offmarket.text": "Дискретные возможности, не публично зарегистрированные - доступ, основанный на отношениях, с ценообразованием или условиями, недоступными на открытом рынке.",
+        "benefit.offmarket.text": "Конфиденциальные предложения, не размещённые публично - доступ, основанный на отношениях, с ценообразованием или условиями, недоступными на открытом рынке.",
         "how.label": "Наш процесс",
         "how.title": "Как мы помогаем инвестировать",
         "how.intro": "Smart Deals Global - это полнофункциональное брокерское агентство по недвижимости, которое работает на нескольких глобальных рынках, помогая вам с уверенностью находить, вести переговоры и обеспечивать лучшие сделки с недвижимым имуществом.",
         "how.step1.title": "Консультация",
-        "how.step1.text": "Мы понимаем ваш бюджет, цели и профиль риска.",
+        "how.step1.text": "Запишитесь на бесплатную консультацию. Мы изучим ваш бюджет, цели и профиль риска.",
         "how.step2.title": "Кураторский шортлист",
         "how.step2.text": "Получите 3-5 специально отобранных объектов, соответствующих вашим критериям.",
         "how.step3.title": "Безупречная покупка",
@@ -1973,15 +1935,15 @@ const I18N_DICT = {
         "faq.label": "Частые вопросы",
         "faq.title": "Часто задаваемые вопросы",
         "faq.q1.q": "Что такое Smart Deal?",
-        "faq.q1.a": "Smart Deal - это недвижимость, которая была оценена и отобрана за то, что предлагает подлинное преимущество стоимости - будь то ценообразование ниже рыночных сопоставимых, гибкие условия оплаты, высокий потенциал доходности от аренды или ранний доступ к запасам до запуска.Каждый список в нашей коллекции отвечает по крайней мере одному из наших шести критериев стоимости.",
+        "faq.q1.a": "Smart Deal - это недвижимость, которая была оценена и отобрана за то, что предлагает подлинное преимущество стоимости - будь то ценообразование ниже рыночных сопоставимых, гибкие условия оплаты, высокий потенциал доходности от аренды или ранний доступ к запасам до запуска. Каждый объект в нашей коллекции отвечает по крайней мере одному из наших шести критериев стоимости.",
         "faq.q2.q": "Могут ли иностранцы покупать недвижимость в Дубае?",
         "faq.q2.a": "Да. Иностранные граждане могут приобретать недвижимость в свободном владении в обозначенных районах Дубая, Абу-Даби и других эмиратов. Нет никаких ограничений на гражданство, а право собственности предоставляет возобновляемую визу на жительство для недвижимого имущества свыше AED 750 000.",
         "faq.q3.q": "Как работают планы оплаты для недвижимости вне плана?",
-        "faq.q3.a": "Планы внеплановых платежей варьируются в зависимости от застройщика.Обычные структуры включают 70/30 (70% во время строительства, 30% при передаче), 60/40, и 20/50/30.Некоторые разработчики предлагают расширенные планы после передачи до 5 лет.Мы обсуждаем наилучшие доступные условия от вашего имени.",
+        "faq.q3.a": "Планы внеплановых платежей варьируются в зависимости от застройщика. Обычные структуры включают 70/30 (70% во время строительства, 30% при передаче), 60/40 и 20/50/30. Некоторые застройщики предлагают расширенные планы после передачи до 5 лет. Мы обсуждаем наилучшие доступные условия от вашего имени.",
         "faq.q4.q": "Каких сборов я должен ожидать при покупке?",
-        "faq.q4.a": "В Дубае основными расходами являются 4% регистрационные сборы DLD (Dubai Land Department).Дополнительные расходы включают примерно 2% комиссионных за агентство, AED 4,000-5,000 для администраторов/попечителей, а также регистрацию ипотеки, если это применимо.Общие расходы на транзакцию обычно составляют 6-7% от стоимости недвижимости.",
+        "faq.q4.a": "В Дубае основными расходами являются 4% регистрационные сборы DLD (Dubai Land Department). Дополнительные расходы включают примерно 2% комиссионных за агентство, AED 4,000-5,000 для администраторов/попечителей, а также регистрацию ипотеки, если это применимо. Общие расходы на транзакцию обычно составляют 6-7% от стоимости недвижимости.",
         "faq.q5.q": "Вы взимаете какие-либо сборы за свои услуги?",
-        "faq.q5.a": "Наш консультативный сервис для покупателей является бесплатным. Мы получаем компенсацию со стороны разработчика или продавца сделки. Это означает, что вы получаете профессиональное руководство, анализ рынка и поддержку в переговорах без дополнительных затрат.",
+        "faq.q5.a": "Наш консультативный сервис для покупателей является бесплатным. Мы получаем компенсацию со стороны застройщика или продавца. Это означает, что вы получаете профессиональное руководство, анализ рынка и поддержку в переговорах без дополнительных затрат.",
         "finalcta.title": "Готовы сделать умный шаг?",
         "finalcta.subtitle": "Выберите, как вы хотите связаться с нашей командой.",
         "finalcta.whatsapp": "Мгновенный ответ",
