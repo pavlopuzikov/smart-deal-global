@@ -2,4 +2,23 @@ User-agent: *
 Allow: /
 Disallow: /properties/README.md
 
+# LLM / AI crawlers — welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://smartdeals.global/sitemap.xml
