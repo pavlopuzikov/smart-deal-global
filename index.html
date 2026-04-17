@@ -78,7 +78,23 @@
         person_profiles: 'identified_only',
         capture_pageview: true,
         capture_pageleave: true,
-        autocapture: true
+        autocapture: true,
+        capture_performance: { network_timing: true, web_vitals: true },
+        capture_dead_clicks: true,
+        enable_heatmaps: true,
+        session_recording: {
+            maskAllInputs: false,
+            maskInputOptions: { password: true },
+            recordCrossOriginIframes: false
+        },
+        property_denylist: [],
+        loaded: function(ph) {
+            ph.register_once({
+                site: 'smartdeals.global',
+                site_version: '2.0',
+                deploy_platform: 'netlify'
+            });
+        }
     });
     </script>
 </head>
@@ -782,6 +798,7 @@
     </script>
 
 
+    
     
     
     
