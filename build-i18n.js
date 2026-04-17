@@ -30,6 +30,132 @@ function extractDict(src) {
 
 const I18N_DICT = extractDict(JS_SRC);
 
+// Extract a top-level const array literal from main.js (same balanced-bracket approach as extractDict).
+function extractArray(src, varName) {
+    const marker = `const ${varName} = `;
+    const start = src.indexOf(marker);
+    if (start === -1) throw new Error(`${varName} not found in main.js`);
+    let i = src.indexOf('[', start);
+    let depth = 0;
+    for (; i < src.length; i++) {
+        const c = src[i];
+        if (c === '[') depth++;
+        else if (c === ']') { depth--; if (depth === 0) { i++; break; } }
+    }
+    const literal = src.slice(start + marker.length, i);
+    return new Function(`return ${literal};`)();
+}
+
+// Property arrays with their associated section hash and country for schema.org
+const PROPERTY_GROUPS = [
+    { key: 'readyProperties',       hash: '#ready',       country: 'AE', city: null },
+    { key: 'offplanProperties',     hash: '#offplan',     country: 'AE', city: null },
+    { key: 'monacoProperties',      hash: '#monaco',      country: 'MC', city: 'Monaco' },
+    { key: 'parisProperties',       hash: '#france',      country: 'FR', city: 'Paris' },
+    { key: 'switzerlandProperties', hash: '#switzerland', country: 'CH', city: null },
+    { key: 'azerbaijanProperties',  hash: '#azerbaijan',  country: 'AZ', city: 'Baku' },
+    { key: 'thailandProperties',    hash: '#thailand',    country: 'TH', city: null }
+];
+
+// Extract all property arrays from main.js
+const ALL_PROPERTIES = [];
+for (const group of PROPERTY_GROUPS) {
+    const props = extractArray(JS_SRC, group.key);
+    for (const p of props) {
+        ALL_PROPERTIES.push({ ...p, _hash: group.hash, _country: group.country, _defaultCity: group.city });
+    }
+}
+
+// Normalise price: readyProperties use smartPrice, offplanProperties use startingPrice, others use price
+function getPrice(p) {
+    return p.smartPrice || p.startingPrice || p.price || 0;
+}
+
+// Extract city from location string (first segment before comma, or the whole string)
+function getCity(p) {
+    if (p._defaultCity) return p._defaultCity;
+    const parts = p.location.split(',').map(s => s.trim());
+    // For Dubai properties, city is typically the last part
+    return parts[parts.length - 1] || parts[0];
+}
+
+// Parse numeric sqft from size string like "1,356 sqft" or "724+ sqft"
+function parseSqft(sizeStr) {
+    const cleaned = sizeStr.replace(/[,+]/g, '').replace(/\s*sqft\s*/i, '').trim();
+    return cleaned;
+}
+
+// Build the hidden SEO property listing HTML
+function buildSeoPropertiesHtml() {
+    const items = ALL_PROPERTIES.map(p => {
+        const price = getPrice(p);
+        const formatted = `${p.currency} ${price.toLocaleString('en-US')}`;
+        return `    <li>${esc(p.name)} &mdash; ${esc(p.location)} &mdash; ${esc(p.size)} &mdash; ${formatted}</li>`;
+    });
+    return [
+        '<!-- SEO: Pre-rendered property data for search engine crawlers -->',
+        '<div class="seo-properties" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">',
+        '  <h2>Properties Available</h2>',
+        '  <ul>',
+        ...items,
+        '  </ul>',
+        '</div>'
+    ].join('\n    ');
+}
+
+// Map ISO 3166-1 alpha-2 to country name for schema.org
+const COUNTRY_NAMES = {
+    AE: 'United Arab Emirates', MC: 'Monaco', FR: 'France',
+    CH: 'Switzerland', AZ: 'Azerbaijan', TH: 'Thailand'
+};
+
+// Build JSON-LD ItemList of RealEstateListing
+function buildPropertyJsonLd() {
+    const items = ALL_PROPERTIES.map((p, idx) => {
+        const price = getPrice(p);
+        const city = getCity(p);
+        const country = COUNTRY_NAMES[p._country] || p._country;
+        const sqft = parseSqft(p.size);
+        const listing = {
+            '@type': 'RealEstateListing',
+            'name': p.name,
+            'url': `${SITE}/${p._hash}`,
+            'description': p.smartReason || `${p.name} in ${p.location}`,
+            'offers': {
+                '@type': 'Offer',
+                'price': price,
+                'priceCurrency': p.currency
+            },
+            'address': {
+                '@type': 'PostalAddress',
+                'addressLocality': city,
+                'addressCountry': country
+            },
+            'floorSize': {
+                '@type': 'QuantitativeValue',
+                'value': sqft,
+                'unitCode': 'FTK'
+            },
+            'numberOfBedrooms': p.bedrooms,
+            'numberOfBathroomsTotal': p.bathrooms != null ? p.bathrooms : 0,
+            'image': `${SITE}/${p.image}`
+        };
+        return {
+            '@type': 'ListItem',
+            'position': idx + 1,
+            'item': listing
+        };
+    });
+
+    return JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'name': 'Smart Deals Global Property Collection',
+        'numberOfItems': ALL_PROPERTIES.length,
+        'itemListElement': items
+    }, null, 2);
+}
+
 const SEO_META = {
     en: {
         title: 'Smart Deals Global · Curated Real Estate in Dubai, Monaco & Paris',
@@ -74,6 +200,11 @@ const SEO_META = {
 };
 
 const SITE = 'https://smartdeals.global';
+
+// Pre-built SEO blocks (computed once, shared across all language variants)
+const SEO_PROPERTIES_HTML = buildSeoPropertiesHtml();
+const PROPERTY_JSONLD = buildPropertyJsonLd();
+
 const LANGS = ['en', 'ar', 'fr', 'ru'];
 const URL_FOR = { en: `${SITE}/`, ar: `${SITE}/ar/`, fr: `${SITE}/fr/`, ru: `${SITE}/ru/` };
 
@@ -186,6 +317,21 @@ function build(lang) {
     );
     const placesBlock = `\n    <script type="application/ld+json">\n${buildPlacesJsonLd()}\n    </script>\n`;
     html = html.replace('</body>', placesBlock + '</body>');
+
+    // 11b. Inject pre-rendered property data (hidden div) for search engine crawlers.
+    //      Idempotent: strip any existing seo-properties block before re-inserting.
+    html = html.replace(/\n?\s*<!-- SEO: Pre-rendered property data[\s\S]*?<\/div>\s*/g, '');
+    const seoPropsBlock = `\n    ${SEO_PROPERTIES_HTML}\n`;
+    html = html.replace('</body>', seoPropsBlock + '</body>');
+
+    // 11c. Inject RealEstateListing JSON-LD ItemList.
+    //      Idempotent: strip any existing Property Collection JSON-LD block first.
+    html = html.replace(
+        /<script type="application\/ld\+json">([\s\S]*?)<\/script>\s*/g,
+        (whole, body) => /Smart Deals Global Property Collection/.test(body) ? '' : whole
+    );
+    const propertyJsonLdBlock = `\n    <script type="application/ld+json">\n${PROPERTY_JSONLD}\n    </script>\n`;
+    html = html.replace('</body>', propertyJsonLdBlock + '</body>');
 
     // 12. Pre-render data-i18n (single-line text) and data-i18n-html (may contain inline tags)
     html = html.replace(

@@ -131,16 +131,45 @@
 
     // ── 5. PROPERTY ENQUIRY TRACKING ──────────────────────────────
     // Tracks property card "Enquire" button clicks.
+    // Also identifies the user (once per session) and sets person properties.
     function initEnquiryTracking() {
         document.addEventListener('click', function (e) {
             if (!ready()) return;
             var btn = e.target.closest('.btn--card[data-property]');
             if (!btn) return;
 
+            var propertyName = btn.dataset.property || '';
+            var propertySection = btn.dataset.section || '';
+
+            // ── User identification (once per session) ──
+            if (!sessionStorage.getItem('sdg_identified')) {
+                var existingId = sessionStorage.getItem('sdg_session_id');
+                if (!existingId) {
+                    var hex = '';
+                    for (var i = 0; i < 8; i++) {
+                        hex += Math.floor(Math.random() * 16).toString(16);
+                    }
+                    existingId = 'sdg_' + hex;
+                    sessionStorage.setItem('sdg_session_id', existingId);
+                }
+                ph().identify(existingId);
+                sessionStorage.setItem('sdg_identified', '1');
+            }
+
+            // ── Person properties on every enquiry ──
+            var enquiryCount = parseInt(sessionStorage.getItem('sdg_enquiries') || '0', 10) + 1;
+            sessionStorage.setItem('sdg_enquiries', String(enquiryCount));
+            ph().setPersonProperties({
+                preferred_language: document.documentElement.lang || 'en',
+                last_property_viewed: propertyName,
+                last_market_viewed: propertySection,
+                enquiry_count: enquiryCount
+            });
+
             ph().capture('property_enquiry_clicked', {
-                property_name: btn.dataset.property || '',
+                property_name: propertyName,
                 property_location: btn.dataset.location || '',
-                property_section: btn.dataset.section || '',
+                property_section: propertySection,
                 page_language: document.documentElement.lang || 'en'
             });
         }, true);
@@ -265,12 +294,92 @@
         }
     }
 
+    // ── 8. MARKET GROUP ANALYTICS ──────────────────────────────────
+    // Detects which market section the user scrolls into first and
+    // registers them into a PostHog group for that market.
+    function initMarketGroupTracking() {
+        if (!ready()) return;
+        if (sessionStorage.getItem('sdg_market_grouped')) return;
+
+        // Map section IDs to market metadata
+        var marketMap = {
+            'ready':        { name: 'Dubai Ready',       country: 'UAE' },
+            'offplan':      { name: 'Dubai Off-Plan',    country: 'UAE' },
+            'monaco':       { name: 'Monaco',            country: 'Monaco' },
+            'france':       { name: 'France',            country: 'France' },
+            'switzerland':  { name: 'Switzerland',       country: 'Switzerland' },
+            'azerbaijan':   { name: 'Azerbaijan',        country: 'Azerbaijan' },
+            'thailand':     { name: 'Thailand',          country: 'Thailand' }
+        };
+
+        var sectionIds = Object.keys(marketMap);
+        var targets = [];
+        for (var i = 0; i < sectionIds.length; i++) {
+            var el = document.getElementById(sectionIds[i]);
+            if (el) targets.push(el);
+        }
+
+        if (targets.length === 0) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            for (var j = 0; j < entries.length; j++) {
+                if (!entries[j].isIntersecting) continue;
+
+                var sectionId = entries[j].target.id;
+                var info = marketMap[sectionId];
+                if (!info) continue;
+
+                // Fire once per session then disconnect
+                ph().group('market', info.name, {
+                    country: info.country,
+                    section_id: sectionId
+                });
+                sessionStorage.setItem('sdg_market_grouped', '1');
+                observer.disconnect();
+                return;
+            }
+        }, { threshold: 0.3 });
+
+        for (var k = 0; k < targets.length; k++) {
+            observer.observe(targets[k]);
+        }
+    }
+
+    // ── 9. SESSION CONTEXT ENRICHMENT ────────────────────────────────
+    // Registers session-level super properties so every event in this
+    // session carries viewport, device, language, and referrer info.
+    function initSessionContext() {
+        if (!ready()) return;
+
+        var referrerDomain = 'direct';
+        if (document.referrer) {
+            try {
+                referrerDomain = new URL(document.referrer).hostname;
+            } catch (_) {
+                referrerDomain = 'unknown';
+            }
+        }
+
+        var vw = window.innerWidth;
+        var deviceType = vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop';
+
+        ph().register_for_session({
+            viewport_width: vw,
+            viewport_height: window.innerHeight,
+            device_type: deviceType,
+            page_language: document.documentElement.lang || 'en',
+            referrer_domain: referrerDomain,
+            entry_time: new Date().toISOString()
+        });
+    }
+
     // ── INIT ──────────────────────────────────────────────────────
     function initAllTracking() {
         if (!ready()) {
             // PostHog not loaded or placeholder key — skip silently
             return;
         }
+        initSessionContext();
         initCampaignTracking();
         initButtonTracking();
         initScrollDepthTracking();
@@ -278,6 +387,7 @@
         initFormTracking();
         initEnquiryTracking();
         initHeroABTest();
+        initMarketGroupTracking();
     }
 
     // PostHog loads async — wait for it, but don't block the page
