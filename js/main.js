@@ -295,15 +295,17 @@ const offplanProperties = [
 ];
 
 const markets = [
+    // — Active listings first (sorted by property count descending) —
     { country: "UAE", cities: ["Dubai", "Abu Dhabi", "Ras Al-Khaimah"], image: "images/markets/dubai.jpg", propertyCount: 19, sectionId: "#ready", coords: [25.2, 55.3] },
     { country: "Monaco", cities: ["Monte Carlo", "La Rousse", "Moneghetti"], image: "images/monaco-hero.jpg", propertyCount: 7, sectionId: "#monaco", coords: [43.7, 7.4] },
-    { country: "France", cities: ["Paris"], image: "images/paris-hero.jpg", propertyCount: 2, sectionId: "#france", coords: [48.9, 2.3] },
     { country: "Switzerland", cities: ["Montreux", "Veytaux"], image: "images/switzerland-hero.jpg", propertyCount: 3, sectionId: "#switzerland", coords: [46.4, 6.9] },
-    { country: "KSA", cities: ["Jeddah", "Riyadh"], image: "images/markets/jeddah.jpg", propertyCount: 0, sectionId: null, coords: [21.5, 39.2] },
-    { country: "Oman", cities: ["Muscat"], image: "images/markets/muscat.jpg", propertyCount: 0, sectionId: null, coords: [23.6, 58.5] },
+    { country: "France", cities: ["Paris"], image: "images/paris-hero.jpg", propertyCount: 2, sectionId: "#france", coords: [48.9, 2.3] },
     { country: "Thailand", cities: ["Bangkok", "Phuket"], image: "images/thailand-hero.jpg", propertyCount: 2, sectionId: "#thailand", coords: [13.7, 100.5] },
-    { country: "Indonesia", cities: ["Bali"], image: "images/markets/bali.jpg", propertyCount: 0, sectionId: null, coords: [-8.4, 115.2] },
     { country: "Azerbaijan", cities: ["Baku"], image: "images/azerbaijan-hero.jpg", propertyCount: 1, sectionId: "#azerbaijan", coords: [40.4, 49.9] },
+    // — Coming soon —
+    { country: "KSA", cities: ["Jeddah", "Riyadh"], image: "images/markets/jeddah.jpg", propertyCount: 0, sectionId: null, coords: [21.5, 39.2] },
+    { country: "Indonesia", cities: ["Bali"], image: "images/markets/bali.jpg", propertyCount: 0, sectionId: null, coords: [-8.4, 115.2] },
+    { country: "Oman", cities: ["Muscat"], image: "images/markets/muscat.jpg", propertyCount: 0, sectionId: null, coords: [23.6, 58.5] },
     { country: "Georgia", cities: ["Batumi"], image: "images/markets/batumi.jpg", propertyCount: 0, sectionId: null, coords: [41.7, 41.7] }
 ];
 
@@ -524,14 +526,28 @@ function getWhatsAppLink(propertyName, location, price, currency) {
 function renderFeaturedDeal() {
     const wrapper = document.getElementById('featured-deal-card');
     if (!wrapper) return;
-    // Find the property with the highest discount
+    // Build pool of deals with discounts, sorted best-first
     const enriched = readyProperties.map(p => {
         const disc = p.discount || (p.originalPrice && p.smartPrice ? Math.round((p.originalPrice - p.smartPrice) / p.originalPrice * 100) : null);
         return { ...p, discount: disc };
     }).filter(p => p.discount);
     if (enriched.length === 0) return;
     enriched.sort((a, b) => (b.discount || 0) - (a.discount || 0));
-    const p = enriched[0];
+
+    // A/B rotation: cycle through top 3 deals daily
+    const pool = enriched.slice(0, 3);
+    const dayIndex = Math.floor(Date.now() / 86400000) % pool.length;
+    const p = pool[dayIndex];
+
+    // Track which featured deal was shown
+    if (window.posthog) {
+        window.posthog.capture('featured_deal_shown', {
+            deal_name: p.name,
+            deal_discount: p.discount,
+            rotation_index: dayIndex,
+            pool_size: pool.length
+        });
+    }
     wrapper.innerHTML = `
         <div class="featured-deal__image">
             ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : ''}
@@ -1467,7 +1483,7 @@ const I18N_DICT = {
         "thailand.count": "2 properties online",
         "why.label": "Our Edge",
         "why.title": "Why These Are Smart Deals",
-        "why.subtitle": "Every property in this collection has been evaluated for real value and investment merit.",
+        "why.subtitle": "Each listing passes at least one of six criteria before entering the collection.",
         "benefit.price.title": "Best Price",
         "benefit.price.text": "Pricing advantage vs recent comparables - among the best-priced units in each segment with clear negotiation leverage.",
         "benefit.growth.metric": "Growth",
@@ -1637,7 +1653,7 @@ const I18N_DICT = {
         "thailand.count": "2 عقاران متاحان",
         "why.label": "ما يميزنا",
         "why.title": "لماذا هذه صفقات ذكية",
-        "why.subtitle": "تم تقييم كل عقار في هذه المجموعة من أجل القيمة الحقيقية وقيمة الاستثمار.",
+        "why.subtitle": "يجتاز كل عقار واحدًا على الأقل من ستة معايير قبل دخوله المجموعة.",
         "benefit.price.title": "أفضل سعر",
         "benefit.price.text": "ميزة التسعير مقابل المقارنات الأخيرة - من بين أفضل وحدات الأسعار في كل قطاع مع رافعة مالية واضحة للتفاوض.",
         "benefit.growth.metric": "نمو",
@@ -1793,7 +1809,7 @@ const I18N_DICT = {
         "thailand.count": "2 propriétés en ligne",
         "why.label": "Notre Atout",
         "why.title": "Pourquoi ce sont des Smart Deals",
-        "why.subtitle": "Chaque propriété de cette collection a été évaluée en termes de valeur réelle et de mérite d'investissement.",
+        "why.subtitle": "Chaque bien répond à au moins un de nos six critères avant d'intégrer la collection.",
         "benefit.price.title": "Meilleur Prix",
         "benefit.price.text": "Avantage tarifaire par rapport aux transactions récentes - parmi les unités les mieux tarifées de chaque segment, avec un levier de négociation clair.",
         "benefit.growth.metric": "Croissance",
@@ -1949,7 +1965,7 @@ const I18N_DICT = {
         "thailand.count": "2 объекта онлайн",
         "why.label": "Наше преимущество",
         "why.title": "Почему это Smart Deals",
-        "why.subtitle": "Каждая недвижимость в этой коллекции была оценена на реальную стоимость и инвестиционную ценность.",
+        "why.subtitle": "Каждый объект проходит минимум один из шести критериев, прежде чем попасть в коллекцию.",
         "benefit.price.title": "Лучшая цена",
         "benefit.price.text": "Ценовое преимущество относительно недавних сделок - одни из самых выгодно оценённых объектов в каждом сегменте, с понятным рычагом для торга.",
         "benefit.growth.metric": "Рост",
