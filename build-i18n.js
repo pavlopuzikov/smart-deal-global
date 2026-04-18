@@ -100,6 +100,7 @@ function buildSeoPropertiesHtml() {
         '  <ul>',
         ...items,
         '  </ul>',
+        '  <p>Smart Deals Global is a Dubai-based real estate advisory offering curated property deals and distress deals across 10 global markets including Dubai, Abu Dhabi, Monaco, Paris, Switzerland, Thailand, and Azerbaijan. Our April 2026 Dubai secondary market collection averages 12-15% below DLD comparable transaction values. Off-plan payment plans include 70/30, 60/40, and 20/50/30 structures with up to 5-year post-handover options. Advisory is free for buyers &mdash; we are compensated by the developer or seller side. Contact via WhatsApp: +971 55 957 9113.</p>',
         '</div>'
     ].join('\n    ');
 }
@@ -235,6 +236,54 @@ function buildPlacesJsonLd() {
     }, null, 2);
 }
 
+// Map market cities to their relevant section hashes and ISO country codes
+const MARKET_DETAILS = {
+    'Dubai':       { hash: '#ready',       countryCode: 'AE' },
+    'Abu Dhabi':   { hash: '#ready',       countryCode: 'AE' },
+    'Monte Carlo': { hash: '#monaco',      countryCode: 'MC' },
+    'Paris':       { hash: '#france',      countryCode: 'FR' },
+    'Montreux':    { hash: '#switzerland', countryCode: 'CH' },
+    'Phuket':      { hash: '#thailand',    countryCode: 'TH' },
+    'Baku':        { hash: '#azerbaijan',  countryCode: 'AZ' }
+};
+
+// Build LocalBusiness (RealEstateAgent) JSON-LD for each market
+function buildLocalBusinessJsonLd() {
+    const items = MARKETS.map((m, i) => {
+        const detail = MARKET_DETAILS[m.name] || { hash: '', countryCode: '' };
+        return {
+            '@type': 'ListItem',
+            'position': i + 1,
+            'item': {
+                '@type': 'RealEstateAgent',
+                'name': `Smart Deals Global \u2014 ${m.name}`,
+                'address': {
+                    '@type': 'PostalAddress',
+                    'addressLocality': m.name,
+                    'addressCountry': detail.countryCode
+                },
+                'geo': {
+                    '@type': 'GeoCoordinates',
+                    'latitude': m.lat,
+                    'longitude': m.lng
+                },
+                'url': `${SITE}/${detail.hash}`,
+                'telephone': '+971559579113',
+                'knowsLanguage': ['en', 'ar', 'fr', 'ru']
+            }
+        };
+    });
+
+    return JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'name': 'Smart Deals Global Market Offices',
+        'itemListElement': items
+    }, null, 2);
+}
+
+const LOCAL_BUSINESS_JSONLD = buildLocalBusinessJsonLd();
+
 function esc(s) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 function jsonEsc(s) { return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"'); }
 
@@ -325,6 +374,12 @@ function build(lang) {
     const seoPropsBlock = `\n    ${SEO_PROPERTIES_HTML}\n`;
     html = html.replace('</body>', seoPropsBlock + '</body>');
 
+    // 11b½. Update article:modified_time to build date
+    html = html.replace(
+        /<meta property="article:modified_time" content="[^"]*">/,
+        `<meta property="article:modified_time" content="${new Date().toISOString()}">`
+    );
+
     // 11c. Inject RealEstateListing JSON-LD ItemList.
     //      Idempotent: strip any existing Property Collection JSON-LD block first.
     html = html.replace(
@@ -333,6 +388,15 @@ function build(lang) {
     );
     const propertyJsonLdBlock = `\n    <script type="application/ld+json">\n${PROPERTY_JSONLD}\n    </script>\n`;
     html = html.replace('</body>', propertyJsonLdBlock + '</body>');
+
+    // 11d. Inject LocalBusiness (RealEstateAgent) JSON-LD for each market.
+    //      Idempotent: strip any existing Market Offices JSON-LD block first.
+    html = html.replace(
+        /<script type="application\/ld\+json">([\s\S]*?)<\/script>\s*/g,
+        (whole, body) => /Smart Deals Global Market Offices/.test(body) ? '' : whole
+    );
+    const localBusinessBlock = `\n    <script type="application/ld+json">\n${LOCAL_BUSINESS_JSONLD}\n    </script>\n`;
+    html = html.replace('</body>', localBusinessBlock + '</body>');
 
     // 12. Pre-render data-i18n (single-line text) and data-i18n-html (may contain inline tags)
     html = html.replace(
