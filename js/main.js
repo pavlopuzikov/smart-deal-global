@@ -42,7 +42,7 @@ const readyProperties = [
         discount: 23,
         currency: "AED",
         whySmart: ["best-price", "high-rental"],
-        smartReason: "High ROI: rental income AED 90-100K/yr. Original price was 1.6M. 5-star hotel services & amenities."
+        smartReason: "High ROI: rental income AED 90-100K/yr. 5-star hotel services & amenities. 23% below original asking."
     },
     {
         name: "La Cote Tower 2",
@@ -71,10 +71,10 @@ const readyProperties = [
         discount: 9,
         currency: "AED",
         whySmart: ["high-appreciation"],
-        smartReason: "Burj Khalifa view. High floor. Handover Q4 2026. Payment plan 40/60."
+        smartReason: "Burj Khalifa view. High floor. Brand-new condition. 9% below original asking."
     },
     {
-        name: "Damac Lagoons — Nice",
+        name: "Damac Lagoons, Nice",
         location: "Damac Lagoons, Dubai",
         image: "properties/ready/ready-4.jpg",
         size: "1,550 sqft",
@@ -85,7 +85,7 @@ const readyProperties = [
         discount: 5,
         currency: "AED",
         whySmart: ["best-price"],
-        smartReason: "Close to lagoon. 50/50 payment plan. Double-glazed windows throughout."
+        smartReason: "Lagoon-front townhouse. Double-glazed windows throughout. 5% below comparable sales."
     },
     {
         name: "Residence 5704",
@@ -97,7 +97,7 @@ const readyProperties = [
         smartPrice: 19950000,
         currency: "AED",
         whySmart: ["off-market"],
-        smartReason: "Only apartment in the building with 180° unobstructed views — Palm Jumeirah, Bluewaters, Marina skyline. 57th floor, fully reimagined."
+        smartReason: "Only apartment in the building with 180° unobstructed views: Palm Jumeirah, Bluewaters, Marina skyline. 57th floor, fully reimagined."
     },
     {
         name: "Véla Penthouse",
@@ -121,7 +121,7 @@ const readyProperties = [
         smartPrice: 9000000,
         currency: "AED",
         whySmart: ["ready-value"],
-        smartReason: "Full sea & Burj Khalifa view. Fully upgraded + furnished. Huge terrace & 2 balconies. Plot: 3,422 sqft."
+        smartReason: "Full sea & Burj Khalifa view. Fully upgraded + furnished. Huge terrace & 2 balconies. Total area: 3,422 sqft."
     },
     {
         name: "Bvlgari Resort Residences",
@@ -145,7 +145,7 @@ const readyProperties = [
         smartPrice: 8500000,
         currency: "AED",
         whySmart: ["ready-value", "high-appreciation"],
-        smartReason: "Townhouse with sea & Burj Khalifa view. Fully upgraded + furnished. Vacant. Plot: 3,346 sqft."
+        smartReason: "Townhouse with sea & Burj Khalifa view. Fully upgraded + furnished. Vacant. Total area: 3,346 sqft."
     },
     {
         name: "Damac Bays Edge",
@@ -2170,7 +2170,7 @@ const I18N_DICT = {
         "hero.whatsapp": "Написать в WhatsApp",
         "how.cta": "Начать с шага 1",
         "proof.label": "Результаты клиентов",
-        "proof.q1": "\"Приобрели квартиру в Dubai Marina на 18% ниже сопоставимой стоимости сделки DLD. Команда взяла на себя всё — от просмотра до оформления.\"",
+        "proof.q1": "\"Приобрели квартиру в Dubai Marina на 18% ниже сопоставимой стоимости сделки DLD. Команда взяла на себя всё, от просмотра до оформления.\"",
         "proof.c1": "Инвестор, Dubai Marina",
         "proof.q2": "\"Нашли объект off-plan с планом оплаты 60/40, который не предлагал ни один другой агент. Сэкономили более 200 000 AED на 2-комнатной в Creek Harbour.\"",
         "proof.c2": "Первый покупатель, Дубай",
