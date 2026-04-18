@@ -963,6 +963,7 @@ h1, h2, h3, h4 {
     :root { --section-pad: var(--section-pad-sm); --navbar-h: 64px; }
 
     .navbar__hamburger { display: flex; }
+    .logo-text { font-size: 1.15rem; }
     .navbar__links {
         position: fixed;
         top: 0;
@@ -3449,6 +3450,7 @@ section[id] { scroll-margin-top: calc(var(--navbar-h) + 12px); }
 /* Ultra-narrow (iPhone SE 320-360px) final safety */
 @media (max-width: 360px) {
     :root { --container-pad: 1rem; }
+    .logo-text { font-size: 1.05rem; }
     .hero__title { font-size: clamp(2rem, 9vw, 2.5rem); }
     .section-title { font-size: clamp(1.45rem, 6.5vw, 1.9rem); }
     .contact-option { padding: 0.9rem 1.25rem; }
