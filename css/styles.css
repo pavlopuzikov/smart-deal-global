@@ -2381,6 +2381,81 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================
+   SOCIAL PROOF
+   ============================================ */
+.social-proof {
+    padding: 3rem 0;
+    background: var(--color-bg);
+}
+
+.social-proof .section-label {
+    display: block;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.social-proof__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.social-proof__quote {
+    padding: 1.5rem;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-white);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.social-proof__quote p {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+}
+
+.social-proof__quote cite {
+    font-size: 0.78rem;
+    font-style: normal;
+    color: var(--color-accent);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+/* ============================================
+   FINAL CTA TRUST INDICATORS
+   ============================================ */
+.final-cta__trust {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.final-cta__trust span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.final-cta__trust i {
+    color: var(--color-accent);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .social-proof__grid { grid-template-columns: 1fr; }
+    .final-cta__trust { flex-direction: column; align-items: center; gap: 0.75rem; }
+}
+
+/* ============================================
    TRUST SECTION
    ============================================ */
 .trust-section {

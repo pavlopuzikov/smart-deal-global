@@ -509,8 +509,11 @@ function formatPrice(amount, currency) {
     return `${currency} ${amount.toLocaleString('en-US')}`;
 }
 
-function getWhatsAppLink(propertyName, location) {
-    const msg = `Hi, I'm interested in: ${propertyName} (${location}). Could you share more details?`;
+function getWhatsAppLink(propertyName, location, price, currency) {
+    const lang = document.documentElement.lang || 'en';
+    const langLabel = lang === 'ar' ? 'أتحدث العربية' : lang === 'fr' ? 'Je parle français' : lang === 'ru' ? 'Я говорю по-русски' : 'I speak English';
+    const priceStr = price && currency ? ` at ${currency} ${Number(price).toLocaleString('en-US')}` : '';
+    const msg = `Hi, I'm interested in: ${propertyName} (${location})${priceStr}. ${langLabel}. Could you share more details?`;
     return `${WHATSAPP_BASE}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -1557,7 +1560,21 @@ const I18N_DICT = {
         "tag.readyValue": "Ready Value",
         "tag.earlyAccess": "Early Access",
         "tag.offMarket": "Off-Market",
-        "backToMarkets": "Back to markets"
+        "backToMarkets": "Back to markets",
+        "hero.whatsapp": "Chat on WhatsApp",
+        "how.cta": "Start with Step 1",
+        "proof.label": "Client Results",
+        "proof.q1": "\"Secured a Dubai Marina apartment 18% below the comparable DLD transaction value. The team handled everything from viewing to transfer.\"",
+        "proof.c1": "Investor, Dubai Marina",
+        "proof.q2": "\"Found an off-plan unit with a 60/40 payment plan that no other agent offered. Saved over AED 200,000 on a 2-bedroom in Creek Harbour.\"",
+        "proof.c2": "First-time buyer, Dubai",
+        "proof.q3": "\"Bought a Monaco studio through Smart Deals that was 12% below asking. Multilingual support made the cross-border process seamless.\"",
+        "proof.c3": "International investor, Monaco",
+        "finalcta.subtitle2": "Start your property search in under 2 minutes.",
+        "finalcta.mainBtn": "Chat with Our Team",
+        "finalcta.trust1": "No buyer fees",
+        "finalcta.trust2": "Multilingual team",
+        "finalcta.trust3": "Same-day response"
     },
     "ar": {
         "nav.properties": "العقارات",
