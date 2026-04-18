@@ -12,7 +12,7 @@
     <meta name="author" content="Smart Deals Global">
     <meta name="publisher" content="Smart Deals Global">
     <meta name="google-site-verification" content="ltMYyYgKgEeoUhyRN-ROG6e3-6767QVy5FWM-FGHD9c">
-    <meta property="article:modified_time" content="2026-04-18T12:02:28.062Z">
+    <meta property="article:modified_time" content="2026-04-18T13:21:40.159Z">
     <title>Smart Deals Global · Кураторская недвижимость и срочные сделки в Дубае, Монако и Париже</title>
 
     <!-- Open Graph -->
@@ -57,11 +57,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://us.i.posthog.com" crossorigin>
 
-    <!-- Google Fonts -->
+    <!-- Critical inline CSS: prevent FOUC while external sheets load -->
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#fff;color:#1a1a2e;overflow-x:hidden}
+        .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#1a1a2e}
+        .hero__bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+        .hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,26,46,.82),rgba(26,26,46,.65))}
+        .hero__content{position:relative;z-index:2;color:#fff;text-align:center}
+        .container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+        .reveal{opacity:0;transform:translateY(30px)}
+        .loading-screen{position:fixed;inset:0;z-index:9999;background:#1a1a2e;display:flex;align-items:center;justify-content:center;color:#c8a96e}
+    </style>
+
+    <!-- Google Fonts (non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="canonical" href="https://smartdeals.global/">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 
     <!-- GEO Tags -->
     <meta name="geo.region" content="AE-DU">
@@ -72,8 +85,9 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Font Awesome (non-blocking, icons are progressive enhancement) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/styles.css">
