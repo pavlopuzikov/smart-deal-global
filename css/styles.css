@@ -61,7 +61,10 @@ body {
 }
 html::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Edge */
+}
+html {
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }

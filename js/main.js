@@ -1327,18 +1327,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="property-modal__location"><i class="fa-solid fa-location-dot"></i> ${p.location}</p>
                 <div class="property-modal__details">
                     <span><i class="fa-solid fa-ruler-combined"></i> ${p.size}</span>
-                    ${p.bedrooms != null ? `<span><i class="fa-solid fa-bed"></i> ${p.bedrooms === 0 ? 'Studio' : p.bedrooms + ' bed'}</span>` : ''}
-                    ${p.bathrooms != null ? `<span><i class="fa-solid fa-bath"></i> ${p.bathrooms} bath</span>` : ''}
+                    ${p.bedrooms != null ? `<span><i class="fa-solid fa-bed"></i> ${p.bedrooms === 0 ? t('card.studio') : p.bedrooms + ' ' + t('card.bed')}</span>` : ''}
+                    ${p.bathrooms != null ? `<span><i class="fa-solid fa-bath"></i> ${p.bathrooms} ${t('card.bath')}</span>` : ''}
                 </div>
                 ${p.smartReason ? `<p class="property-modal__reason">${p.smartReason}</p>` : ''}
                 <div class="property-modal__pricing">
                     ${origPrice ? `<span class="property-modal__original">${formatPrice(origPrice, p.currency)}</span>` : ''}
                     <span class="property-modal__price">${formatPrice(price, p.currency)}</span>
                 </div>
-                ${p.paymentPlan ? `<p style="font-size:0.85rem;color:var(--color-text-light);margin-bottom:1rem"><i class="fa-solid fa-money-bill-wave" style="color:var(--color-accent);margin-right:0.3rem"></i> Payment Plan: ${p.paymentPlan}</p>` : ''}
-                ${p.completion ? `<p style="font-size:0.85rem;color:var(--color-text-light);margin-bottom:1.5rem"><i class="fa-regular fa-calendar" style="color:var(--color-accent);margin-right:0.3rem"></i> Completion: ${p.completion}</p>` : ''}
+                ${p.paymentPlan ? `<p style="font-size:0.85rem;color:var(--color-text-light);margin-bottom:1rem"><i class="fa-solid fa-money-bill-wave" style="color:var(--color-accent);margin-right:0.3rem"></i> ${t('modal.paymentPlan')}: ${p.paymentPlan}</p>` : ''}
+                ${p.completion ? `<p style="font-size:0.85rem;color:var(--color-text-light);margin-bottom:1.5rem"><i class="fa-regular fa-calendar" style="color:var(--color-accent);margin-right:0.3rem"></i> ${t('modal.completion')}: ${p.completion}</p>` : ''}
                 <a href="${getWhatsAppLink(p.name, p.location)}" class="btn btn--primary property-modal__cta" target="_blank" rel="noopener noreferrer">
-                    Enquire About This Property <i class="fa-brands fa-whatsapp"></i>
+                    ${t('modal.enquire')} <i class="fa-brands fa-whatsapp"></i>
                 </a>
             </div>
         `;
@@ -1590,7 +1590,10 @@ const I18N_DICT = {
         "finalcta.mainBtn": "Chat with Our Team",
         "finalcta.trust1": "No buyer fees",
         "finalcta.trust2": "Multilingual team",
-        "finalcta.trust3": "Same-day response"
+        "finalcta.trust3": "Same-day response",
+        "modal.paymentPlan": "Payment Plan",
+        "modal.completion": "Completion",
+        "modal.enquire": "Enquire About This Property"
     },
     "ar": {
         "nav.properties": "العقارات",
@@ -1746,7 +1749,24 @@ const I18N_DICT = {
         "tag.readyValue": "قيمة جاهزة",
         "tag.earlyAccess": "وصول مبكر",
         "tag.offMarket": "خارج السوق",
-        "backToMarkets": "العودة إلى الأسواق"
+        "backToMarkets": "العودة إلى الأسواق",
+        "hero.whatsapp": "تواصل عبر واتساب",
+        "how.cta": "ابدأ بالخطوة الأولى",
+        "proof.label": "نتائج العملاء",
+        "proof.q1": "\"حصلت على شقة في دبي مارينا بخصم 18% عن سعر المعاملات المقارنة. الفريق تولى كل شيء من المعاينة إلى النقل.\"",
+        "proof.c1": "مستثمر، دبي مارينا",
+        "proof.q2": "\"وجدت وحدة على الخريطة بخطة دفع 60/40 لم يقدمها أي وكيل آخر. وفرت أكثر من 200,000 درهم على غرفتين في خور دبي.\"",
+        "proof.c2": "مشتري لأول مرة، دبي",
+        "proof.q3": "\"اشتريت استوديو في موناكو عبر Smart Deals بخصم 12% عن السعر المطلوب. الدعم متعدد اللغات جعل العملية العابرة للحدود سلسة.\"",
+        "proof.c3": "مستثمر دولي، موناكو",
+        "finalcta.subtitle2": "ابدأ بحثك عن العقار في أقل من دقيقتين.",
+        "finalcta.mainBtn": "تواصل مع فريقنا",
+        "finalcta.trust1": "بدون رسوم على المشتري",
+        "finalcta.trust2": "فريق متعدد اللغات",
+        "finalcta.trust3": "رد في نفس اليوم",
+        "modal.paymentPlan": "خطة الدفع",
+        "modal.completion": "الإنجاز",
+        "modal.enquire": "استفسر عن هذا العقار"
     },
     "fr": {
         "nav.properties": "Propriétés",
@@ -1902,7 +1922,24 @@ const I18N_DICT = {
         "tag.readyValue": "Valeur Prête",
         "tag.earlyAccess": "Accès Anticipé",
         "tag.offMarket": "Hors Marché",
-        "backToMarkets": "Retour aux marchés"
+        "backToMarkets": "Retour aux marchés",
+        "hero.whatsapp": "Discuter sur WhatsApp",
+        "how.cta": "Commencer par l'étape 1",
+        "proof.label": "Résultats Clients",
+        "proof.q1": "\"J'ai obtenu un appartement à Dubai Marina 18% en dessous de la valeur de transaction comparable. L'équipe a tout géré, de la visite au transfert.\"",
+        "proof.c1": "Investisseur, Dubai Marina",
+        "proof.q2": "\"J'ai trouvé un bien sur plan avec un plan de paiement 60/40 qu'aucun autre agent ne proposait. Économie de plus de 200 000 AED sur un 2 pièces à Creek Harbour.\"",
+        "proof.c2": "Premier acheteur, Dubaï",
+        "proof.q3": "\"J'ai acheté un studio à Monaco via Smart Deals à 12% en dessous du prix demandé. Le support multilingue a rendu le processus transfrontalier fluide.\"",
+        "proof.c3": "Investisseur international, Monaco",
+        "finalcta.subtitle2": "Commencez votre recherche immobilière en moins de 2 minutes.",
+        "finalcta.mainBtn": "Discuter avec notre équipe",
+        "finalcta.trust1": "Sans frais acheteur",
+        "finalcta.trust2": "Équipe multilingue",
+        "finalcta.trust3": "Réponse le jour même",
+        "modal.paymentPlan": "Plan de paiement",
+        "modal.completion": "Livraison",
+        "modal.enquire": "Se renseigner sur ce bien"
     },
     "ru": {
         "nav.properties": "Объекты",
@@ -2058,7 +2095,24 @@ const I18N_DICT = {
         "tag.readyValue": "Готовая ценность",
         "tag.earlyAccess": "Ранний доступ",
         "tag.offMarket": "Off-Market",
-        "backToMarkets": "К списку рынков"
+        "backToMarkets": "К списку рынков",
+        "hero.whatsapp": "Написать в WhatsApp",
+        "how.cta": "Начать с шага 1",
+        "proof.label": "Результаты клиентов",
+        "proof.q1": "\"Приобрели квартиру в Dubai Marina на 18% ниже сопоставимой стоимости сделки DLD. Команда взяла на себя всё — от просмотра до оформления.\"",
+        "proof.c1": "Инвестор, Dubai Marina",
+        "proof.q2": "\"Нашли объект off-plan с планом оплаты 60/40, который не предлагал ни один другой агент. Сэкономили более 200 000 AED на 2-комнатной в Creek Harbour.\"",
+        "proof.c2": "Первый покупатель, Дубай",
+        "proof.q3": "\"Купили студию в Монако через Smart Deals на 12% ниже запрашиваемой цены. Мультиязычная поддержка сделала трансграничный процесс простым.\"",
+        "proof.c3": "Международный инвестор, Монако",
+        "finalcta.subtitle2": "Начните поиск недвижимости менее чем за 2 минуты.",
+        "finalcta.mainBtn": "Написать нашей команде",
+        "finalcta.trust1": "Без комиссии для покупателя",
+        "finalcta.trust2": "Мультиязычная команда",
+        "finalcta.trust3": "Ответ в тот же день",
+        "modal.paymentPlan": "План оплаты",
+        "modal.completion": "Сдача",
+        "modal.enquire": "Узнать об этом объекте"
     }
 };
 
