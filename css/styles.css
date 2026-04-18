@@ -227,6 +227,10 @@ h1, h2, h3, h4 {
     font-size: 0.9rem;
     letter-spacing: 0.01em;
     transition: color 0.3s;
+    padding: 0.75rem 0;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
 }
 .navbar--scrolled .navbar__links a { color: var(--color-text-light); }
 .navbar__links a:hover { color: var(--color-accent); }
