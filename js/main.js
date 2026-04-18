@@ -584,12 +584,18 @@ function renderReadyCards() {
     });
     // Sort by discount descending — best offers first
     enriched.sort((a, b) => (b.discount || 0) - (a.discount || 0));
-    wrapper.innerHTML = enriched.map(p => `
+    wrapper.innerHTML = enriched.map(p => {
+        const savings = p.originalPrice && p.smartPrice ? p.originalPrice - p.smartPrice : 0;
+        const urgencyTag = p.whySmart && p.whySmart.includes('off-market') ? t('urgency.exclusive')
+            : savings >= 200000 ? `${t('urgency.save')} ${formatPrice(savings, p.currency)}`
+            : '';
+        return `
         <div class="swiper-slide">
             <div class="property-card property-card--ready">
                 <div class="property-card__image">
                     ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
-                    ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}
+                    ${urgencyTag ? `<span class="property-card__urgency">${urgencyTag}</span>` : ''}
+                    ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}`;
                 </div>
                 ${p.whySmart ? renderWhySmartBadges(p.whySmart) : ''}
                 <div class="property-card__body">
@@ -616,7 +622,7 @@ function renderReadyCards() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 function renderOffplanCards() {
@@ -1285,6 +1291,53 @@ document.addEventListener('DOMContentLoaded', () => {
         heroObserver.observe(heroSection);
     }
 
+    // ---- STICKY MOBILE CTA BAR ----
+    const mobileCta = document.getElementById('mobile-cta-bar');
+    if (mobileCta && heroSection) {
+        const mobileCtaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                mobileCta.classList.toggle('mobile-cta-bar--visible', !entry.isIntersecting);
+            });
+        }, { threshold: 0.1 });
+        mobileCtaObserver.observe(heroSection);
+    }
+
+    // ---- ENGAGEMENT PROMPT (editorial, once per session at 60% scroll) ----
+    const engagePrompt = document.getElementById('engagement-prompt');
+    if (engagePrompt && !sessionStorage.getItem('sdg_engage_shown')) {
+        let engageFired = false;
+        const engageClose = engagePrompt.querySelector('.engagement-prompt__close');
+        if (engageClose) {
+            engageClose.addEventListener('click', () => {
+                engagePrompt.classList.remove('engagement-prompt--visible');
+                engagePrompt.setAttribute('aria-hidden', 'true');
+                sessionStorage.setItem('sdg_engage_dismissed', '1');
+                if (window.posthog) window.posthog.capture('engagement_prompt_dismissed');
+            });
+        }
+        window.addEventListener('scroll', function checkEngage() {
+            if (engageFired) return;
+            const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            const scrollPct = (window.pageYOffset / (docH - window.innerHeight)) * 100;
+            // Respect A/B test variant for engagement timing
+            const engageThreshold = (window.__SDG_AB && window.__SDG_AB.ab_engage_timing === 'early-40') ? 40 : 60;
+            if (scrollPct >= engageThreshold) {
+                engageFired = true;
+                sessionStorage.setItem('sdg_engage_shown', '1');
+                engagePrompt.classList.add('engagement-prompt--visible');
+                engagePrompt.setAttribute('aria-hidden', 'false');
+                if (window.posthog) window.posthog.capture('engagement_prompt_shown', { scroll_depth: Math.round(scrollPct) });
+                // Auto-dismiss after 12s if not interacted
+                setTimeout(() => {
+                    if (engagePrompt.classList.contains('engagement-prompt--visible') && !sessionStorage.getItem('sdg_engage_dismissed')) {
+                        engagePrompt.classList.remove('engagement-prompt--visible');
+                        engagePrompt.setAttribute('aria-hidden', 'true');
+                    }
+                }, 12000);
+            }
+        }, { passive: true });
+    }
+
     // Fallback: if counters still show 0 after 3s (GSAP slow/failed), set final values
     setTimeout(() => {
         document.querySelectorAll('.hero__stat-number[data-count]').forEach(el => {
@@ -1593,7 +1646,13 @@ const I18N_DICT = {
         "finalcta.trust3": "Same-day response",
         "modal.paymentPlan": "Payment Plan",
         "modal.completion": "Completion",
-        "modal.enquire": "Enquire About This Property"
+        "modal.enquire": "Enquire About This Property",
+        "urgency.exclusive": "Exclusive",
+        "urgency.save": "Save",
+        "mobileCta.text": "Chat with an Advisor",
+        "mobileCta.hint": "Same-day response",
+        "engage.text": "Not finding the right fit? Our advisors can source off-market opportunities tailored to your criteria.",
+        "engage.btn": "Request a Curated Shortlist"
     },
     "ar": {
         "nav.properties": "العقارات",
@@ -1766,7 +1825,13 @@ const I18N_DICT = {
         "finalcta.trust3": "رد في نفس اليوم",
         "modal.paymentPlan": "خطة الدفع",
         "modal.completion": "الإنجاز",
-        "modal.enquire": "استفسر عن هذا العقار"
+        "modal.enquire": "استفسر عن هذا العقار",
+        "urgency.exclusive": "حصري",
+        "urgency.save": "وفّر",
+        "mobileCta.text": "تحدث مع مستشار",
+        "mobileCta.hint": "رد في نفس اليوم",
+        "engage.text": "لم تجد ما يناسبك؟ يمكن لمستشارينا البحث عن فرص حصرية مصممة لمعاييرك.",
+        "engage.btn": "اطلب قائمة مخصصة"
     },
     "fr": {
         "nav.properties": "Propriétés",
@@ -1939,7 +2004,13 @@ const I18N_DICT = {
         "finalcta.trust3": "Réponse le jour même",
         "modal.paymentPlan": "Plan de paiement",
         "modal.completion": "Livraison",
-        "modal.enquire": "Se renseigner sur ce bien"
+        "modal.enquire": "Se renseigner sur ce bien",
+        "urgency.exclusive": "Exclusif",
+        "urgency.save": "Économisez",
+        "mobileCta.text": "Parler à un conseiller",
+        "mobileCta.hint": "Réponse le jour même",
+        "engage.text": "Vous ne trouvez pas ce qu'il vous faut ? Nos conseillers peuvent rechercher des opportunités hors marché adaptées à vos critères.",
+        "engage.btn": "Demander une sélection personnalisée"
     },
     "ru": {
         "nav.properties": "Объекты",
@@ -2112,7 +2183,13 @@ const I18N_DICT = {
         "finalcta.trust3": "Ответ в тот же день",
         "modal.paymentPlan": "План оплаты",
         "modal.completion": "Сдача",
-        "modal.enquire": "Узнать об этом объекте"
+        "modal.enquire": "Узнать об этом объекте",
+        "urgency.exclusive": "Эксклюзив",
+        "urgency.save": "Экономия",
+        "mobileCta.text": "Связаться с консультантом",
+        "mobileCta.hint": "Ответ в тот же день",
+        "engage.text": "Не нашли подходящий вариант? Наши консультанты подберут закрытые предложения под ваши критерии.",
+        "engage.btn": "Запросить персональную подборку"
     }
 };
 

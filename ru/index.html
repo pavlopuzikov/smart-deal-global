@@ -13,7 +13,7 @@
     <meta name="publisher" content="Smart Deals Global">
     <!-- Google Search Console verification — replace content value with your GSC code -->
     <meta name="google-site-verification" content="REPLACE_WITH_GSC_CODE">
-    <meta property="article:modified_time" content="2026-04-18T11:41:26.815Z">
+    <meta property="article:modified_time" content="2026-04-18T11:48:46.213Z">
     <title>Smart Deals Global · Кураторская недвижимость и срочные сделки в Дубае, Монако и Париже</title>
 
     <!-- Open Graph -->
@@ -38,15 +38,7 @@
     <link rel="preload" href="../css/styles.css" as="style">
     <link rel="preload" href="../js/main.js" as="script">
 
-    <!-- DNS prefetch for external resources -->
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Canonical + hreflang -->
     <link rel="canonical" href="https://smartdeals.global/ru/">
     <link rel="alternate" hreflang="en" href="https://smartdeals.global/">
     <link rel="alternate" hreflang="ar" href="https://smartdeals.global/ar/">
@@ -58,6 +50,19 @@
     <meta property="og:locale:alternate" content="ar_AE">
     <meta property="og:locale:alternate" content="fr_FR">
     <meta http-equiv="Content-Language" content="ru">
+
+    <!-- Preconnect (faster than dns-prefetch — full TCP+TLS handshake) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://us.i.posthog.com" crossorigin>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://smartdeals.global/">
 
     <!-- GEO Tags -->
     <meta name="geo.region" content="AE-DU">
@@ -663,7 +668,7 @@
     <!-- ====== FINAL CTA ====== -->
     <section id="contact" class="final-cta">
         <div class="final-cta__bg">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80" alt="Modern skyscraper exterior" class="final-cta__bg-img">
+            <img src="../images/final-cta-bg.jpg" alt="Modern skyscraper exterior" class="final-cta__bg-img" loading="lazy">
             <div class="final-cta__overlay"></div>
         </div>
         <div class="container final-cta__inner">
@@ -751,6 +756,27 @@
        class="whatsapp-float" id="whatsapp-float" aria-label="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
+
+    <!-- Sticky Mobile CTA Bar (visible on mobile only, after scroll) -->
+    <div class="mobile-cta-bar" id="mobile-cta-bar">
+        <a href="https://wa.me/971559579113?text=Hi%2C%20I%27m%20browsing%20your%20property%20collection.%20Can%20we%20chat%3F" target="_blank" rel="noopener noreferrer" class="mobile-cta-bar__btn">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span data-i18n="mobileCta.text">Связаться с консультантом</span>
+        </a>
+        <span class="mobile-cta-bar__hint" data-i18n="mobileCta.hint">Ответ в тот же день</span>
+    </div>
+
+    <!-- Scroll-depth engagement (editorial tone, appears once at 60% scroll) -->
+    <div class="engagement-prompt" id="engagement-prompt" role="dialog" aria-hidden="true">
+        <div class="engagement-prompt__inner">
+            <button class="engagement-prompt__close" aria-label="Close">&times;</button>
+            <p class="engagement-prompt__text" data-i18n="engage.text">Не нашли подходящий вариант? Наши консультанты подберут закрытые предложения под ваши критерии.</p>
+            <a href="https://wa.me/971559579113?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20tailored%20property%20search." target="_blank" rel="noopener noreferrer" class="btn btn--primary engagement-prompt__btn">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span data-i18n="engage.btn">Запросить персональную подборку</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Back to Top -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">

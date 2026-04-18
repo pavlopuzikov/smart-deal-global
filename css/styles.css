@@ -3953,6 +3953,145 @@ html[dir="rtl"] .back-to-markets {
     }
 }
 
+/* ================================================================
+   STICKY MOBILE CTA BAR
+   Slim bottom bar on mobile — editorial, not salesy.
+   Hidden on desktop. Replaces the floating WhatsApp on small screens.
+   ================================================================ */
+.mobile-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 998;
+    background: var(--color-primary);
+    padding: 0.6rem var(--container-pad) calc(0.6rem + env(safe-area-inset-bottom));
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    border-top: 1px solid rgba(200, 169, 110, 0.15);
+}
+.mobile-cta-bar--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.mobile-cta-bar__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+.mobile-cta-bar__btn:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-1px);
+}
+.mobile-cta-bar__hint {
+    font-size: 0.7rem;
+    color: var(--color-text-light, rgba(255,255,255,0.55));
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+@media (max-width: 768px) {
+    .mobile-cta-bar { display: flex; }
+    /* Hide floating WhatsApp on mobile when bar is active */
+    .mobile-cta-bar--visible ~ .whatsapp-float,
+    .mobile-cta-bar--visible + .whatsapp-float { display: none; }
+    /* Offset footer to prevent overlap */
+    .footer { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+}
+
+/* ================================================================
+   ENGAGEMENT PROMPT
+   Editorial slide-in at 60% scroll. Appears once per session.
+   Minimal, no overlay, no interruption.
+   ================================================================ */
+.engagement-prompt {
+    position: fixed;
+    bottom: 5rem;
+    right: 1.5rem;
+    z-index: 997;
+    max-width: 340px;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.engagement-prompt--visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.engagement-prompt__inner {
+    position: relative;
+    background: var(--color-white);
+    border: 1px solid rgba(200, 169, 110, 0.2);
+    border-radius: var(--radius-lg, 16px);
+    padding: 1.5rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+.engagement-prompt__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--color-text-light, #999);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.25rem;
+}
+.engagement-prompt__text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    padding-right: 1rem;
+}
+.engagement-prompt__btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.82rem;
+}
+@media (max-width: 768px) {
+    .engagement-prompt {
+        right: 0.75rem;
+        left: 0.75rem;
+        bottom: calc(4.5rem + env(safe-area-inset-bottom));
+        max-width: none;
+    }
+}
+
+/* ================================================================
+   URGENCY BADGE on property cards
+   ================================================================ */
+.property-card__urgency {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(26, 26, 46, 0.85);
+    color: var(--color-accent);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+    z-index: 2;
+}
+
 /* [10] Navbar height tokens — the 64px mobile bar feels tight with logo +
    hamburger + frosted blur. Bump to 72 below 480 so tap targets are clear. */
 @media (max-width: 480px) {

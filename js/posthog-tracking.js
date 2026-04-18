@@ -380,6 +380,120 @@
         });
     }
 
+    // ── 10. MULTI-VARIANT A/B TESTS ─────────────────────────────
+    // Aggressive test matrix. Each test is independent (no interaction effects).
+    // All variants are persistent per user (localStorage) and tracked as
+    // super properties so every event carries the full test matrix.
+    function initABTestMatrix() {
+        if (!ready()) return;
+
+        var tests = [
+            // Mid-page CTA copy
+            {
+                name: 'midcta_copy',
+                key: 'sdg_ab_midcta',
+                variants: ['control', 'urgency', 'social'],
+                apply: function (v) {
+                    var title = document.querySelector('.mid-cta__title');
+                    var sub = document.querySelector('.mid-cta__subtitle');
+                    if (!title || !sub) return;
+                    if (v === 'urgency') {
+                        title.textContent = 'These deals won\u2019t last.';
+                        sub.textContent = 'Properties in this collection sell within 14 days on average.';
+                    } else if (v === 'social') {
+                        title.textContent = '47 enquiries this week.';
+                        sub.textContent = 'Join buyers already exploring our curated collection.';
+                    }
+                }
+            },
+            // Card CTA button copy
+            {
+                name: 'card_cta',
+                key: 'sdg_ab_cardcta',
+                variants: ['control', 'view-deal', 'get-price'],
+                apply: function (v) {
+                    if (v === 'control') return;
+                    var label = v === 'view-deal' ? 'View This Deal' : 'Get Best Price';
+                    document.querySelectorAll('.btn--card').forEach(function (btn) {
+                        var icon = btn.querySelector('i');
+                        btn.textContent = '';
+                        btn.appendChild(document.createTextNode(label + ' '));
+                        if (icon) btn.appendChild(icon);
+                    });
+                }
+            },
+            // Social proof position: before vs after properties
+            {
+                name: 'proof_position',
+                key: 'sdg_ab_proof',
+                variants: ['control', 'above-properties'],
+                apply: function (v) {
+                    if (v !== 'above-properties') return;
+                    var proof = document.querySelector('.social-proof');
+                    var featured = document.querySelector('.featured-deal');
+                    if (proof && featured && featured.parentNode) {
+                        featured.parentNode.insertBefore(proof, featured);
+                    }
+                }
+            },
+            // WhatsApp pre-fill message style
+            {
+                name: 'wa_prefill',
+                key: 'sdg_ab_waprefill',
+                variants: ['control', 'specific', 'casual'],
+                apply: function (v) {
+                    if (v === 'control') return;
+                    var msgs = {
+                        specific: 'Hi, I saw your property collection online. I\'m looking for a {budget} investment in Dubai. Can you send me your top 3 picks?',
+                        casual: 'Hey! Just browsing your deals. What\'s the best opportunity right now?'
+                    };
+                    var msg = msgs[v];
+                    if (!msg) return;
+                    // Update the hero WhatsApp CTA pre-fill
+                    var heroCta = document.querySelector('.hero__cta-secondary');
+                    if (heroCta) {
+                        heroCta.href = 'https://wa.me/971559579113?text=' + encodeURIComponent(msg.replace('{budget}', 'AED 1-3M'));
+                    }
+                }
+            },
+            // Engagement prompt timing: 60% vs 40% scroll
+            {
+                name: 'engage_timing',
+                key: 'sdg_ab_engage',
+                variants: ['control-60', 'early-40'],
+                apply: function () {
+                    // Timing is applied by reading this variant in main.js
+                    // This entry just registers the variant for tracking
+                }
+            }
+        ];
+
+        var matrix = {};
+        for (var i = 0; i < tests.length; i++) {
+            var test = tests[i];
+            var stored = localStorage.getItem(test.key);
+            if (!stored || test.variants.indexOf(stored) === -1) {
+                stored = test.variants[Math.floor(Math.random() * test.variants.length)];
+                localStorage.setItem(test.key, stored);
+            }
+            matrix['ab_' + test.name] = stored;
+            test.apply(stored);
+        }
+
+        // Register entire test matrix as super properties
+        ph().register(matrix);
+        ph().setPersonProperties(matrix);
+
+        // Fire test matrix event once per session
+        if (!sessionStorage.getItem('sdg_ab_matrix_fired')) {
+            sessionStorage.setItem('sdg_ab_matrix_fired', '1');
+            ph().capture('ab_test_matrix_assigned', matrix);
+        }
+
+        // Expose matrix globally so main.js can read variant values
+        window.__SDG_AB = matrix;
+    }
+
     // ── INIT ──────────────────────────────────────────────────────
     function initAllTracking() {
         if (!ready()) {
@@ -395,6 +509,7 @@
         initEnquiryTracking();
         initHeroABTest();
         initMarketGroupTracking();
+        initABTestMatrix();
     }
 
     // PostHog loads async — wait for it, but don't block the page
