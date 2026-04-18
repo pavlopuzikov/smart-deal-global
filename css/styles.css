@@ -4166,3 +4166,26 @@ html[dir="rtl"] .back-to-markets {
    swiper-wrapper against a child with intrinsic min-width overflow. */
 .swiper-wrapper { box-sizing: border-box; }
 .swiper-slide { box-sizing: border-box; }
+
+/* ================================================================
+   [18] LANDSCAPE MODE — cap hero/CTA heights, fix touch targets
+   ================================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+    .hero { min-height: auto; height: 100dvh; max-height: 500px; }
+    .hero__title { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+    .hero__subtitle { font-size: 0.85rem; }
+    .hero__stats-row { margin-top: 1rem; gap: 1.5rem; }
+    .hero__stat-number { font-size: 1.5rem; }
+    .final-cta { min-height: auto; padding: 3rem 0; }
+    .country-hero { min-height: auto; height: 50vh; max-height: 320px; }
+}
+
+/* [19] Touch target fixes for 481-768px range */
+@media (max-width: 768px) {
+    .swiper-btn { min-width: 44px; min-height: 44px; }
+    .back-to-top { min-width: 44px; min-height: 44px; }
+}
+
+/* [20] Property card name overflow guard */
+.property-card__body { overflow: hidden; }
+.market-card-v2__cities { overflow: hidden; text-overflow: ellipsis; }
