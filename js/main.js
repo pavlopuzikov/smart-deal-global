@@ -595,7 +595,7 @@ function renderReadyCards() {
                 <div class="property-card__image">
                     ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
                     ${urgencyTag ? `<span class="property-card__urgency">${urgencyTag}</span>` : ''}
-                    ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}`;
+                    ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}
                 </div>
                 ${p.whySmart ? renderWhySmartBadges(p.whySmart) : ''}
                 <div class="property-card__body">
