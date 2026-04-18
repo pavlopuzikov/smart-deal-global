@@ -2136,7 +2136,7 @@ const I18N_DICT = {
         "footer.markets": "Рынки",
         "footer.contact": "Контакты",
         "footer.link.secondary": "Вторичный рынок",
-        "footer.link.offplan": "Off-Plan",
+        "footer.link.offplan": "Строящиеся объекты",
         "footer.link.monaco": "Монако",
         "footer.link.france": "Франция",
         "footer.link.how": "Наша помощь",
