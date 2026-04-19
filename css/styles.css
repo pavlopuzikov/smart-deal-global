@@ -994,7 +994,7 @@ h1, h2, h3, h4 {
 
     .swiper-controls { gap: 1rem; }
 
-    .markets__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .markets-v2__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
     .why-smart__grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     .how-we-help__inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .how-we-help__visual { order: -1; }
@@ -1007,7 +1007,7 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 480px) {
-    .markets__grid { grid-template-columns: repeat(2, 1fr); }
+    .markets-v2__grid { grid-template-columns: repeat(2, 1fr); }
     .why-smart__grid { grid-template-columns: 1fr; }
     .properties__highlight { flex-direction: column; align-items: center; }
     .hero__stats-row { flex-wrap: wrap; gap: 1.25rem; }
@@ -3358,8 +3358,8 @@ html[dir="rtl"] .section-subtitle { text-align: right; }
    safe areas, scroll anchoring, tiny-type floors.
    ============================================ */
 
-/* Horizontal-scroll hardening (some swipers can leak beyond 100vw) */
-html, body { max-width: 100vw; }
+/* Horizontal-scroll hardening (some swipers can leak beyond viewport) */
+html, body { max-width: 100%; }
 body { overscroll-behavior-x: contain; }
 
 /* Anchor landing: use navbar var so links scroll under the fixed nav
@@ -3650,6 +3650,15 @@ html[dir="rtl"] .back-to-markets {
 
 .btn--sm { padding: 0.55rem 1.1rem; font-size: 0.78rem; gap: 0.4rem; }
 .btn--lg { padding: 1.1rem 2.5rem; font-size: 1rem; gap: 0.6rem; }
+
+/* Allow button text to wrap on narrow mobile screens */
+@media (max-width: 480px) {
+    .btn, .hero__cta, .hero__cta-secondary, .mid-cta__btn,
+    .featured-deal__cta, .engagement-prompt__btn {
+        white-space: normal;
+        text-align: center;
+    }
+}
 
 .btn--primary,
 .btn--primary.btn--sm,
@@ -4189,3 +4198,110 @@ html[dir="rtl"] .back-to-markets {
 /* [20] Property card name overflow guard */
 .property-card__body { overflow: hidden; }
 .market-card-v2__cities { overflow: hidden; text-overflow: ellipsis; }
+
+/* ================================================================
+   [21] MOBILE AUDIT FIX BATCH — 2026-04-19
+   ================================================================ */
+
+/* [21a] Property card names: allow wrapping on mobile instead of
+   truncating with ellipsis — many property names are long and the
+   truncated text is unreadable. */
+@media (max-width: 768px) {
+    .property-card__name {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        line-height: 1.3;
+    }
+}
+
+/* [21b] Featured deal image: remove conflicting min-height when
+   aspect-ratio is set on mobile. The aspect-ratio alone determines
+   height; min-height fights it and can leave dead space. */
+@media (max-width: 768px) {
+    .featured-deal__image {
+        min-height: unset;
+        aspect-ratio: 16 / 10;
+    }
+}
+
+/* [21c] Mobile CTA bar hint: the text sits on a dark navy bar but
+   --color-text-light resolves to #555566 (dark grey). Use an
+   explicit light colour so the hint is visible. */
+.mobile-cta-bar__hint {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* [21d] Engagement prompt: lift above the mobile CTA bar so they
+   don't overlap. The CTA bar is ~52px + safe-area; the prompt was
+   positioned at 4.5rem which sits right under the bar. */
+@media (max-width: 768px) {
+    .engagement-prompt {
+        bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* [21e] Footer tagline: center on mobile to match footer grid alignment */
+@media (max-width: 480px) {
+    .footer__tagline {
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .footer__social {
+        justify-content: center;
+    }
+}
+
+/* [21f] Swiper slide width on 481-600px: the max-width: 360px cap was
+   preventing cards from using full available width on larger phones.
+   Raise the cap to match actual viewport. */
+@media (min-width: 481px) and (max-width: 600px) {
+    .ready-swiper .swiper-slide,
+    .offplan-swiper .swiper-slide,
+    .monaco-swiper .swiper-slide {
+        width: calc(100vw - 2 * var(--container-pad)) !important;
+        max-width: 420px;
+    }
+}
+
+/* [21g] Property modal: on small mobile the image was still 250px tall
+   with the body padding cramming text. Reduce image and tighten body. */
+@media (max-width: 480px) {
+    .property-modal__content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    .property-modal__image {
+        min-height: 180px;
+    }
+    .property-modal__body {
+        padding: 1.25rem;
+    }
+    .property-modal__name {
+        font-size: 1.2rem;
+    }
+    .property-modal__price {
+        font-size: 1.4rem;
+    }
+}
+
+/* [21h] How-we-help image: on mobile the image had no max-height
+   constraint and could push content far below the fold. */
+@media (max-width: 768px) {
+    .how-we-help__img {
+        aspect-ratio: 16 / 10;
+        max-height: 300px;
+    }
+}
+
+/* [21i] Social proof quotes: add horizontal padding guard on mobile
+   so quotes don't touch screen edges. */
+@media (max-width: 480px) {
+    .social-proof__quote {
+        padding: 1rem 1.25rem;
+    }
+    .social-proof__quote p {
+        font-size: 0.85rem;
+    }
+}

@@ -735,13 +735,8 @@
         <span data-i18n="backToMarkets">К списку рынков</span>
     </button>
 
-    <!-- ====== FLOATING WHATSAPP BUTTON ====== -->
-    <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"
-       class="whatsapp-float" id="whatsapp-float" aria-label="Chat on WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
     <!-- Sticky Mobile CTA Bar (visible on mobile only, after scroll) -->
+    <!-- Must precede whatsapp-float in DOM so the ~ sibling selector can hide it -->
     <div class="mobile-cta-bar" id="mobile-cta-bar">
         <a href="https://wa.me/971559579113?text=Hi%2C%20I%27m%20browsing%20your%20property%20collection.%20Can%20we%20chat%3F" target="_blank" rel="noopener noreferrer" class="mobile-cta-bar__btn">
             <i class="fa-brands fa-whatsapp"></i>
@@ -749,6 +744,12 @@
         </a>
         <span class="mobile-cta-bar__hint" data-i18n="mobileCta.hint">Ответ в тот же день</span>
     </div>
+
+    <!-- ====== FLOATING WHATSAPP BUTTON ====== -->
+    <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"
+       class="whatsapp-float" id="whatsapp-float" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <!-- Scroll-depth engagement (editorial tone, appears once at 60% scroll) -->
     <div class="engagement-prompt" id="engagement-prompt" role="dialog" aria-hidden="true">
