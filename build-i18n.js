@@ -432,7 +432,61 @@ function build(lang) {
         `<span class="lang-switcher__current">${lang.toUpperCase()}</span>`
     );
 
-    // 14. Fix asset paths for subdirectory variants (but leave anchor #hashes alone)
+    // 14. Translate WhatsApp pre-filled text in wa.me URLs
+    const waMap = {
+        "Hi%2C%20I%27m%20interested%20in%20your%20curated%20property%20deals.%20Can%20we%20chat%3F": dict['wa.hero'],
+        "Hi%2C%20I%27d%20like%20to%20schedule%20a%20consultation%20about%20property%20investment.": dict['wa.consultation'],
+        "Hi%2C%20I%27m%20ready%20to%20explore%20property%20opportunities.%20Can%20we%20chat%3F": dict['wa.finalcta'],
+        "Hi%2C%20I%27m%20browsing%20your%20property%20collection.%20Can%20we%20chat%3F": dict['wa.mobilecta'],
+        "Hi%2C%20I%27d%20like%20to%20discuss%20a%20tailored%20property%20search.": dict['wa.engage']
+    };
+    for (const [encoded, translated] of Object.entries(waMap)) {
+        if (translated) {
+            html = html.split(`text=${encoded}`).join(`text=${encodeURIComponent(translated)}`);
+        }
+    }
+
+    // 15. Translate image alt attributes
+    const altMap = {
+        'Dubai skyline': dict['alt.hero'],
+        'Monaco harbor aerial view': dict['alt.monaco'],
+        'Paris cityscape with Eiffel Tower': dict['alt.paris'],
+        'Lake Geneva and Swiss Alps': dict['alt.switzerland'],
+        'Baku skyline': dict['alt.azerbaijan'],
+        'Phuket coastline': dict['alt.thailand'],
+        'Burj Al Arab aerial view, Dubai': dict['alt.howWeHelp'],
+        'Modern skyscraper exterior': dict['alt.finalCta']
+    };
+    for (const [en, translated] of Object.entries(altMap)) {
+        if (translated) {
+            html = html.split(`alt="${en}"`).join(`alt="${esc(translated)}"`);
+        }
+    }
+
+    // 16. Translate ARIA labels
+    const ariaMap = {
+        'Change language': dict['aria.changeLang'],
+        'Toggle menu': dict['aria.toggleMenu'],
+        'Chat on WhatsApp': dict['aria.chatWhatsApp'],
+        'Back to top': dict['aria.backToTop'],
+        'Close': dict['aria.close']
+    };
+    for (const [en, translated] of Object.entries(ariaMap)) {
+        if (translated) {
+            html = html.split(`aria-label="${en}"`).join(`aria-label="${esc(translated)}"`);
+        }
+    }
+    // Previous/Next appear multiple times — replace all
+    if (dict['aria.previous']) html = html.split('aria-label="Previous"').join(`aria-label="${esc(dict['aria.previous'])}"`);
+    if (dict['aria.next']) html = html.split('aria-label="Next"').join(`aria-label="${esc(dict['aria.next'])}"`);
+
+    // 17. Fix og:url to point to the correct language variant (not always root)
+    html = html.replace(
+        /<meta property="og:url" content="[^"]*">/,
+        `<meta property="og:url" content="${URL_FOR[lang]}">`
+    );
+
+    // 18. Fix asset paths for subdirectory variants (but leave anchor #hashes alone)
     if (lang !== 'en') {
         html = html.replace(/(src|href)="(images|css|js|properties)\//g, '$1="../$2/');
     }
