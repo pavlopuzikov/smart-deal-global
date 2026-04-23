@@ -550,7 +550,7 @@ function renderFeaturedDeal() {
     }
     wrapper.innerHTML = `
         <div class="featured-deal__image">
-            ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : ''}
+            ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" width="800" height="533" loading="lazy">` : ''}
             ${p.discount ? `<span class="featured-deal__badge">-${p.discount}% Smart Deal</span>` : ''}
         </div>
         <div class="featured-deal__body">
@@ -593,7 +593,7 @@ function renderReadyCards() {
         <div class="swiper-slide">
             <div class="property-card property-card--ready">
                 <div class="property-card__image">
-                    ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
+                    ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" width="800" height="533" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
                     ${urgencyTag ? `<span class="property-card__urgency">${urgencyTag}</span>` : ''}
                     ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}
                 </div>
@@ -632,7 +632,7 @@ function renderOffplanCards() {
         <div class="swiper-slide">
             <div class="property-card property-card--offplan">
                 <div class="property-card__image">
-                    ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
+                    ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" width="800" height="533" loading="lazy">` : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`}
                     <span class="property-card__badge property-card__badge--plan">${p.paymentPlan}</span>
                     ${p.paymentPlan !== 'TBA' && p.paymentPlan !== 'N/A' ? `<span class="property-card__badge property-card__badge--flexible">${t('card.flexible')}</span>` : ''}
                     ${p.discount ? `<span class="property-card__badge property-card__badge--discount">-${p.discount}%</span>` : ''}
@@ -700,7 +700,7 @@ function renderCountryCards(properties, containerId, sectionName) {
             <div class="property-card property-card--country">
                 <div class="property-card__image">
                     ${p.image
-                        ? `<img src="${asset(p.image)}" alt="${p.name}" loading="lazy">`
+                        ? `<img src="${asset(p.image)}" alt="${p.name}" width="800" height="533" loading="lazy">`
                         : `<div class="property-card__placeholder"><span>${t('card.noImage')}</span></div>`
                     }
                 </div>
@@ -745,7 +745,7 @@ function renderMarketsGridV2() {
              ${m.sectionId ? `data-scroll-to="${m.sectionId}"` : ''}
              role="button" tabindex="0">
             <div class="market-card-v2__img-wrap">
-                <img src="${asset(m.image)}" alt="${m.country}" class="market-card-v2__img" loading="lazy">
+                <img src="${asset(m.image)}" alt="${m.country}" class="market-card-v2__img" width="600" height="800" loading="lazy">
                 <div class="market-card-v2__overlay"></div>
             </div>
             <div class="market-card-v2__content">
@@ -1062,14 +1062,20 @@ function initAnimations() {
         onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out' })
     });
 
-    // Property card images: zoom-settle on scroll
-    document.querySelectorAll('.property-card__image img').forEach(img => {
-        gsap.set(img, { scale: 1.08 });
-        gsap.to(img, {
+    // Property card images: zoom-settle on scroll.
+    // Target the swiper container (not individual images) to avoid
+    // conflicts with Swiper loop clones and ScrollTrigger positions.
+    ['.ready-swiper', '.offplan-swiper', '.monaco-swiper', '.country-grid'].forEach(sel => {
+        const container = document.querySelector(sel);
+        if (!container) return;
+        container.querySelectorAll('.property-card__image img').forEach(img => {
+            gsap.set(img, { scale: 1.08 });
+        });
+        gsap.to(container.querySelectorAll('.property-card__image img'), {
             scale: 1,
             duration: 1.2,
             ease: 'power2.out',
-            scrollTrigger: { trigger: img, start: 'top 90%', toggleActions: 'play none none none' }
+            scrollTrigger: { trigger: container, start: 'top 90%', toggleActions: 'play none none none' }
         });
     });
 
@@ -1372,7 +1378,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const origPrice = p.originalPrice;
         modalInner.innerHTML = `
             <div class="property-modal__image">
-                ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}">` : ''}
+                ${p.image ? `<img src="${asset(p.image)}" alt="${p.name}" width="800" height="533" loading="lazy">` : ''}
                 ${p.discount ? `<span class="property-modal__badge">-${p.discount}%</span>` : ''}
             </div>
             <div class="property-modal__body">

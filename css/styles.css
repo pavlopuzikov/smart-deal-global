@@ -3249,6 +3249,36 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================
+   GSAP FALLBACK — keep content visible if GSAP
+   CDN fails to load (common on slow mobile).
+   GSAP overrides these with inline styles once
+   it initialises, so this is purely a safety net.
+   ============================================ */
+.property-card,
+.property-card__image img,
+.market-card,
+.market-card-v2,
+.featured-deal__card,
+.properties__header,
+.properties__highlight,
+.mid-cta__inner,
+.markets-v2__header,
+.country-hero,
+.why-smart .section-label,
+.why-smart .section-title,
+.why-smart .section-subtitle,
+.how-we-help__inner,
+.trust-section__metrics,
+.final-cta__inner,
+.hero__eyebrow,
+.hero__title,
+.hero__subtitle,
+.hero__actions,
+.hero__stats-row {
+    opacity: 1;
+}
+
+/* ============================================
    PREFERS REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
