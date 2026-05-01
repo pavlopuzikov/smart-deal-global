@@ -4417,3 +4417,100 @@ html[dir="rtl"] .back-to-markets {
         font-size: 0.85rem;
     }
 }
+
+/* [22] CLS fix: reserve vertical space for JS-injected content so the
+   layout doesn't shift when renderFeaturedDeal / renderReadyCards /
+   renderOffplanCards swap empty wrappers for real content.
+   PostHog showed CLS > 1.0 on multiple sessions before this guard. */
+#featured-deal-card {
+    min-height: 480px;
+}
+#ready-cards,
+#offplan-cards {
+    min-height: 460px;
+}
+@media (max-width: 768px) {
+    #featured-deal-card { min-height: 720px; }
+    #ready-cards,
+    #offplan-cards { min-height: 540px; }
+}
+
+/* [23] Quick-trust strip: surfaces the most-clicked FAQ answers between the
+   ready and offplan sections so deeper-scrollers don't have to expand the
+   accordion. Three equal cards, gold accent, fades into the dark offplan bg. */
+.quick-trust {
+    padding: 3rem 0 1.5rem;
+    background: var(--color-white);
+}
+.quick-trust__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+.quick-trust__card {
+    background: var(--color-bg, #f8f6f1);
+    border: 1px solid var(--color-border-light, rgba(26,26,46,0.08));
+    border-radius: var(--radius-lg, 16px);
+    padding: 1.5rem 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+.quick-trust__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(200, 169, 110, 0.14);
+    color: var(--color-gold, #C8A96E);
+    font-size: 1.05rem;
+}
+.quick-trust__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--color-text, #1a1a2e);
+    margin: 0;
+}
+.quick-trust__text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--color-text-dim, rgba(26,26,46,0.7));
+    margin: 0;
+}
+@media (max-width: 768px) {
+    .quick-trust__grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+    .quick-trust__card { padding: 1.25rem; }
+}
+
+/* [24] End-of-page multi-language CTA strip: lives just above the existing
+   final CTA so deep-scroll completers can pick the language they want to
+   chat in. PostHog showed only 18% of sessions reach 100% scroll; we want
+   the ones that do to convert. */
+.final-cta__lang-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+.final-cta__lang-row .btn {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+    backdrop-filter: blur(4px);
+}
+.final-cta__lang-row .btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+.final-cta__lang-prompt {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}

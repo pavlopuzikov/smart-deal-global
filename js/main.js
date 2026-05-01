@@ -511,12 +511,14 @@ function formatPrice(amount, currency) {
     return `${currency} ${amount.toLocaleString('en-US')}`;
 }
 
-function getWhatsAppLink(propertyName, location, price, currency) {
+function getWhatsAppLink(propertyName, location, price, currency, source) {
     const lang = document.documentElement.lang || 'en';
     const langLabel = lang === 'ar' ? 'أتحدث العربية' : lang === 'fr' ? 'Je parle français' : lang === 'ru' ? 'Я говорю по-русски' : 'I speak English';
     const priceStr = price && currency ? ` at ${currency} ${Number(price).toLocaleString('en-US')}` : '';
-    const msg = `Hi, I'm interested in: ${propertyName} (${location})${priceStr}. ${langLabel}. Could you share more details?`;
-    return `${WHATSAPP_BASE}?text=${encodeURIComponent(msg)}`;
+    const refTag = source ? ` (ref: ${source})` : '';
+    const msg = `Hi, I'm interested in: ${propertyName} (${location})${priceStr}.${refTag} ${langLabel}. Could you share more details?`;
+    const sourceParam = source ? `&source=${encodeURIComponent(source)}` : '';
+    return `${WHATSAPP_BASE}?text=${encodeURIComponent(msg)}${sourceParam}`;
 }
 
 
@@ -567,7 +569,8 @@ function renderFeaturedDeal() {
                 ${p.originalPrice ? `<span class="featured-deal__original">${formatPrice(p.originalPrice, p.currency)}</span>` : ''}
                 <span class="featured-deal__price">${formatPrice(p.smartPrice, p.currency)}</span>
             </div>
-            <a href="${getWhatsAppLink(p.name, p.location)}" class="btn btn--primary featured-deal__cta" target="_blank" rel="noopener noreferrer">
+            <a href="${getWhatsAppLink(p.name, p.location, null, null, 'featured-deal')}" class="btn btn--primary featured-deal__cta" target="_blank" rel="noopener noreferrer"
+               data-cta-id="featured-deal" data-deal-name="${p.name.replace(/"/g, '&quot;')}" data-location="${(p.location || '').replace(/"/g, '&quot;')}" data-section="Featured">
                 ${t('featured.viewDeal')} <i class="fa-brands fa-whatsapp"></i>
             </a>
         </div>
@@ -614,9 +617,9 @@ function renderReadyCards() {
                         <span class="property-card__price-label property-card__price-label--smart">${t('card.smartPrice')}</span>
                         <span class="property-card__smart-price">${formatPrice(p.smartPrice, p.currency)}</span>
                     </div>
-                    <a href="${getWhatsAppLink(p.name, p.location)}"
+                    <a href="${getWhatsAppLink(p.name, p.location, null, null, 'ready-card')}"
                        class="btn btn--card" target="_blank" rel="noopener noreferrer"
-                       data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="Ready">
+                       data-cta-id="ready-card" data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="Ready">
                         ${t('card.enquire')} <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
@@ -658,9 +661,9 @@ function renderOffplanCards() {
                         <span class="chip chip--plan"><i class="fa-regular fa-calendar"></i> ${p.completion}</span>
                         <span class="chip chip--plan"><i class="fa-solid fa-money-bill-wave"></i> ${p.paymentPlan}</span>
                     </div>
-                    <a href="${getWhatsAppLink(p.name, p.location)}"
+                    <a href="${getWhatsAppLink(p.name, p.location, null, null, 'offplan-card')}"
                        class="btn btn--card" target="_blank" rel="noopener noreferrer"
-                       data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="Off-Plan">
+                       data-cta-id="offplan-card" data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="Off-Plan">
                         ${t('card.enquire')} <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
@@ -721,9 +724,9 @@ function renderCountryCards(properties, containerId, sectionName) {
                         <span class="property-card__price-label property-card__price-label--smart">${p.originalPrice ? t('card.smartPrice') : t('card.price')}</span>
                         <span class="property-card__smart-price">${formatPrice(p.price, p.currency)}</span>
                     </div>
-                    <a href="${getWhatsAppLink(p.name, p.location)}"
+                    <a href="${getWhatsAppLink(p.name, p.location, null, null, 'country-card-' + sectionName.toLowerCase())}"
                        class="btn btn--card" target="_blank" rel="noopener noreferrer"
-                       data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="${sectionName}">
+                       data-cta-id="country-card-${sectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}" data-property="${p.name.replace(/"/g, '&quot;')}" data-location="${p.location.replace(/"/g, '&quot;')}" data-section="${sectionName}">
                         ${t('card.enquire')} <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
@@ -779,7 +782,7 @@ function renderMarketsGridV2() {
                 const banner = section.querySelector('.country-hero');
                 smoothScrollTo(banner || section);
             } else {
-                window.open(`${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to learn more about Smart Deals Global.")}`, '_blank');
+                window.open(`${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to learn more about Smart Deals Global. (ref: market-card)")}&source=market-card`, '_blank');
             }
         };
         card.addEventListener('click', handler);
@@ -1112,11 +1115,12 @@ function initTilt() {
 function updateWhatsAppLinks() {
     const mainBtn = document.getElementById('main-whatsapp-btn');
     if (mainBtn) {
-        mainBtn.href = `${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to learn more about Smart Deals Global.")}`;
+        mainBtn.href = `${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to learn more about Smart Deals Global. (ref: main-whatsapp-btn)")}&source=main-whatsapp-btn`;
+        if (!mainBtn.hasAttribute('data-cta-id')) mainBtn.setAttribute('data-cta-id', 'main-whatsapp-btn');
     }
     const floatBtn = document.getElementById('whatsapp-float');
     if (floatBtn) {
-        floatBtn.href = `${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to know more about your smart deals.")}`;
+        floatBtn.href = `${WHATSAPP_BASE}?text=${encodeURIComponent("Hi, I'd like to know more about your smart deals. (ref: whatsapp-float)")}&source=whatsapp-float`;
         floatBtn.addEventListener('click', () => notifyEnquiry('General Enquiry', '-', 'Floating Button'));
     }
     if (mainBtn) {
@@ -1224,7 +1228,7 @@ function initQualifyForm() {
         const waText = encodeURIComponent(
             `Hi, I'd like to learn more about Smart Deals Global.\n\nName: ${name}\nPhone: ${phone}\nMarket: ${city}\nProperty Type: ${property_type}\nBudget: ${budget}\nGoal: ${goal}\nSupport Needed: ${support || 'None'}`
         );
-        window.open(`${WHATSAPP_BASE}?text=${waText}`, '_blank');
+        window.open(`${WHATSAPP_BASE}?text=${waText}&source=qualify-form`, '_blank');
 
         try {
             if (typeof emailjs !== 'undefined') {
@@ -1308,10 +1312,15 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileCtaObserver.observe(heroSection);
     }
 
-    // ---- ENGAGEMENT PROMPT (editorial, once per session at 60% scroll) ----
+    // ---- ENGAGEMENT PROMPT ----
+    // Reworked 2026-05-01 after PostHog showed 9 prompts shown / 3 dismissed (33%) /
+    // 0 conversions on the previous 60%-scroll trigger — it was friction without payoff.
+    // Now it only appears once #contact (the final CTA) has actually been reached:
+    // these visitors have seen the whole funnel and a quieter language-aware prompt
+    // is more likely to land than a mid-scroll interruption.
     const engagePrompt = document.getElementById('engagement-prompt');
-    if (engagePrompt && !sessionStorage.getItem('sdg_engage_shown')) {
-        let engageFired = false;
+    const contactSection = document.getElementById('contact');
+    if (engagePrompt && contactSection && !sessionStorage.getItem('sdg_engage_shown')) {
         const engageClose = engagePrompt.querySelector('.engagement-prompt__close');
         if (engageClose) {
             engageClose.addEventListener('click', () => {
@@ -1321,27 +1330,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (window.posthog) window.posthog.capture('engagement_prompt_dismissed');
             });
         }
-        window.addEventListener('scroll', function checkEngage() {
-            if (engageFired) return;
-            const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-            const scrollPct = (window.pageYOffset / (docH - window.innerHeight)) * 100;
-            // Respect A/B test variant for engagement timing
-            const engageThreshold = (window.__SDG_AB && window.__SDG_AB.ab_engage_timing === 'early-40') ? 40 : 60;
-            if (scrollPct >= engageThreshold) {
-                engageFired = true;
+
+        const contactObserver = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                if (sessionStorage.getItem('sdg_engage_shown')) {
+                    contactObserver.disconnect();
+                    return;
+                }
                 sessionStorage.setItem('sdg_engage_shown', '1');
                 engagePrompt.classList.add('engagement-prompt--visible');
                 engagePrompt.setAttribute('aria-hidden', 'false');
-                if (window.posthog) window.posthog.capture('engagement_prompt_shown', { scroll_depth: Math.round(scrollPct) });
-                // Auto-dismiss after 12s if not interacted
+                if (window.posthog) window.posthog.capture('engagement_prompt_shown', { trigger: 'contact-in-view' });
                 setTimeout(() => {
                     if (engagePrompt.classList.contains('engagement-prompt--visible') && !sessionStorage.getItem('sdg_engage_dismissed')) {
                         engagePrompt.classList.remove('engagement-prompt--visible');
                         engagePrompt.setAttribute('aria-hidden', 'true');
                     }
                 }, 12000);
+                contactObserver.disconnect();
+                return;
             }
-        }, { passive: true });
+        }, { threshold: 0.25 });
+        contactObserver.observe(contactSection);
     }
 
     // Fallback: if counters still show 0 after 3s (GSAP slow/failed), set final values
@@ -1650,6 +1661,13 @@ const I18N_DICT = {
         "finalcta.trust1": "No buyer fees",
         "finalcta.trust2": "Multilingual team",
         "finalcta.trust3": "Same-day response",
+        "finalcta.langPrompt": "Pick the deal that fits — talk to a Smart Dealer in your language.",
+        "quickTrust.fees.title": "No fees for buyers",
+        "quickTrust.fees.text": "Our advisory is complimentary. We're compensated by the developer or seller side.",
+        "quickTrust.smart.title": "What makes a Smart Deal",
+        "quickTrust.smart.text": "Each listing meets at least one of six value criteria — pricing edge, flexible terms, yield potential, or early access.",
+        "quickTrust.area.title": "Best Dubai areas right now",
+        "quickTrust.area.text": "Yields: Marina, JVC, Business Bay (7-9%). Growth: Dubai Hills, Creek Harbour, Palm Jumeirah.",
         "modal.paymentPlan": "Payment Plan",
         "modal.completion": "Completion",
         "modal.enquire": "Enquire About This Property",
@@ -1849,6 +1867,13 @@ const I18N_DICT = {
         "finalcta.trust1": "بدون رسوم على المشتري",
         "finalcta.trust2": "فريق متعدد اللغات",
         "finalcta.trust3": "رد في نفس اليوم",
+        "finalcta.langPrompt": "اختر الصفقة المناسبة — تحدث مع مستشار Smart Deals بلغتك.",
+        "quickTrust.fees.title": "لا رسوم على المشترين",
+        "quickTrust.fees.text": "خدمتنا الاستشارية مجانية. نحصل على عمولتنا من المطور أو البائع.",
+        "quickTrust.smart.title": "ما الذي يجعل الصفقة ذكية",
+        "quickTrust.smart.text": "كل عقار يستوفي معيارًا واحدًا على الأقل من ستة معايير للقيمة — ميزة سعرية، شروط مرنة، عائد إيجاري، أو وصول مبكر.",
+        "quickTrust.area.title": "أفضل مناطق دبي حاليًا",
+        "quickTrust.area.text": "للعائد: مارينا، JVC، الخليج التجاري (7-9%). للنمو: دبي هيلز، خور دبي، نخلة جميرا.",
         "modal.paymentPlan": "خطة الدفع",
         "modal.completion": "الإنجاز",
         "modal.enquire": "استفسر عن هذا العقار",
@@ -2048,6 +2073,13 @@ const I18N_DICT = {
         "finalcta.trust1": "Sans frais acheteur",
         "finalcta.trust2": "Équipe multilingue",
         "finalcta.trust3": "Réponse le jour même",
+        "finalcta.langPrompt": "Choisissez l'opportunité qui vous correspond — parlez à un Smart Dealer dans votre langue.",
+        "quickTrust.fees.title": "Aucun frais pour les acheteurs",
+        "quickTrust.fees.text": "Notre conseil est gratuit. Nous sommes rémunérés par le promoteur ou le vendeur.",
+        "quickTrust.smart.title": "Ce qui définit un Smart Deal",
+        "quickTrust.smart.text": "Chaque bien remplit au moins l'un des six critères de valeur — prix, conditions de paiement, rendement, ou accès anticipé.",
+        "quickTrust.area.title": "Les meilleurs quartiers de Dubaï",
+        "quickTrust.area.text": "Rendement : Marina, JVC, Business Bay (7-9%). Croissance : Dubai Hills, Creek Harbour, Palm Jumeirah.",
         "modal.paymentPlan": "Plan de paiement",
         "modal.completion": "Livraison",
         "modal.enquire": "Se renseigner sur ce bien",
@@ -2247,6 +2279,13 @@ const I18N_DICT = {
         "finalcta.trust1": "Без комиссии для покупателя",
         "finalcta.trust2": "Мультиязычная команда",
         "finalcta.trust3": "Ответ в тот же день",
+        "finalcta.langPrompt": "Выберите подходящий объект — поговорите с Smart-консультантом на вашем языке.",
+        "quickTrust.fees.title": "Без комиссии для покупателей",
+        "quickTrust.fees.text": "Наши консультации бесплатны. Мы получаем комиссию от застройщика или продавца.",
+        "quickTrust.smart.title": "Что делает сделку Smart",
+        "quickTrust.smart.text": "Каждый объект соответствует хотя бы одному из шести критериев — цена, условия оплаты, доходность или ранний доступ.",
+        "quickTrust.area.title": "Лучшие районы Дубая сейчас",
+        "quickTrust.area.text": "Доходность: Marina, JVC, Business Bay (7-9%). Рост: Dubai Hills, Creek Harbour, Palm Jumeirah.",
         "modal.paymentPlan": "План оплаты",
         "modal.completion": "Сдача",
         "modal.enquire": "Узнать об этом объекте",
@@ -2377,11 +2416,51 @@ const LANG_URLS = (function () {
     };
 })();
 
+// Auto-route a first-time visitor to their browser language variant when we
+// have a pre-rendered page for it. Only runs when:
+//   - the user is on the EN root page (no /ar//fr//ru/ prefix already)
+//   - they have no stored language preference
+//   - we haven't auto-routed them before
+//   - browser language starts with ar/fr/ru
+//   - URL doesn't carry ?nolang=1 (escape hatch for testing / shared links)
+// PostHog data showed 17 Dubai sessions but only 1 /ar/ pageview; defaulting
+// Arabic-speaking visitors to /ar/ should close that gap without making the
+// switcher invisible.
+function maybeAutoRouteLanguage() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('nolang') === '1') return;
+        if (localStorage.getItem(I18N_STORAGE_KEY)) return;
+        if (localStorage.getItem('sdg_lang_autoroute_done')) return;
+
+        const pageLang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+        if (pageLang !== 'en') return;
+        if (/\/(ar|fr|ru)(\/|$)/i.test(window.location.pathname)) return;
+
+        const navLangs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+        let target = null;
+        for (const raw of navLangs) {
+            const code = (raw || '').toLowerCase().slice(0, 2);
+            if (code === 'ar' || code === 'fr' || code === 'ru') { target = code; break; }
+        }
+        if (!target) return;
+
+        // Mark as done before navigating so the back button can't loop us.
+        localStorage.setItem('sdg_lang_autoroute_done', '1');
+        const dest = (LANG_URLS[target] || '/') + (window.location.search || '') + (window.location.hash || '');
+        window.location.replace(dest);
+    } catch (_) { /* storage / location access blocked — give up silently */ }
+}
+
 function initLanguageSwitcher() {
     const switcher = document.querySelector('.lang-switcher');
     if (!switcher) return;
     const btn = switcher.querySelector('.lang-switcher__btn');
     const menu = switcher.querySelector('.lang-switcher__menu');
+
+    // Auto-route first; if it fires, the page reloads at the language variant
+    // and the rest of this function won't run.
+    maybeAutoRouteLanguage();
 
     // Source of truth: the <html lang> attribute set by the pre-rendered page.
     const pageLang = (document.documentElement.getAttribute('lang') || I18N_DEFAULT).toLowerCase();

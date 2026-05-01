@@ -12,7 +12,7 @@
     <meta name="author" content="Smart Deals Global">
     <meta name="publisher" content="Smart Deals Global">
     <meta name="google-site-verification" content="ltMYyYgKgEeoUhyRN-ROG6e3-6767QVy5FWM-FGHD9c">
-    <meta property="article:modified_time" content="2026-04-20T09:25:32.238Z">
+    <meta property="article:modified_time" content="2026-05-01T08:36:09.056Z">
     <title>سمارت ديلز جلوبال · عقارات مختارة وصفقات عاجلة في دبي، موناكو وباريس</title>
 
     <!-- Open Graph -->
@@ -59,6 +59,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://us.i.posthog.com" crossorigin>
+
+    <!-- Hero LCP image preload (responsive AVIF, with WebP/JPEG fallbacks served via <picture>). -->
+    <link rel="preload" as="image" type="image/avif" fetchpriority="high"
+          imagesrcset="images/hero-bg-768.avif 768w, images/hero-bg-1200.avif 1200w, images/hero-bg-1600.avif 1600w"
+          imagesizes="100vw">
+    <link rel="preload" as="image" type="image/webp"
+          imagesrcset="images/hero-bg-768.webp 768w, images/hero-bg-1200.webp 1200w, images/hero-bg-1600.webp 1600w"
+          imagesizes="100vw">
 
     <!-- Critical inline CSS: prevent FOUC while external sheets load -->
     <style>
@@ -175,7 +183,11 @@
     <!-- ====== SECTION 1: HERO (simplified) ====== -->
     <section id="hero" class="hero">
         <div class="hero__bg">
-            <img src="../images/hero-bg.jpg" alt="أفق دبي" class="hero__bg-img" width="1600" height="1067" fetchpriority="high" loading="eager">
+            <picture>
+                <source type="image/avif" srcset="images/hero-bg-768.avif 768w, images/hero-bg-1200.avif 1200w, images/hero-bg-1600.avif 1600w" sizes="100vw">
+                <source type="image/webp" srcset="images/hero-bg-768.webp 768w, images/hero-bg-1200.webp 1200w, images/hero-bg-1600.webp 1600w" sizes="100vw">
+                <img src="../images/hero-bg-1600.jpg" srcset="images/hero-bg-768.jpg 768w, images/hero-bg-1200.jpg 1200w, images/hero-bg-1600.jpg 1600w" sizes="100vw" alt="أفق دبي" class="hero__bg-img" width="1600" height="1067" fetchpriority="high" loading="eager" decoding="async">
+            </picture>
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
@@ -184,11 +196,11 @@
                 <h1 class="hero__title" data-i18n-html="hero.title">اكتشف مجموعة<br><em>Smart Deals</em></h1>
                 <p class="hero__subtitle" data-i18n="hero.subtitle">مجموعة مختارة من العقارات الجاهزة وقيد الإنشاء في 10 أسواق عالمية - اختيرت لقيمتها المتميزة، وشروطها المرنة، ونقاط الدخول الجذابة.</p>
                 <div class="hero__actions">
-                    <a href="#ready" class="btn btn--primary hero__cta">
+                    <a href="#ready" class="btn btn--primary hero__cta" data-cta-id="hero-primary">
                         <span data-i18n="hero.cta">استكشف المجموعة</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
-                    <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%B9%D8%B1%D9%88%D8%B6%D9%83%D9%85%20%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D8%A7%D8%B1%D8%A9.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%86%D8%A7%20%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%D8%9F" target="_blank" rel="noopener noreferrer" class="btn btn--ghost hero__cta-secondary">
+                    <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20interested%20in%20your%20curated%20property%20deals.%20Can%20we%20chat%3F&source=hero-secondary" target="_blank" rel="noopener noreferrer" class="btn btn--ghost hero__cta-secondary" data-cta-id="hero-secondary">
                         <i class="fa-brands fa-whatsapp"></i>
                         <span data-i18n="hero.whatsapp">تواصل عبر واتساب</span>
                     </a>
@@ -253,6 +265,32 @@
         </div>
     </section>
 
+    <!-- ====== QUICK TRUST STRIP ======
+         Surfaces the three most-clicked FAQ answers up here so deeper-scrollers
+         see the answers without having to expand the accordion later.
+         (PostHog FAQ click data, May 2026.) -->
+    <section class="quick-trust">
+        <div class="container">
+            <div class="quick-trust__grid">
+                <div class="quick-trust__card">
+                    <span class="quick-trust__icon"><i class="fa-solid fa-handshake"></i></span>
+                    <h3 class="quick-trust__title" data-i18n="quickTrust.fees.title">لا رسوم على المشترين</h3>
+                    <p class="quick-trust__text" data-i18n="quickTrust.fees.text">خدمتنا الاستشارية مجانية. نحصل على عمولتنا من المطور أو البائع.</p>
+                </div>
+                <div class="quick-trust__card">
+                    <span class="quick-trust__icon"><i class="fa-solid fa-tag"></i></span>
+                    <h3 class="quick-trust__title" data-i18n="quickTrust.smart.title">ما الذي يجعل الصفقة ذكية</h3>
+                    <p class="quick-trust__text" data-i18n="quickTrust.smart.text">كل عقار يستوفي معيارًا واحدًا على الأقل من ستة معايير للقيمة — ميزة سعرية، شروط مرنة، عائد إيجاري، أو وصول مبكر.</p>
+                </div>
+                <div class="quick-trust__card">
+                    <span class="quick-trust__icon"><i class="fa-solid fa-location-dot"></i></span>
+                    <h3 class="quick-trust__title" data-i18n="quickTrust.area.title">أفضل مناطق دبي حاليًا</h3>
+                    <p class="quick-trust__text" data-i18n="quickTrust.area.text">للعائد: مارينا، JVC، الخليج التجاري (7-9%). للنمو: دبي هيلز، خور دبي، نخلة جميرا.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ====== OFF-PLAN PROPERTIES ====== -->
     <section id="offplan" class="properties properties--offplan">
         <div class="container">
@@ -284,7 +322,7 @@
         <div class="container mid-cta__inner">
             <h2 class="mid-cta__title" data-i18n="midcta.title">هل أنت مهتم بأي من هذه الفرص؟</h2>
             <p class="mid-cta__subtitle" data-i18n="midcta.subtitle">يمكن لفريقنا توفير كتيبات مفصلة، وتسعير، وترتيب مشاهدات خاصة.</p>
-            <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer" class="btn btn--primary mid-cta__btn">
+            <a href="https://wa.me/971559579113?source=mid-cta" target="_blank" rel="noopener noreferrer" class="btn btn--primary mid-cta__btn" data-cta-id="mid-cta">
                 <span data-i18n="midcta.btn">تواصل معنا</span> <i class="fa-brands fa-whatsapp"></i>
             </a>
         </div>
@@ -493,7 +531,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%AD%D8%AC%D8%B2%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%AD%D9%88%D9%84%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AB%D9%85%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A." target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="margin-top: 2rem;">
+                    <a href="https://wa.me/971559579113?text=Hi%2C%20I'd%20like%20to%20schedule%20a%20consultation%20about%20property%20investment.&source=how-consultation" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="margin-top: 2rem;" data-cta-id="how-consultation">
                         <span data-i18n="how.cta">ابدأ بالخطوة الأولى</span>
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
@@ -653,16 +691,35 @@
     <!-- ====== FINAL CTA ====== -->
     <section id="contact" class="final-cta">
         <div class="final-cta__bg">
-            <img src="../images/final-cta-bg.jpg" alt="واجهة ناطحة سحاب حديثة" class="final-cta__bg-img" width="1600" height="1067" loading="lazy">
+            <picture>
+                <source type="image/avif" srcset="images/final-cta-bg-768.avif 768w, images/final-cta-bg-1200.avif 1200w, images/final-cta-bg-1600.avif 1600w" sizes="100vw">
+                <source type="image/webp" srcset="images/final-cta-bg-768.webp 768w, images/final-cta-bg-1200.webp 1200w, images/final-cta-bg-1600.webp 1600w" sizes="100vw">
+                <img src="../images/final-cta-bg-1600.jpg" srcset="images/final-cta-bg-768.jpg 768w, images/final-cta-bg-1200.jpg 1200w, images/final-cta-bg-1600.jpg 1600w" sizes="100vw" alt="واجهة ناطحة سحاب حديثة" class="final-cta__bg-img" width="1600" height="1067" loading="lazy" decoding="async">
+            </picture>
             <div class="final-cta__overlay"></div>
         </div>
         <div class="container final-cta__inner">
             <h2 class="final-cta__title" data-i18n="finalcta.title">جاهز للقيام بخطوة ذكية؟</h2>
             <p class="final-cta__subtitle" data-i18n="finalcta.subtitle2">ابدأ بحثك عن العقار في أقل من دقيقتين.</p>
-            <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D8%B3%D8%AA%D8%B9%D8%AF%20%D9%84%D8%A7%D8%B3%D8%AA%D9%83%D8%B4%D8%A7%D9%81%20%D8%A7%D9%84%D9%81%D8%B1%D8%B5%20%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%86%D8%A7%20%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%D8%9F" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg" style="margin-bottom: 1.5rem;">
+            <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20ready%20to%20explore%20property%20opportunities.%20Can%20we%20chat%3F&source=final-cta" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg" style="margin-bottom: 1.5rem;" data-cta-id="final-cta">
                 <i class="fa-brands fa-whatsapp"></i>
                 <span data-i18n="finalcta.mainBtn">تواصل مع فريقنا</span>
             </a>
+            <p class="final-cta__lang-prompt" data-i18n="finalcta.langPrompt">اختر الصفقة المناسبة — تحدث مع مستشار Smart Deals بلغتك.</p>
+            <div class="final-cta__lang-row">
+                <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20ready%20to%20explore%20property%20opportunities.%20I%20speak%20English.&source=final-cta-en" target="_blank" rel="noopener noreferrer" class="btn" data-cta-id="final-cta-en">
+                    <i class="fa-brands fa-whatsapp"></i> English
+                </a>
+                <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D8%B3%D8%AA%D8%B9%D8%AF%20%D9%84%D8%A7%D8%B3%D8%AA%D9%83%D8%B4%D8%A7%D9%81%20%D8%A7%D9%84%D9%81%D8%B1%D8%B5%20%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9.%20%D8%A3%D8%AA%D8%AD%D8%AF%D8%AB%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.&source=final-cta-ar" target="_blank" rel="noopener noreferrer" class="btn" data-cta-id="final-cta-ar" dir="rtl">
+                    <i class="fa-brands fa-whatsapp"></i> العربية
+                </a>
+                <a href="https://wa.me/971559579113?text=Bonjour%2C%20je%20souhaite%20explorer%20vos%20opportunit%C3%A9s%20immobili%C3%A8res.%20Je%20parle%20fran%C3%A7ais.&source=final-cta-fr" target="_blank" rel="noopener noreferrer" class="btn" data-cta-id="final-cta-fr">
+                    <i class="fa-brands fa-whatsapp"></i> Français
+                </a>
+                <a href="https://wa.me/971559579113?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%B2%D0%B0%D1%88%D0%B8%20%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D1%8B.%20%D0%AF%20%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8E%20%D0%BF%D0%BE-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8.&source=final-cta-ru" target="_blank" rel="noopener noreferrer" class="btn" data-cta-id="final-cta-ru">
+                    <i class="fa-brands fa-whatsapp"></i> Русский
+                </a>
+            </div>
             <div class="final-cta__trust">
                 <span><i class="fa-solid fa-check-circle"></i> <span data-i18n="finalcta.trust2">فريق متعدد اللغات</span></span>
                 <span><i class="fa-solid fa-check-circle"></i> <span data-i18n="finalcta.trust3">رد في نفس اليوم</span></span>
@@ -718,7 +775,7 @@
             <div class="footer__nav">
                 <h4 class="footer__nav-title" data-i18n="footer.contact">تواصل</h4>
                 <ul>
-                    <li><a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="footer.link.whatsapp">واتساب</span></a></li>
+                    <li><a href="https://wa.me/971559579113?source=footer" target="_blank" rel="noopener noreferrer" data-cta-id="footer"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="footer.link.whatsapp">واتساب</span></a></li>
                 </ul>
             </div>
         </div>
@@ -739,7 +796,7 @@
     <!-- Sticky Mobile CTA Bar (visible on mobile only, after scroll) -->
     <!-- Must precede whatsapp-float in DOM so the ~ sibling selector can hide it -->
     <div class="mobile-cta-bar" id="mobile-cta-bar">
-        <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%AA%D8%B5%D9%81%D8%AD%20%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%AA%D9%83%D9%85%20%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%D8%A9.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%86%D8%A7%20%D8%A7%D9%84%D8%AA%D8%AD%D8%AF%D8%AB%D8%9F" target="_blank" rel="noopener noreferrer" class="mobile-cta-bar__btn">
+        <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20browsing%20your%20property%20collection.%20Can%20we%20chat%3F&source=mobile-cta-bar" target="_blank" rel="noopener noreferrer" class="mobile-cta-bar__btn" data-cta-id="mobile-cta-bar">
             <i class="fa-brands fa-whatsapp"></i>
             <span data-i18n="mobileCta.text">تحدث مع مستشار</span>
         </a>
@@ -747,8 +804,8 @@
     </div>
 
     <!-- ====== FLOATING WHATSAPP BUTTON ====== -->
-    <a href="https://wa.me/971559579113" target="_blank" rel="noopener noreferrer"
-       class="whatsapp-float" id="whatsapp-float" aria-label="تواصل عبر واتساب">
+    <a href="https://wa.me/971559579113?source=whatsapp-float" target="_blank" rel="noopener noreferrer"
+       class="whatsapp-float" id="whatsapp-float" aria-label="تواصل عبر واتساب" data-cta-id="whatsapp-float">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -757,7 +814,7 @@
         <div class="engagement-prompt__inner">
             <button class="engagement-prompt__close" aria-label="إغلاق">&times;</button>
             <p class="engagement-prompt__text" data-i18n="engage.text">لم تجد ما يناسبك؟ يمكن لمستشارينا البحث عن فرص حصرية مصممة لمعاييرك.</p>
-            <a href="https://wa.me/971559579113?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D8%A8%D8%AD%D8%AB%20%D8%B9%D9%82%D8%A7%D8%B1%D9%8A%20%D9%85%D8%AE%D8%B5%D8%B5." target="_blank" rel="noopener noreferrer" class="btn btn--primary engagement-prompt__btn">
+            <a href="https://wa.me/971559579113?text=Hi%2C%20I'd%20like%20to%20discuss%20a%20tailored%20property%20search.&source=engagement-prompt" target="_blank" rel="noopener noreferrer" class="btn btn--primary engagement-prompt__btn" data-cta-id="engagement-prompt">
                 <i class="fa-brands fa-whatsapp"></i>
                 <span data-i18n="engage.btn">اطلب قائمة مخصصة</span>
             </a>

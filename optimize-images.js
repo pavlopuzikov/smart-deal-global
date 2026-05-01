@@ -15,6 +15,38 @@ const HERO_MAX_WIDTH = 1920;  // Hero/country hero images can be wider
 
 const HERO_PATTERNS = ['hero', 'final-cta', 'how-we-help'];
 
+// Files that should also emit responsive AVIF + WebP variants for use in <picture>.
+// Keep this small — only above-the-fold images that drive LCP/FCP.
+const RESPONSIVE_HERO_FILES = ['hero-bg.jpg', 'final-cta-bg.jpg'];
+const RESPONSIVE_WIDTHS = [768, 1200, 1600];
+
+async function generateResponsiveVariants(filePath) {
+    const base = path.basename(filePath, path.extname(filePath));
+    const dir = path.dirname(filePath);
+    const meta = await sharp(filePath).metadata();
+    let totalWritten = 0;
+
+    for (const width of RESPONSIVE_WIDTHS) {
+        // Skip widths above the source resolution
+        const targetWidth = Math.min(width, meta.width);
+
+        for (const fmt of ['avif', 'webp', 'jpg']) {
+            const outPath = path.join(dir, `${base}-${width}.${fmt}`);
+            let pipeline = sharp(filePath).resize(targetWidth, null, { withoutEnlargement: true, fit: 'inside' });
+
+            if (fmt === 'avif') pipeline = pipeline.avif({ quality: 55, effort: 4 });
+            else if (fmt === 'webp') pipeline = pipeline.webp({ quality: QUALITY_WEBP });
+            else pipeline = pipeline.jpeg({ quality: QUALITY_JPG, mozjpeg: true });
+
+            const buf = await pipeline.toBuffer();
+            fs.writeFileSync(outPath, buf);
+            totalWritten += buf.length;
+            console.log(`  ${path.relative(ROOT, outPath)}: ${(buf.length / 1024).toFixed(0)}KB`);
+        }
+    }
+    return totalWritten;
+}
+
 async function optimizeImage(filePath) {
     const ext = path.extname(filePath).toLowerCase();
     if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) return;
@@ -100,6 +132,18 @@ async function main() {
     }
 
     console.log(`\nTotal saved: ${(totalSaved / 1024 / 1024).toFixed(1)}MB`);
+
+    // Generate responsive AVIF + WebP + JPEG variants for above-the-fold hero images.
+    // These are referenced by <picture> elements in index.html for LCP optimisation.
+    console.log('\nGenerating responsive hero variants...');
+    for (const heroName of RESPONSIVE_HERO_FILES) {
+        const heroPath = path.join(ROOT, 'images', heroName);
+        if (!fs.existsSync(heroPath)) {
+            console.log(`  skip ${heroName} (not found)`);
+            continue;
+        }
+        await generateResponsiveVariants(heroPath);
+    }
 }
 
 main().catch(console.error);

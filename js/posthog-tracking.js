@@ -109,6 +109,59 @@
         }, true);
     }
 
+    // ── 3b. UNIFIED WHATSAPP CLICK TRACKING ───────────────────────
+    // Single source of truth for the conversion goal. Fires `whatsapp_click`
+    // on every click of any link to wa.me, with structured attribution so
+    // we can compare CTA performance side by side.
+    //
+    // Attribution priority for cta_id:
+    //   1. data-cta-id on the <a> (set in markup or render functions)
+    //   2. fallback: page_section + button_text slug
+    //
+    // The `source` query param on the wa.me URL is parsed back out so the
+    // broker on WhatsApp and PostHog see the same value.
+    function initWhatsAppTracking() {
+        document.addEventListener('click', function (e) {
+            if (!ready()) return;
+            var link = e.target.closest('a[href*="wa.me"]');
+            if (!link) return;
+
+            var href = link.getAttribute('href') || '';
+            var section = closestSection(link);
+            var ctaId = link.getAttribute('data-cta-id') || '';
+            var dealName = link.getAttribute('data-property') || link.getAttribute('data-deal-name') || '';
+            var dealLocation = link.getAttribute('data-location') || '';
+            var dealSection = link.getAttribute('data-section') || '';
+            var btnText = (link.textContent || '').replace(/\s+/g, ' ').trim().substring(0, 80);
+
+            var source = '';
+            try {
+                var qIdx = href.indexOf('?');
+                if (qIdx !== -1) {
+                    var params = new URLSearchParams(href.slice(qIdx + 1));
+                    source = params.get('source') || '';
+                }
+            } catch (_) { /* ignore malformed URLs */ }
+
+            if (!ctaId) {
+                var slug = btnText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 40);
+                ctaId = section + (slug ? ':' + slug : '');
+            }
+
+            ph().capture('whatsapp_click', {
+                cta_id: ctaId,
+                source: source || ctaId,
+                page_section: section,
+                deal_name: dealName,
+                deal_location: dealLocation,
+                deal_section: dealSection,
+                button_text: btnText,
+                link_url: href,
+                page_language: document.documentElement.lang || 'en'
+            });
+        }, true);
+    }
+
     // ── 4. FORM SUBMISSION TRACKING ───────────────────────────────
     // Tracks the qualify form submission with field summary.
     function initFormTracking() {
@@ -381,12 +434,26 @@
     }
 
     // ── 10. MULTI-VARIANT A/B TESTS ─────────────────────────────
-    // Aggressive test matrix. Each test is independent (no interaction effects).
-    // All variants are persistent per user (localStorage) and tracked as
-    // super properties so every event carries the full test matrix.
+    // PAUSED 2026-05-01: with ~30 sessions/14d, no cell can reach significance,
+    // and the matrix super-properties were polluting every event. We freeze every
+    // user to "control" until the hero-headline-test concludes and traffic supports
+    // sequential single-axis tests (≥1500 sessions per arm). __SDG_AB stays exposed
+    // because main.js reads `ab_engage_timing` for the engagement-prompt threshold.
     function initABTestMatrix() {
         if (!ready()) return;
 
+        // Freeze every dimension to control / control-equivalent
+        window.__SDG_AB = {
+            ab_midcta_copy: 'control',
+            ab_card_cta: 'control',
+            ab_proof_position: 'control',
+            ab_wa_prefill: 'control',
+            ab_engage_timing: 'control-60'
+        };
+        return;
+
+        // Legacy matrix (kept for reference; re-enable one test at a time when relaunching)
+        // eslint-disable-next-line no-unreachable
         var tests = [
             // Mid-page CTA copy
             {
@@ -505,6 +572,7 @@
         initButtonTracking();
         initScrollDepthTracking();
         initOutboundLinkTracking();
+        initWhatsAppTracking();
         initFormTracking();
         initEnquiryTracking();
         initHeroABTest();
