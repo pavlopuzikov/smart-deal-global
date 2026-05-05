@@ -314,8 +314,10 @@ function build(lang) {
     html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(meta.ogDescription)}">`);
 
     // 6. Twitter
-    html = html.replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(meta.ogTitle)}">`);
-    html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(meta.ogDescription)}">`);
+    // Twitter / X intentionally removed (2026-05-05 — user instruction).
+    // Strip any residual twitter:* meta tags that older variants still carry.
+    html = html.replace(/\n?\s*<meta name="twitter:[^"]*" content="[^"]*">/g, '');
+    html = html.replace(/\n?\s*<!--\s*Twitter Card\s*-->/gi, '');
 
     // 7. canonical → self
     html = html.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${URL_FOR[lang]}">`);

@@ -311,7 +311,7 @@
             else if (ref.indexOf('facebook.com') !== -1 || ref.indexOf('fb.com') !== -1) utm['referrer_source'] = 'facebook';
             else if (ref.indexOf('instagram.com') !== -1) utm['referrer_source'] = 'instagram';
             else if (ref.indexOf('linkedin.com') !== -1) utm['referrer_source'] = 'linkedin';
-            else if (ref.indexOf('twitter.com') !== -1 || ref.indexOf('x.com') !== -1) utm['referrer_source'] = 'twitter';
+            // Twitter / X removed 2026-05-05 — user instruction.
             else if (ref.indexOf('youtube.com') !== -1) utm['referrer_source'] = 'youtube';
             else if (ref.indexOf('tiktok.com') !== -1) utm['referrer_source'] = 'tiktok';
             else utm['referrer_source'] = new URL(ref).hostname;
@@ -405,23 +405,133 @@
         });
     }
 
-    // ── 10. MULTI-VARIANT A/B TESTS ─────────────────────────────
-    // PAUSED 2026-05-01: with ~30 sessions/14d, no cell can reach significance,
-    // and the matrix super-properties were polluting every event. We freeze every
-    // user to "control" until the hero-headline-test concludes and traffic supports
-    // sequential single-axis tests (≥1500 sessions per arm). __SDG_AB stays exposed
-    // because main.js reads `ab_engage_timing` for the engagement-prompt threshold.
+    // ── 10. PostHog Experiments — server-controlled flags (2026-05-05) ─────────
+    // The earlier client-side coin-flip matrix was paused 2026-05-01. Now we run 3
+    // single-axis tests as proper PostHog Experiments so randomization, exposure
+    // accounting, and Bayesian significance are handled by PostHog rather than the
+    // localStorage homebrew. Each variant value still mirrors into a super-property
+    // (`ab_*`) so existing dashboards continue to break down events the same way.
+    //
+    // Live experiments (created 2026-05-05):
+    //   sdg-hero-subhead-test   — control / outcome-led
+    //   sdg-wa-prefill-test     — control / specific-with-budget / casual
+    //   sdg-midcta-copy-test    — control / urgency / social-proof
+    //
+    // The `__SDG_AB` global stays in place for `main.js` consumers (engagement
+    // prompt timing, etc.) — we set it to `control` defaults until PostHog's
+    // onFeatureFlags fires, then upgrade with real assignments.
     function initABTestMatrix() {
         if (!ready()) return;
 
-        // Freeze every dimension to control / control-equivalent
+        // Default everything to control so the page is interactive even if PostHog
+        // never loads (e.g. blocked by ad blocker or slow network).
         window.__SDG_AB = {
             ab_midcta_copy: 'control',
+            ab_wa_prefill: 'control',
             ab_card_cta: 'control',
             ab_proof_position: 'control',
-            ab_wa_prefill: 'control',
             ab_engage_timing: 'control-60'
         };
+
+        function applyHeroSubhead(v) {
+            if (v !== 'outcome-led') return;
+            var sub = document.querySelector('.hero__subtitle');
+            if (!sub) return;
+            // Outcome-led copy. Localized in 4 langs via i18n keys hero.subtitle.outcomeLed.
+            // Fallback (English) is hardcoded so the swap works even before i18n hydrates.
+            var lang = (document.documentElement.lang || 'en').slice(0, 2);
+            var copy = {
+                en: 'A short list of property bets we’d take ourselves — sourced, negotiated, and ready to close.',
+                ar: 'قائمة قصيرة من الرهانات العقارية التي سنتخذها بأنفسنا — مستكشفة ومتفاوض عليها وجاهزة للإغلاق.',
+                fr: 'Une courte liste de paris immobiliers que nous prendrions nous-mêmes — sourcés, négociés, prêts à conclure.',
+                ru: 'Короткий список сделок, на которые мы сами бы пошли — отобраны, договорены, готовы к закрытию.'
+            };
+            sub.textContent = copy[lang] || copy.en;
+        }
+
+        function applyMidCtaCopy(v) {
+            if (v === 'control') return;
+            var title = document.querySelector('.mid-cta__title');
+            var sub = document.querySelector('.mid-cta__subtitle');
+            if (!title || !sub) return;
+            if (v === 'urgency') {
+                title.textContent = 'These deals won’t last.';
+                sub.textContent = 'Properties in this collection sell within 14 days on average.';
+            } else if (v === 'social-proof') {
+                title.textContent = '47 enquiries this week.';
+                sub.textContent = 'Join buyers already exploring our curated collection.';
+            }
+        }
+
+        function applyWaPrefill(v) {
+            if (v === 'control') return;
+            var msgs = {
+                'specific-with-budget': 'Hi, I saw your property collection online. I’m looking for a 1-3M AED investment in Dubai. Can you send me your top 3 picks?',
+                'casual': 'Hey! Just browsing your deals. What’s the best opportunity right now?'
+            };
+            var msg = msgs[v];
+            if (!msg) return;
+            // Update WhatsApp deep-links that don't carry a property-specific prefill.
+            // Specifically: hero secondary, mid-cta, final-cta, footer WA float.
+            var encoded = encodeURIComponent(msg);
+            ['.hero__cta-secondary', '.mid-cta__btn[href*="wa.me"]', '.final-cta a[href*="wa.me"]', '.whatsapp-float'].forEach(function (sel) {
+                document.querySelectorAll(sel).forEach(function (el) {
+                    if (!el.href || el.href.indexOf('wa.me') === -1) return;
+                    el.href = el.href.replace(/(\?|&)text=[^&]*/, function (m) {
+                        return m.charAt(0) + 'text=' + encoded;
+                    });
+                });
+            });
+        }
+
+        // Apply variants synchronously when flags are ready; PostHog fires
+        // onFeatureFlags once flag values are downloaded.
+        function evaluateAndApply() {
+            var hero = ph().getFeatureFlag('sdg-hero-subhead-test') || 'control';
+            var mid = ph().getFeatureFlag('sdg-midcta-copy-test') || 'control';
+            var wa = ph().getFeatureFlag('sdg-wa-prefill-test') || 'control';
+
+            window.__SDG_AB.ab_hero_subhead = hero;
+            window.__SDG_AB.ab_midcta_copy = mid;
+            window.__SDG_AB.ab_wa_prefill = wa;
+
+            // Mirror to super-properties so every subsequent event carries the
+            // assignments without needing to re-query the flag.
+            ph().register({
+                ab_hero_subhead: hero,
+                ab_midcta_copy: mid,
+                ab_wa_prefill: wa
+            });
+
+            applyHeroSubhead(hero);
+            applyMidCtaCopy(mid);
+            applyWaPrefill(wa);
+
+            // Fire one exposure event per test so PostHog Experiments dashboard
+            // can correlate exposure -> conversion correctly.
+            ph().capture('ab_test_variant_shown', {
+                test_name: 'hero-subhead-test',
+                variant: hero,
+                page_language: document.documentElement.lang || 'en'
+            });
+            ph().capture('ab_test_variant_shown', {
+                test_name: 'midcta-copy-test',
+                variant: mid,
+                page_language: document.documentElement.lang || 'en'
+            });
+            ph().capture('ab_test_variant_shown', {
+                test_name: 'wa-prefill-test',
+                variant: wa,
+                page_language: document.documentElement.lang || 'en'
+            });
+        }
+
+        if (typeof ph().onFeatureFlags === 'function') {
+            ph().onFeatureFlags(evaluateAndApply);
+        } else {
+            // Fallback: best-effort eval at init time.
+            setTimeout(evaluateAndApply, 600);
+        }
         return;
 
         // Legacy matrix (kept for reference; re-enable one test at a time when relaunching)
