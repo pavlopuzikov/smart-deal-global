@@ -4155,7 +4155,9 @@ html[dir="rtl"] .back-to-markets {
    ================================================================ */
 .engagement-prompt {
     position: fixed;
-    bottom: 5rem;
+    /* Sit above the .whatsapp-float (60px tall + 32px bottom = 92px footprint).
+       7rem (112px) gives ~20px clearance over the float on desktop. */
+    bottom: 7rem;
     right: 1.5rem;
     z-index: 997;
     max-width: 340px;
@@ -4205,7 +4207,9 @@ html[dir="rtl"] .back-to-markets {
     .engagement-prompt {
         right: 0.75rem;
         left: 0.75rem;
-        bottom: calc(4.5rem + env(safe-area-inset-bottom));
+        /* Mobile WA float: 48px high + 1rem bottom = ~64px footprint.
+           5.5rem (88px) clears it with ~24px gap. */
+        bottom: calc(5.5rem + env(safe-area-inset-bottom));
         max-width: none;
     }
 }
