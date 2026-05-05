@@ -12,7 +12,7 @@
     <meta name="author" content="Smart Deals Global">
     <meta name="publisher" content="Smart Deals Global">
     <meta name="google-site-verification" content="ltMYyYgKgEeoUhyRN-ROG6e3-6767QVy5FWM-FGHD9c">
-    <meta property="article:modified_time" content="2026-05-01T08:36:09.035Z">
+    <meta property="article:modified_time" content="2026-05-05T12:09:23.666Z">
     <title>Smart Deals Global · Curated Real Estate in Dubai, Monaco &amp; Paris</title>
 
     <!-- Open Graph -->
@@ -132,6 +132,25 @@
                 site_version: '2.0',
                 deploy_platform: 'netlify'
             });
+            // Belt-and-braces UTM capture: register UTMs from URL as super-props
+            // so EVERY subsequent event carries the campaign attribution.
+            // PostHog auto-captures $initial_utm_* on pageview, but this also
+            // makes utm_source / utm_medium / utm_campaign queryable on every event.
+            try {
+                var p = new URLSearchParams(window.location.search);
+                var utm = {};
+                ['utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+                 'gclid','fbclid','msclkid','ttclid','li_fat_id'].forEach(function(k){
+                    var v = p.get(k);
+                    if (v) utm[k] = v;
+                });
+                if (Object.keys(utm).length) {
+                    ph.register(utm);            // every event carries attribution
+                    ph.register_once(Object.keys(utm).reduce(function(a,k){
+                        a['initial_'+k] = utm[k]; return a;
+                    }, {}));                     // persist landing-attribution forever
+                }
+            } catch (e) { /* no-op: don't break tracking on URL parse errors */ }
         }
     });
     </script>
@@ -192,12 +211,12 @@
         </div>
         <div class="container hero__content">
             <div class="hero__text">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow">Curated Real Estate, Worldwide</p>
-                <h1 class="hero__title" data-i18n-html="hero.title">Discover the<br><em>Smart Deals</em> Collection</h1>
+                <p class="hero__eyebrow" data-i18n="hero.eyebrow">10 Markets. 50+ Selected Opportunities.</p>
+                <h1 class="hero__title" data-i18n-html="hero.title">Your Next Investment,<br><em>Curated Worldwide</em></h1>
                 <p class="hero__subtitle" data-i18n="hero.subtitle">A curated collection of ready and off-plan opportunities across 10 global markets - selected for strong value, flexible terms, and attractive entry points.</p>
                 <div class="hero__actions">
                     <a href="#ready" class="btn btn--primary hero__cta" data-cta-id="hero-primary">
-                        <span data-i18n="hero.cta">Explore the Collection</span>
+                        <span data-i18n="hero.cta">View Top Deals</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20interested%20in%20your%20curated%20property%20deals.%20Can%20we%20chat%3F&source=hero-secondary" target="_blank" rel="noopener noreferrer" class="btn btn--ghost hero__cta-secondary" data-cta-id="hero-secondary">

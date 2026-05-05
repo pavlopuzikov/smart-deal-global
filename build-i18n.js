@@ -488,7 +488,16 @@ function build(lang) {
 
     // 18. Fix asset paths for subdirectory variants (but leave anchor #hashes alone)
     if (lang !== 'en') {
+        // src= / href= simple attribute values
         html = html.replace(/(src|href)="(images|css|js|properties)\//g, '$1="../$2/');
+        // srcset= / imagesrcset= can carry multiple URLs separated by commas;
+        // rewrite every "images|css|js|properties/" inside the attribute value.
+        html = html.replace(/(srcset|imagesrcset)="([^"]+)"/gi, function(_match, attr, val) {
+            const fixed = val.replace(/(?:^|, ?|,)(images|css|js|properties)\//g, function(m, dir) {
+                return m.replace(dir + '/', '../' + dir + '/');
+            });
+            return attr + '="' + fixed + '"';
+        });
     }
 
     return html;

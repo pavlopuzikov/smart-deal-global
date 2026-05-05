@@ -228,35 +228,25 @@
         }, true);
     }
 
-    // ── 6. HERO CTA A/B TEST ──────────────────────────────────────
-    // Client-side 50/50 split test — no PostHog feature flags needed.
-    // Variant assignment persists in localStorage so each user sees
-    // the same variant across sessions. Results tracked via PostHog events.
+    // ── 6. HERO CTA — variant-b PROMOTED TO DEFAULT (2026-05-05) ──
+    // The hero-headline-test is concluded. variant-b ("Your Next Investment,
+    // Curated Worldwide" / "View Top Deals") was the winning copy at ~5x
+    // engagement vs control on PostHog data. Copy is now baked into the i18n
+    // dict (main.js) and rendered server-side per-language by build-i18n.js
+    // so AR/FR/RU pages get the winning copy in their own language too —
+    // fixing a pre-existing bug where variant-b only rendered English.
     //
-    // Variants:
-    //   - "control":   current copy (Discover the Smart Deals Collection)
-    //   - "variant-b": alternate copy (Your Next Investment, Curated Worldwide)
-    //
-    // Conversion goal: "hero_cta_clicked" event
-    // Analysis: filter PostHog events by $set.ab_hero_variant property
+    // The DOM-replacement that previously rewrote the hero in English-only
+    // has been removed. We keep the click tracker and a "variant: locked-b"
+    // marker on every event so post-promote performance can be compared
+    // against the historical A/B window.
     function initHeroABTest() {
         if (!ready()) return;
 
-        // Assign variant (50/50 split, persisted in localStorage)
-        var storageKey = 'sdg_ab_hero';
-        var variant = localStorage.getItem(storageKey);
-        if (!variant) {
-            variant = Math.random() < 0.5 ? 'control' : 'variant-b';
-            localStorage.setItem(storageKey, variant);
-        }
-
-        // Register variant as a super property on ALL events
+        var variant = 'locked-b';
         ph().register({ ab_hero_variant: variant });
-
-        // Also set as a person property for cohort analysis
         ph().setPersonProperties({ ab_hero_variant: variant });
 
-        // Track hero CTA clicks as conversion goal
         var heroCta = document.querySelector('.hero__cta');
         if (heroCta) {
             heroCta.addEventListener('click', function () {
@@ -268,24 +258,6 @@
             });
         }
 
-        // Apply variant-b DOM changes
-        if (variant === 'variant-b') {
-            var title = document.querySelector('.hero__title');
-            var ctaSpan = document.querySelector('.hero__cta span[data-i18n="hero.cta"]');
-            var eyebrow = document.querySelector('.hero__eyebrow');
-
-            if (title) {
-                title.innerHTML = 'Your Next Investment,<br><em>Curated Worldwide</em>';
-            }
-            if (ctaSpan) {
-                ctaSpan.textContent = 'View Top Deals';
-            }
-            if (eyebrow) {
-                eyebrow.textContent = '10 Markets. 50+ Selected Opportunities.';
-            }
-        }
-
-        // Track which variant was shown (fires once per page load)
         ph().capture('ab_test_variant_shown', {
             test_name: 'hero-headline-test',
             variant: variant,

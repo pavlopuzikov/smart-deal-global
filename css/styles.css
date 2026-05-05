@@ -90,7 +90,7 @@ h1, h2, h3, h4 {
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: #8e5f3c; /* AA contrast on light/cream backgrounds at 12px (axe-strict) */
     margin-bottom: 1rem;
 }
 
@@ -240,7 +240,7 @@ h1, h2, h3, h4 {
 .navbar--scrolled .navbar__links a:hover { color: var(--color-accent); }
 
 .navbar__links .navbar__cta-link {
-    background: var(--color-accent);
+    background: #8e5f3c; /* AA contrast: white on #8e5f3c passes 4.5:1 axe-strict */
     color: var(--color-white);
     padding: 0.5rem 1.5rem;
     border-radius: var(--radius-full);
@@ -248,9 +248,9 @@ h1, h2, h3, h4 {
 }
 .navbar--scrolled .navbar__links .navbar__cta-link {
     color: var(--color-white);
-    background: var(--color-accent);
+    background: #8e5f3c;
 }
-.navbar__links .navbar__cta-link:hover { background: var(--color-accent-dark); }
+.navbar__links .navbar__cta-link:hover { background: #7d5333; }
 
 /* Hamburger */
 .navbar__hamburger {
@@ -909,7 +909,7 @@ h1, h2, h3, h4 {
 }
 .footer__copy {
     font-size: 0.78rem;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.62); /* AA contrast on #1a1a2e (was 0.35 → 2.71 ratio) */
 }
 
 /* ---- 14. FLOATING WHATSAPP ---- */
@@ -1222,7 +1222,7 @@ h1, h2, h3, h4 {
 }
 .footer__tagline {
     font-size: 0.82rem;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.65); /* AA contrast on #1a1a2e (was 0.45 → 4.42 ratio, just under 4.5) */
     line-height: 1.6;
     margin-top: 0.5rem;
     max-width: 280px;
@@ -1258,7 +1258,7 @@ h1, h2, h3, h4 {
 }
 .footer__bottom .footer__copy {
     font-size: 0.75rem;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.62); /* AA contrast on #1a1a2e (was 0.3) */
 }
 
 /* ============================================
@@ -2427,7 +2427,7 @@ h1, h2, h3, h4 {
 .social-proof__quote cite {
     font-size: 0.75rem;
     font-style: normal;
-    color: var(--color-accent);
+    color: #8e5f3c; /* AA contrast on white at 12px (axe-strict) */
     font-weight: 600;
     letter-spacing: 0.03em;
 }
@@ -2816,7 +2816,7 @@ h1, h2, h3, h4 {
     gap: 0.4rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-text-muted);
+    color: #5d5d6d; /* AA contrast on #faf9f7 (was --color-text-muted #777788 → 4.39 ratio) */
     margin-bottom: 1rem;
     letter-spacing: 0.02em;
 }
@@ -3890,9 +3890,9 @@ html[dir="rtl"] .back-to-markets {
     padding: 0.55rem 1.25rem;
     font-size: 0.82rem;
     border-radius: var(--radius-full);
-    background: var(--color-accent);
+    background: #8e5f3c; /* AA contrast: white on #8e5f3c passes 4.5:1 (axe-strict) */
     color: var(--color-white);
-    border: 1.5px solid var(--color-accent);
+    border: 1.5px solid #8e5f3c;
     transition: background 0.25s var(--ease-out), transform 0.25s var(--ease-out),
                 box-shadow 0.25s var(--ease-out);
 }

@@ -12,7 +12,7 @@
     <meta name="author" content="Smart Deals Global">
     <meta name="publisher" content="Smart Deals Global">
     <meta name="google-site-verification" content="ltMYyYgKgEeoUhyRN-ROG6e3-6767QVy5FWM-FGHD9c">
-    <meta property="article:modified_time" content="2026-05-01T08:36:09.056Z">
+    <meta property="article:modified_time" content="2026-05-05T12:09:23.676Z">
     <title>سمارت ديلز جلوبال · عقارات مختارة وصفقات عاجلة في دبي، موناكو وباريس</title>
 
     <!-- Open Graph -->
@@ -62,10 +62,10 @@
 
     <!-- Hero LCP image preload (responsive AVIF, with WebP/JPEG fallbacks served via <picture>). -->
     <link rel="preload" as="image" type="image/avif" fetchpriority="high"
-          imagesrcset="images/hero-bg-768.avif 768w, images/hero-bg-1200.avif 1200w, images/hero-bg-1600.avif 1600w"
+          imagesrcset="../images/hero-bg-768.avif 768w, ../images/hero-bg-1200.avif 1200w, ../images/hero-bg-1600.avif 1600w"
           imagesizes="100vw">
     <link rel="preload" as="image" type="image/webp"
-          imagesrcset="images/hero-bg-768.webp 768w, images/hero-bg-1200.webp 1200w, images/hero-bg-1600.webp 1600w"
+          imagesrcset="../images/hero-bg-768.webp 768w, ../images/hero-bg-1200.webp 1200w, ../images/hero-bg-1600.webp 1600w"
           imagesizes="100vw">
 
     <!-- Critical inline CSS: prevent FOUC while external sheets load -->
@@ -132,6 +132,25 @@
                 site_version: '2.0',
                 deploy_platform: 'netlify'
             });
+            // Belt-and-braces UTM capture: register UTMs from URL as super-props
+            // so EVERY subsequent event carries the campaign attribution.
+            // PostHog auto-captures $initial_utm_* on pageview, but this also
+            // makes utm_source / utm_medium / utm_campaign queryable on every event.
+            try {
+                var p = new URLSearchParams(window.location.search);
+                var utm = {};
+                ['utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+                 'gclid','fbclid','msclkid','ttclid','li_fat_id'].forEach(function(k){
+                    var v = p.get(k);
+                    if (v) utm[k] = v;
+                });
+                if (Object.keys(utm).length) {
+                    ph.register(utm);            // every event carries attribution
+                    ph.register_once(Object.keys(utm).reduce(function(a,k){
+                        a['initial_'+k] = utm[k]; return a;
+                    }, {}));                     // persist landing-attribution forever
+                }
+            } catch (e) { /* no-op: don't break tracking on URL parse errors */ }
         }
     });
     </script>
@@ -184,20 +203,20 @@
     <section id="hero" class="hero">
         <div class="hero__bg">
             <picture>
-                <source type="image/avif" srcset="images/hero-bg-768.avif 768w, images/hero-bg-1200.avif 1200w, images/hero-bg-1600.avif 1600w" sizes="100vw">
-                <source type="image/webp" srcset="images/hero-bg-768.webp 768w, images/hero-bg-1200.webp 1200w, images/hero-bg-1600.webp 1600w" sizes="100vw">
-                <img src="../images/hero-bg-1600.jpg" srcset="images/hero-bg-768.jpg 768w, images/hero-bg-1200.jpg 1200w, images/hero-bg-1600.jpg 1600w" sizes="100vw" alt="أفق دبي" class="hero__bg-img" width="1600" height="1067" fetchpriority="high" loading="eager" decoding="async">
+                <source type="image/avif" srcset="../images/hero-bg-768.avif 768w, ../images/hero-bg-1200.avif 1200w, ../images/hero-bg-1600.avif 1600w" sizes="100vw">
+                <source type="image/webp" srcset="../images/hero-bg-768.webp 768w, ../images/hero-bg-1200.webp 1200w, ../images/hero-bg-1600.webp 1600w" sizes="100vw">
+                <img src="../images/hero-bg-1600.jpg" srcset="../images/hero-bg-768.jpg 768w, ../images/hero-bg-1200.jpg 1200w, ../images/hero-bg-1600.jpg 1600w" sizes="100vw" alt="أفق دبي" class="hero__bg-img" width="1600" height="1067" fetchpriority="high" loading="eager" decoding="async">
             </picture>
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
             <div class="hero__text">
-                <p class="hero__eyebrow" data-i18n="hero.eyebrow">تم تجميع العقارات، في جميع أنحاء العالم</p>
-                <h1 class="hero__title" data-i18n-html="hero.title">اكتشف مجموعة<br><em>Smart Deals</em></h1>
+                <p class="hero__eyebrow" data-i18n="hero.eyebrow">10 أسواق · أكثر من 50 فرصة منتقاة</p>
+                <h1 class="hero__title" data-i18n-html="hero.title">استثمارك القادم،<br><em>منتقى عالمياً</em></h1>
                 <p class="hero__subtitle" data-i18n="hero.subtitle">مجموعة مختارة من العقارات الجاهزة وقيد الإنشاء في 10 أسواق عالمية - اختيرت لقيمتها المتميزة، وشروطها المرنة، ونقاط الدخول الجذابة.</p>
                 <div class="hero__actions">
                     <a href="#ready" class="btn btn--primary hero__cta" data-cta-id="hero-primary">
-                        <span data-i18n="hero.cta">استكشف المجموعة</span>
+                        <span data-i18n="hero.cta">اعرض أفضل الصفقات</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <a href="https://wa.me/971559579113?text=Hi%2C%20I'm%20interested%20in%20your%20curated%20property%20deals.%20Can%20we%20chat%3F&source=hero-secondary" target="_blank" rel="noopener noreferrer" class="btn btn--ghost hero__cta-secondary" data-cta-id="hero-secondary">
@@ -692,9 +711,9 @@
     <section id="contact" class="final-cta">
         <div class="final-cta__bg">
             <picture>
-                <source type="image/avif" srcset="images/final-cta-bg-768.avif 768w, images/final-cta-bg-1200.avif 1200w, images/final-cta-bg-1600.avif 1600w" sizes="100vw">
-                <source type="image/webp" srcset="images/final-cta-bg-768.webp 768w, images/final-cta-bg-1200.webp 1200w, images/final-cta-bg-1600.webp 1600w" sizes="100vw">
-                <img src="../images/final-cta-bg-1600.jpg" srcset="images/final-cta-bg-768.jpg 768w, images/final-cta-bg-1200.jpg 1200w, images/final-cta-bg-1600.jpg 1600w" sizes="100vw" alt="واجهة ناطحة سحاب حديثة" class="final-cta__bg-img" width="1600" height="1067" loading="lazy" decoding="async">
+                <source type="image/avif" srcset="../images/final-cta-bg-768.avif 768w, ../images/final-cta-bg-1200.avif 1200w, ../images/final-cta-bg-1600.avif 1600w" sizes="100vw">
+                <source type="image/webp" srcset="../images/final-cta-bg-768.webp 768w, ../images/final-cta-bg-1200.webp 1200w, ../images/final-cta-bg-1600.webp 1600w" sizes="100vw">
+                <img src="../images/final-cta-bg-1600.jpg" srcset="../images/final-cta-bg-768.jpg 768w, ../images/final-cta-bg-1200.jpg 1200w, ../images/final-cta-bg-1600.jpg 1600w" sizes="100vw" alt="واجهة ناطحة سحاب حديثة" class="final-cta__bg-img" width="1600" height="1067" loading="lazy" decoding="async">
             </picture>
             <div class="final-cta__overlay"></div>
         </div>
